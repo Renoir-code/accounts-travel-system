@@ -2,49 +2,47 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Admin extends MY_Controller {
-
-      public function __construct()
-      {
-          parent::__construct();
-          
-          if(!$this->session->userdata('user_id'))
-          {
-            return redirect("welcome/login");
-          } 
-      }
+ 
+  
+  function __construct() {
+    parent::__construct();
+    
+    if(empty($this->session->userdata('email')) && empty($this->session->userdata('user_id')))
+    return redirect('welcome/signin'); // cannot login unless session is set
+}   
       
+
 
         public function dashboard()
         {
-            $this->load->model('queries');
-            $users =$this->queries->viewAllUsers();
+          //print_r($_SESSION['user_id']); //print session id of current user
+
+            $this->load->model('user_model');
+            $users =$this->user_model->viewAllUsers();
             $this->load->view('dashboard',['users' => $users]);  //landingpage
-            
+  
             if(!$this->session->userdata("user_id"))
             return redirect("welcome/login");
+           // testarray($users);
         }
-          /*
-          echo '<pre>';
-          print_r($users);
-          echo '<pre>';
-          exit();
-        */
-        public function editUsers($user_id)
+  
+        public function editUsers($user_id) //testing
         {
-            $this->load->model('queries');
-            $userData =$this->queries->getUserRecords($user_id);
-            $roles = $this->queries->getRoles();
+            $this->load->model('user_model');
+            $userData =$this->user_model->getUserRecords($user_id);
+            $roles = $this->user_model->getRoles();
             $this->load->view('updateUser',['userData'=>$userData,'roles'=>$roles]);
         }
 
         public function modifyUser($user_id)
         {
-                $this->load->model('queries');  //testing ttt
+                $this->load->model('user_model');  //testing ttt
 
                 $this->form_validation->set_rules('email','Email','required|trim|callback_validCADEmail');
                 $this->form_validation->set_rules('firstname','FirstName','required');
                 $this->form_validation->set_rules('lastname','LastName','required');
                 $this->form_validation->set_rules('role_id','Role','required');
+                $this->form_validation->set_rules('active','Enabled/Disabled','required');
                 $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
               if($this->form_validation->run() ){
@@ -55,8 +53,9 @@ class Admin extends MY_Controller {
                   'firstname' => $this->input->post('firstname'),
                   'lastname' => $this->input->post('lastname'),
                   'role_id' => $this->input->post('role_id'),
+                  'active' => $this->input->post('active'),
                 ];
-                    $success = $this->queries->updateUserProfiles($data,$user_id);
+                    $success = $this->user_model->updateUserProfiles($data,$user_id);
 
                       if($success)
                       { 
@@ -80,8 +79,8 @@ class Admin extends MY_Controller {
 
         public function disableUser($user_id){
           
-          $this->load->model('queries');
-          $response = $this->queries->disabled_users($user_id);
+          $this->load->model('user_model');
+          $response = $this->user_model->disabled_users($user_id);
 
                 if($response)
                 {
@@ -113,8 +112,8 @@ class Admin extends MY_Controller {
         //checking if email exists 
         function checkEmail($email)
         {
-          $this->load->model('queries');
-          $email=$this->queries->checkMail($email);
+          $this->load->model('user_model');
+          $email=$this->user_model->checkMail($email);
           if($email==false){
             return true;
           }
@@ -123,7 +122,15 @@ class Admin extends MY_Controller {
               return false;
             }
         }
-        
 
+
+        public function deleteUser($user_id){
+          $this->load->model('user_model');	
+          if($this->user_model->removeUser($user_id)){
+            return redirect("admin/dashboard/{$user_id}");
+  
+          }
+        }
+       
   
 }
