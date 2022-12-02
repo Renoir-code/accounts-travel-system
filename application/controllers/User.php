@@ -47,6 +47,7 @@ class User extends MY_Controller {
 				$row = $success[0];
 				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['email'] = $row['email'];
+				$_SESSION['role_id'] = $row['role_id'];
 			}
 			if(in_array($row['password'],$this->default_passwords)) // if user logs in with Qwerty1@3 Immediately prompt to change
 			{
@@ -58,11 +59,11 @@ class User extends MY_Controller {
 				if($row['role_id']== 4)
 				redirect('admin/dashboard');
 
-				elseif($row['role_id']== 1||$row['role_id']== 2||$row['role_id']== 3||$row['role_id']== 4)
+				elseif($row['role_id']== 1||$row['role_id']== 2||$row['role_id']== 3)
 				{
 					redirect('main');
 					$this->session->set_flashdata('message','You are not an administrator!!!!!!!');
-					redirect('user');
+					//redirect('user');
 				}
 					
 			}
@@ -72,7 +73,10 @@ class User extends MY_Controller {
 	}
 
 	public function adminRegister()
-	{
+	{   
+		if($_SESSION['role_id'] !=4){
+			redirect ('main');
+		}
 		$this->load->model('user_model');
 		$roles = $this->user_model->getRoles();
 		$this->load->view('register',['roles'=>$roles]);
@@ -109,7 +113,7 @@ class User extends MY_Controller {
 			if($success)
 			{ 
 				$this->session->set_flashdata('success_message','User Registered Successfully');
-				return redirect("user");
+				return redirect("admin/dashboard");
 			}	
 			else
 			{
@@ -331,7 +335,7 @@ class User extends MY_Controller {
 						// Send Email
 						$sent = $this->email->send();
 	
-						// Check for errors
+						// Check for errors How to hide warnings in if statements
 						if($sent)
 						{
 							 $data['message'] = 'Please access your email to reset your password.';

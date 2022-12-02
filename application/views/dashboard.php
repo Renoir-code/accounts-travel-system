@@ -18,15 +18,25 @@
                     </div> 
                 </div>
               </div>
+              <?php if($msg = $this->session->flashdata('success_message')):?>
+            <div class="row ">
+                <div class ="col-md-3">
+                    <div class="alert alert-dismissable alert-success">
+                        <?php echo $msg; ?>
+                        <?php endif;?>
+                    </div> 
+                </div>
+              </div>
     <div class ="container">
       
      
         
 
-      <h3> System Administrator Dashboard </h3>
+      <h4> System Administrator Dashboard </h4>
+      <?php // if(isset($_SESSION['role_id']) && ($_SESSION['role_id'] !=4) ){ ?>
       <?php echo anchor ("user/adminRegister" , "ADD USER", ['class'=> 'btn btn-primary']); ?>
       <?php echo anchor ("staff/staff_create" , "ADD OFFICER", ['class'=> 'btn btn-light']); ?>
-      <?php echo anchor ("user/payment", "FILTER BY LOCATION", ['class'=> 'btn btn-danger']); ?>
+      <?php echo anchor ("user/payment", "STAFF PAYMENT DETAILS", ['class'=> 'btn btn-light']); ?>
 
       <hr>
       <div class="row">
@@ -38,7 +48,7 @@
                 <th scope="col">Last Name</th>
                 <th scope="col">Role </th>
                 <th scope="col">Email</th>
-                <th scope="col">Account Status </th>
+                <th scope="col">Enabled(Yes)/Disabled(No) </th>
                 <th scope="col">Action</th>
               </tr>
           </thead>

@@ -71,22 +71,24 @@
 </div>
 
 <br>
-
+ 
 <div class="row">
     <div class="col-md-6">
             <div class="form-group">
                 <label class="col-md-3 control-label">Role </label>
                 <div class="col-md-9">
                    <select class="col-lg-9" name="role_id" >
-                       <option value="" > <?php echo $userData->rolename ?></option>
+                       <option value="" ></option>
                        <?php if(count($roles)):?>
                        <?php foreach($roles as $role):?>
-                       <option value=<?php echo $role->role_id  ?> >
+                       <option value=<?php echo $role->role_id ?> <?php if($userData->rolename === $role->rolename) echo "selected" ?> > 
                        <?php echo $role->rolename?></option>
                        <?php endforeach;?>
                       <?php endif;?>
                    </select>
                 </div>
+
+                
                
             </div>
     </div>

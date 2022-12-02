@@ -70,7 +70,7 @@
 
 
         <button type="submit" class="btn btn-primary ">LOGIN</button>
-        <?php echo anchor("user/adminRegister"," REGISTER",['class'=>'btn btn-success']); ?>
+        <?php // echo anchor("user/adminRegister"," REGISTER",['class'=>'btn btn-success']); ?>
         <hr>
         <a href="<?php echo base_url('user/forgotPassword')?>" class="btn btn-grey"> Forgot Password</a>
 

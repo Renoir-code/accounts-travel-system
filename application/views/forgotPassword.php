@@ -32,7 +32,7 @@
              <br>
 
              <button type="submit" class="btn  btn-success "> Reset </button>
-             <?php echo anchor("welcome/login","BACK TO LOGIN",['class' =>'btn btn-outline-primary']); ?>
+             <?php echo anchor("user","BACK TO LOGIN",['class' =>'btn btn-outline-primary']); ?>
             <hr>
             
             <?php echo form_close(); ?>

@@ -4,6 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 ?><!DOCTYPE html>
 <html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery-3.6.1.min') ?>"></script>
@@ -32,7 +35,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
-		  <div class="dropdown-menu">
+		      <div class="dropdown-menu">
             <a class="dropdown-item" href="" ></a>
             <a class="dropdown-item" href="">Other Options </a>
             <a class="dropdown-item" href="">Anyhthing you want </a>
@@ -46,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 </nav>
 
 <div class="container">
+
 
 
 

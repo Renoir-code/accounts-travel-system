@@ -1,6 +1,6 @@
 <?php include("inc/header.php"); ?>
 
-<div class="container">
+
     <?php echo form_open("user/adminSignup",['class'=>'form-horizontal']); ?>
     <?php if($msg = $this->session->flashdata('message')):?>
         <div class="row ">
@@ -146,11 +146,11 @@
 
 <br>
 <button type="submit" class="btn  btn-success ">REGISTER</button>
-<?php echo anchor("welcome/login","BACK TO LOGIN",['class' =>'btn btn-outline-primary']); ?>
+<?php echo anchor("admin/dashboard","Dashboard",['class' =>'btn btn-outline-primary']); ?>
 
 <hr>
 
 
 <?php echo form_close(); ?>
-</div>
+
 <?php include("inc/footer.php"); ?>
