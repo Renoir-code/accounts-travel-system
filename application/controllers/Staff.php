@@ -93,15 +93,10 @@ class Staff extends MY_Controller {
     }
 
 
-    public function staff_payment_view($staff_id)
+    public function staff_payment_submit()
     {
-       // testarray($staff_id);
-      //$staff_trn = $this->staff_model->getStaffIDbyTRN($trn);
-     //testarray($staff_trn);
-                
-            
-            $this->load->view('staff_payment',$staff_id);
-            // send this to staff_payment table
+        
+           // $this->load->view('staff_payment');
             $this->form_validation->set_rules('voucher_number','Voucher Number','required');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
@@ -120,7 +115,7 @@ class Staff extends MY_Controller {
             if($this->form_validation->run())
             {       
                 $data = [
-                    'staff_id'          => $$staff_id,
+                  //  'staff_id'          =>  $staff_id,
                     'voucher_number'    => $this->input->post('voucher_number'),
                     'year_travalled'    => $this->input->post('year_travelled'),
                     'month_travelled'   => $this->input->post('month_travelled'),
@@ -134,6 +129,7 @@ class Staff extends MY_Controller {
                     'taxi_in_town'      => $this->input->post('taxi_in_town'),
                     'certifier_remarks' => $this->input->post('certifier_remarks')
                 ];
+               
         
             $success = $this->staff_model->add_staffPayment($data);
 
@@ -148,14 +144,14 @@ class Staff extends MY_Controller {
                 return redirect("main/index");
             }
         }
-
-
         
     }
 
 
-    public function test(){
-
+    public function viewStaffMembers()
+    {
+        $data['staff'] = $this->staff_model->getStaff();
+        $this->load->view('staff_list_view',$data);
 
     }
 

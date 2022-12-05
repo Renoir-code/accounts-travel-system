@@ -61,8 +61,8 @@ class User extends MY_Controller {
 
 				elseif($row['role_id']== 1||$row['role_id']== 2||$row['role_id']== 3)
 				{
-					redirect('main');
-					$this->session->set_flashdata('message','You are not an administrator!!!!!!!');
+					redirect('staff/staff_information');
+					//$this->session->set_flashdata('message','You are not an administrator!!!!!!!');
 					//redirect('user');
 				}
 					

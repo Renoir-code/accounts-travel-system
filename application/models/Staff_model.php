@@ -74,6 +74,13 @@ class Staff_model extends CI_Model{
         return $this->db->insert('staff_payment',$data); // inserting data into users table
       }
 
+      public function getStaff()
+      {
+        $query = "SELECT * from staff order by staff_id desc ";
+            return $this->db->query($query)->result_array();
+
+      }
+
 
 
       /*
