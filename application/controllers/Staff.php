@@ -93,10 +93,20 @@ class Staff extends MY_Controller {
     }
 
 
+   /* public function test(){
+
+        $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+          
+
+        $this->load->view('staff_payment',['months' => $months],);
+    }
+*/
+
     public function staff_payment_submit()
     {
+    //   $display =  $_GET['staff_id'];
         
-           // $this->load->view('staff_payment');
+         
             $this->form_validation->set_rules('voucher_number','Voucher Number','required');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
@@ -115,7 +125,10 @@ class Staff extends MY_Controller {
             if($this->form_validation->run())
             {       
                 $data = [
-                  //  'staff_id'          =>  $staff_id,
+                    'staff_id'          => $this->input->post('staff_id'),
+                    'firstname'          => $this->input->post('firstname'),
+                    'lastname'          => $this->input->post('lastname'),
+                    
                     'voucher_number'    => $this->input->post('voucher_number'),
                     'year_travalled'    => $this->input->post('year_travelled'),
                     'month_travelled'   => $this->input->post('month_travelled'),
@@ -143,9 +156,30 @@ class Staff extends MY_Controller {
                 $this->session->set_flashdata('message','Payment Not Added');
                 return redirect("main/index");
             }
+          
+        } 
+        else      
+        { /*
+            $currentMonth =$this->input->post('month_travelled');
+            $staff_id =$this->input->post('staff_id');
+            $firstname =$this->input->post('firstname');
+            $lastname =$this->input->post('lastname');
+           echo $currentMonth;
+       redirect("staff/test/$staff_id/$firstname/$lastname/$currentMonth");
+    */ //$this->test();
+    $fname =$this->input->post('firstname');
+    $staff =$this->input->post('staff_id');
+    $lname =$this->input->post('lastname');
+    $currentMonth =$this->input->post('month_travelled');
+    $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+          
+
+    $this->load->view('staff_payment',['months' => $months, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ]);
         }
-        
+     
+       // 
     }
+
 
 
     public function viewStaffMembers()
@@ -158,14 +192,14 @@ class Staff extends MY_Controller {
 
 
 
-
-
-
-
-
-
-
-
-
 }
+
+
+
+
+
+
+
+
+
 

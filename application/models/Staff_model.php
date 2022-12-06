@@ -81,6 +81,21 @@ class Staff_model extends CI_Model{
 
       }
 
+     public function getMonths(){
+
+      $query = "SELECT month_travelled from staff_payment";
+      return $this->db->query($query)->result_array();
+
+     }
+
+     function get_enum_values( $table, $field )
+{
+    $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
+    preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+    $enum = explode("','", $matches[1]);
+    return $enum;
+}
+
 
 
       /*
