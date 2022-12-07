@@ -17,7 +17,7 @@ class Staff_model extends CI_Model{
         {
             return $location->result();
         }
-      }
+     }
 
       public function get_officer_type()
     {
@@ -39,27 +39,21 @@ class Staff_model extends CI_Model{
           }
         }
 
-      public function getStaffMembers(){
-
+      public function getStaffMembers()
+      {
         $query = "SELECT * FROM staff s inner join location l on s.location_id=l.location_id ";
         return $this->db->query($query)->result_array();
-
       }
 
-      public function getOfficerType(){
+      public function getOfficerType()
+      {
         $query = " SELECT typeof_officer FROM staff";
         return $this->db->query($query)->result_array();
       }
 
-/*
+
       public function getStaffIDbyTRN($trn)
       {
-        $query = "SELECT * FROM staff s INNER JOIN location l WHERE s.location_id=l.location_id and trn=?"; // test with OR firstname/lastname
-        return $this->db->query($query, array($trn))->first_row('array');
-      }
-      */
-
-      public function getStaffIDbyTRN($trn){
 
         $query = "SELECT * FROM staff
         INNER JOIN location ON staff.location_id = location.location_id
@@ -69,11 +63,7 @@ class Staff_model extends CI_Model{
         return $this->db->query($query, array($trn))->first_row('array'); 
       }
 
-      public function add_staffPayment($data)
-      {
-        return $this->db->insert('staff_payment',$data); // inserting data into users table
-      }
-
+      
       public function getStaff()
       {
         $query = "SELECT * from staff order by staff_id desc ";
@@ -81,36 +71,88 @@ class Staff_model extends CI_Model{
 
       }
 
-     public function getMonths(){
-
+     public function getMonths()
+     {
       $query = "SELECT month_travelled from staff_payment";
       return $this->db->query($query)->result_array();
-
      }
 
-     function get_enum_values( $table, $field )
-{
-    $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
-    preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
-    $enum = explode("','", $matches[1]);
-    return $enum;
-}
+    function get_enum_values( $table, $field )
+    {
+      $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
+      preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+      $enum = explode("','", $matches[1]);
+      return $enum;
+    }
+
+    function get_years( $table, $field )
+    {
+      $type = $this->db->query( "SHOW COLUMNS FROM {$table} WHERE Field = '{$field}'" )->row( 0 )->Type;
+      preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+      $enum = explode("','", $matches[1]);
+      return $enum;
+    }
+
+    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)
+    {
+      $query = "
+      INSERT INTO staff_payment
+      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,passenger_km,toll_amt,
+      subsistence_km,supper_days,refreshment_days,taxi_out_town,taxi_in_town,certifier_remarks,added_by,date_created)
+      VALUES
+       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)))
+       return true;
+       else
+       return false;
+    }
+
+    public function getPaymentRecords($staff_id)
+    {
+       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by year_travelled desc";
+               
+        return $this->db->query($query, array($staff_id))->result_array(); 
+
+    }
+
+    public function getinserted_paymentRecords($staff_payment_id)
+    {
+       $query = " SELECT * FROM staff_payment    WHERE staff_payment_id=? order by date_modified ";
+               
+        return $this->db->query($query, array($staff_payment_id))->first_row('array');
+
+    }
+
+    public function update_staffPayment($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
+    $subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)
+    {
+      $query = "UPDATE `staff_payment` "
+					          . " SET `voucher_number`=?, "
+                    . "`year_travelled`=?, "
+                    . "`month_travelled`=?, "
+                    . "`mileage_km`=?, "                     
+                    . "`passenger_km`=?, "
+					          . "`toll_amt`=?, "
+                    . "`subsistence_km`=?, "                 
+                    . "`supper_days`=?, "
+                    . "`refreshment_days`=?, "
+                    . "`taxi_out_town`=?, "
+                    . "`taxi_in_town`=?, "
+                    . "`certifier_remarks`=?, "
+                    . "`date_modified`=?, "
+                    . "`modified_by`=? "
+                    . " WHERE staff_payment_id=?";
+            
+        
+            if($this->db->query($query,array($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
+            $subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)))
+                return true;
+                
+            return false;
+    }
 
 
 
-      /*
-       // WHERE trn= '". $entry ."' OR firstname= '". $entry ."' OR lastname= '". $entry ."'";
-         //return $this->db->query($query)->result_array();
-
-      $this->db->select(['staff.staff_id','staff.location_id','staff.firstname',
-    'staff.lastname','staff.post_title','staff.trn','staff.vehicle_model']);
-    $this->db->from('staff');
-    $this->db->join('location','location.location_id = staff.location_id');
-    $this->db->where(['staff.trn'=>$trn]);
-    $x = $this->db->get();
-    return $x->row();
-  }
-  */
 
 
 

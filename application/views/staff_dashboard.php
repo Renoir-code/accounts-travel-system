@@ -2,7 +2,31 @@
 
 <?php include("inc/header.php"); ?>
 <br>
-<?php // testarray($trn_records); ?>
+<?php // $staff_session = $_SESSION[$trn_records['staff_id']]?>
+
+<?php if($msg = $this->session->flashdata('success_message')):?>
+        <div class="row">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-success close">
+                     <?php echo $msg; ?>
+                    
+                    </div>
+
+            </div>
+        </div>
+    <?php endif; ?>
+
+    <?php if($msg = $this->session->flashdata('fail_message')):?>
+        <div class="row">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-danger close">
+                     <?php echo $msg; ?>
+                    
+                    </div>
+
+            </div>
+        </div>
+    <?php endif; ?>
 
 <br>
 
@@ -14,15 +38,10 @@
 
 <?php echo form_close(); ?>
 
-
-
-     
-        
-
       <h4> Staff Information Dashboard </h4>
-      <?php //echo anchor ("user/adminRegister" , "BACK TO TRN SEARCH", ['class'=> 'btn btn-primary']); ?>
+      <?php echo anchor ("user/adminRegister" , "Update Payment Record", ['class'=> 'btn btn-primary']); ?>
+      
     
-
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
@@ -64,6 +83,7 @@
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $trn_records['staff_id'] ?>"> Add Payment</a> -->
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $this->uri->segment(3) ?>"> Add Payment</a> -->
          <td>  <?php  echo anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']); ?>   </td>
+         <td>  <?php  echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "Edit Payment Records", ['class'=> 'btn btn-primary text-right']); ?>   </td>
         </td>
         </tr>
         </tr>

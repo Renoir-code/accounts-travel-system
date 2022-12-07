@@ -9,6 +9,7 @@ class Staff extends MY_Controller {
     {
         parent::__construct();
         $this->load->model('staff_model');
+        $this->load->model('user_model');
     }    
     
     public function staff_create()
@@ -96,12 +97,11 @@ class Staff extends MY_Controller {
    /* public function test(){
 
         $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
-          
-
         $this->load->view('staff_payment',['months' => $months],);
     }
 */
 
+/*
     public function staff_payment_submit()
     {
     //   $display =  $_GET['staff_id'];
@@ -120,15 +120,14 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('taxi_in_town','Taxi In Town','required');
             $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','required');
 
-          //  $staffMember = $trn_records;
+          
         
             if($this->form_validation->run())
             {       
                 $data = [
                     'staff_id'          => $this->input->post('staff_id'),
                     'firstname'          => $this->input->post('firstname'),
-                    'lastname'          => $this->input->post('lastname'),
-                    
+                    'lastname'          => $this->input->post('lastname'),                  
                     'voucher_number'    => $this->input->post('voucher_number'),
                     'year_travalled'    => $this->input->post('year_travelled'),
                     'month_travelled'   => $this->input->post('month_travelled'),
@@ -159,26 +158,87 @@ class Staff extends MY_Controller {
           
         } 
         else      
-        { /*
+        { 
+            $fname =$this->input->post('firstname');
+            $staff =$this->input->post('staff_id');
+            $lname =$this->input->post('lastname');
             $currentMonth =$this->input->post('month_travelled');
-            $staff_id =$this->input->post('staff_id');
-            $firstname =$this->input->post('firstname');
-            $lastname =$this->input->post('lastname');
-           echo $currentMonth;
-       redirect("staff/test/$staff_id/$firstname/$lastname/$currentMonth");
-    */ //$this->test();
-    $fname =$this->input->post('firstname');
-    $staff =$this->input->post('staff_id');
-    $lname =$this->input->post('lastname');
-    $currentMonth =$this->input->post('month_travelled');
-    $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
-          
-
-    $this->load->view('staff_payment',['months' => $months, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ]);
+            $currentYear =$this->input->post('year_travalled');
+            $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+            $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
+            $this->load->view('staff_payment',['months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
         }
-     
-       // 
     }
+    */
+
+         public function staff_payment_submit()
+        {
+
+            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
+            $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
+            $this->form_validation->set_rules('month_travelled','Month Travelled','required');
+            $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
+            $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); // Should be dropdown
+            $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
+            $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
+            $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
+            $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
+            $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','trim|numeric');
+            $this->form_validation->set_rules('taxi_in_town','Taxi In Town','trim|numeric');
+            $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','alpha');
+
+
+            if($this->form_validation->run() == FALSE)
+            {
+                $fname =$this->input->post('firstname');
+                $staff =$this->input->post('staff_id');
+                $lname =$this->input->post('lastname');
+                $currentMonth =$this->input->post('month_travelled');
+                $currentYear =$this->input->post('year_travalled');
+                $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+                $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
+                $this->load->view('staff_payment',['months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
+            }
+            else
+            {
+                   
+                date_default_timezone_set('America/Bogota');
+                $date_created = date("Y-m-d h:i:sa",time());
+                $added_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+           
+
+                if($this->staff_model->insert_staffPayment(
+
+                    $this->input->post('staff_id'),
+                    $this->input->post('voucher_number'),
+                    $this->input->post('year_travelled'),
+                    $this->input->post('month_travelled'),
+                    $this->input->post('mileage_km'),
+                    $this->input->post('passenger_km'),
+                    $this->input->post('toll_amt'),
+                    $this->input->post('subsistence_km'),
+                    $this->input->post('supper_days'),
+                    $this->input->post('refreshment_days'),
+                    $this->input->post('taxi_out_town'),
+                    $this->input->post('taxi_in_town'),
+                    $this->input->post('certifier_remarks') ,
+                    $added_by,
+                    $date_created
+                    )){
+                        $this->session->set_flashdata('success_message','Payment Record Successfully Added');
+                        redirect('staff/staff_information');
+                    }
+                   
+                    else{
+                        $this->session->set_flashdata('fail_message','Payment Record Not Added');
+                        redirect('staff/staff_information');
+                    
+                    }
+                        
+                              
+                }
+            
+        }
 
 
 
@@ -186,6 +246,83 @@ class Staff extends MY_Controller {
     {
         $data['staff'] = $this->staff_model->getStaff();
         $this->load->view('staff_list_view',$data);
+
+    }
+
+    public function view_payment_records($staff_id)
+    {
+       
+       $payment_records = $this->staff_model->getPaymentRecords($staff_id);
+      // testarray($payment_records );
+        $this->load->view('payment_list_view',['payment_records'=> $payment_records] );
+
+    }
+
+    public function modify_payment_records($staff_payment_id)
+    {
+        $data = $this->staff_model->getinserted_paymentRecords($staff_payment_id);
+        $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+        $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
+       //testarray($data);
+       $this->load->view('modify_payment_view',['data' => $data , 'months' => $months , 'years' =>$years] );
+      
+    }
+
+    public function update_payment_records($staff_payment_id,$staff_id)
+    {
+        $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
+        $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
+        $this->form_validation->set_rules('month_travelled','Month Travelled','required');
+        $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
+        $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); // Should be dropdown
+        $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
+        $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
+        $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
+        $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
+        $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','trim|numeric');
+        $this->form_validation->set_rules('taxi_in_town','Taxi In Town','trim|numeric');
+        $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','trim');
+
+        $data = $this->staff_model->getinserted_paymentRecords($staff_payment_id);
+        $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
+        $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
+      // testarray($data);
+      
+        if($this->form_validation->run() == FALSE ){
+            $this->load->view('modify_payment_view',[ 'months' => $months , 'years' =>$years , 'data' => $data] );
+        }
+            else{
+                date_default_timezone_set('America/Bogota');
+                $date_modified = date("Y-m-d h:i:sa",time());
+                $modified_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+    
+                if($this->staff_model->update_staffPayment(
+                   
+                    $this->input->post('voucher_number'),
+                    $this->input->post('year_travelled'),
+                    $this->input->post('month_travelled'),
+                    $this->input->post('mileage_km'),
+                    $this->input->post('passenger_km'),
+                    $this->input->post('toll_amt'),
+                    $this->input->post('subsistence_km'),
+                    $this->input->post('supper_days'),
+                    $this->input->post('refreshment_days'),
+                    $this->input->post('taxi_out_town'),
+                    $this->input->post('taxi_in_town'),
+                    $this->input->post('certifier_remarks') ,
+                    $date_modified,
+                    $modified_by,
+                    $staff_payment_id
+                    ))
+                    {
+                        $this->session->set_flashdata('success_message','Payment Record SuccessFully Updated!');
+                        redirect("staff/view_payment_records/{$staff_id}");
+                    }
+
+            }
+           
+
+
 
     }
 
