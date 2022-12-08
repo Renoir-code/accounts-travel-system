@@ -11,6 +11,8 @@
 
 
 <?php // echo 'View Payment recordds'; ?>
+<div class="container">
+
 
 <h4> Payment Record List  </h4>
       <?php // echo anchor ("user/adminRegister" , "Update Payment Record", ['class'=> 'btn btn-primary']); ?>
@@ -76,5 +78,6 @@
         
       </table>
     </div>
+</div>
 </div>
 <?php include("inc/footer.php"); ?>

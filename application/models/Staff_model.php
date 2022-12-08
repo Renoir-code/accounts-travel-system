@@ -109,7 +109,7 @@ class Staff_model extends CI_Model{
 
     public function getPaymentRecords($staff_id)
     {
-       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by year_travelled desc";
+       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by date_modified desc";
                
         return $this->db->query($query, array($staff_id))->result_array(); 
 
