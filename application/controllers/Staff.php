@@ -29,7 +29,7 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
             $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
             $this->form_validation->set_rules('post_title','Post Title','required');
-            $this->form_validation->set_rules('trn','TRN','required|trim|numeric|exact_length[9]');
+            $this->form_validation->set_rules('trn','TRN','required|trim|numeric|exact_length[9]|callback_checkTRN');
             $this->form_validation->set_rules('officer_id','Type of Officer','required'); // Should be dropdown
             $this->form_validation->set_rules('location_id','Location','required');
             $this->form_validation->set_rules('upkeep_id','Type of Upkeep','required'); // 
@@ -79,6 +79,21 @@ class Staff extends MY_Controller {
         }
 
     }
+
+    function checkTRN($trn)
+		{
+			$this->load->model('user_model');
+			$trn=$this->staff_model->checktrn($trn);
+			if($trn == FALSE)
+			{
+			return true;
+			}
+			else 
+			{
+			$this->form_validation->set_message('checkTRN', 'This TRN already exists!');
+			return FALSE;
+			}
+		}
 
     public function search_staff()
     {    
@@ -171,8 +186,9 @@ class Staff extends MY_Controller {
     }
     */
 
-         public function staff_payment_submit()
+         public function staff_payment_submit($staff_id)
         {
+            echo $staff_id;
 
             $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
@@ -191,7 +207,7 @@ class Staff extends MY_Controller {
             if($this->form_validation->run() == FALSE)
             {
                 $fname =$this->input->post('firstname');
-                $staff =$this->input->post('staff_id');
+                $staff =$staff_id;
                 $lname =$this->input->post('lastname');
                 $currentMonth =$this->input->post('month_travelled');
                 $currentYear =$this->input->post('year_travalled');
@@ -226,7 +242,7 @@ class Staff extends MY_Controller {
                     $date_created
                     )){
                         $this->session->set_flashdata('success_message','Payment Record Successfully Added');
-                        redirect('staff/staff_information');
+                        redirect("staff/view_payment_records/{$staff_id}");
                     }
                    
                     else{
@@ -250,11 +266,12 @@ class Staff extends MY_Controller {
     }
 
     public function view_payment_records($staff_id)
-    {
-       
+    {   
+        $data = $this->staff_model->get_staffRecords($staff_id);
+       $staff_name = $this->staff_model->getStaffUsername($staff_id);
        $payment_records = $this->staff_model->getPaymentRecords($staff_id);
-      // testarray($payment_records );
-        $this->load->view('payment_list_view',['payment_records'=> $payment_records] );
+       //testarray($staff_name);
+        $this->load->view('payment_list_view',['data'=>$data ,'payment_records'=> $payment_records , 'staff_name' => $staff_name ] );
 
     }
 
@@ -325,6 +342,91 @@ class Staff extends MY_Controller {
 
 
     }
+
+
+    public function modify_staff_records($staff_id)
+    {
+        $data = $this->staff_model->get_staffRecords($staff_id);
+        $location = $this->staff_model->get_locations();
+        $officers = $this->staff_model->get_officer_type();
+        $typeofUpkeep = $this->staff_model->get_upkeep_type();
+       //testarray($data);
+       $this->load->view('modify_staff_view',['data' => $data , 'location' => $location , 'officers' =>$officers , 'typeofUpkeep'=>$typeofUpkeep] );
+      
+    }
+
+    public function staff_records($staff_id)
+    {   
+        $data = $this->staff_model->get_staffRecords($staff_id);
+       $staff_name = $this->staff_model->getStaffUsername($staff_id);
+       $payment_records = $this->staff_model->getPaymentRecords($staff_id);
+      // testarray($data);
+        $this->load->view('staff_records_view',['data'=>$data , 'staff_name' => $staff_name ] );
+
+    }
+
+
+    public function update_staff_records($staff_id)
+    {
+           // echo $staff_id;
+            $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
+            $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
+            $this->form_validation->set_rules('post_title','Post Title','required');
+            $this->form_validation->set_rules('trn','TRN','required|trim|numeric|exact_length[9]');
+            $this->form_validation->set_rules('officer_id','Type of Officer','required'); // Should be dropdown
+            $this->form_validation->set_rules('location_id','Location','required');
+            $this->form_validation->set_rules('upkeep_id','Type of Upkeep','required'); // 
+            $this->form_validation->set_rules('vehicle_model','Vehicle Model'); // veh
+            $this->form_validation->set_rules('vehicle_make','Vehicle Model');
+            $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','numeric');
+            $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','numeric');
+            $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+            $data = $this->staff_model->get_staffRecords($staff_id);
+           // testarray($data);
+
+            if($this->form_validation->run() == FALSE)
+            {  
+                $this->load->view('modify_staff_view',['data'=> $data]);
+            }
+
+            else
+            {
+                date_default_timezone_set('America/Bogota');
+                $date_modified = date("Y-m-d h:i:sa",time());
+                $modified_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+
+                if($this->staff_model->update_staffMember(
+              
+                    $this->input->post('firstname'),
+                    $this->input->post('lastname'),
+                    $this->input->post('post_title'),
+                    $this->input->post('trn'),
+                    $this->input->post('location_id'),
+                    $this->input->post('officer_id'),                 
+                    $this->input->post('upkeep_id'),
+                    $this->input->post('vehicle_model'),
+                    $this->input->post('vehicle_make'),
+                    $this->input->post('vehicle_chasisnum'),
+                    $this->input->post('vehicle_engine_num') ,
+                    $staff_id
+                  //  $date_modified,
+                  //  $modified_by,
+               
+                    ))
+                    {
+                        $this->session->set_flashdata('message',"Staff Member Details Updated!!");
+                        redirect("staff/staff_records/{$staff_id}");
+                       // $this->load->view('staff/staff_records_view',['data'=> $data]);
+                       // redirect("staff/staff_records_view/{$staff_id}");
+                    }
+
+
+            }
+
+
+    }
+
 
 
 
