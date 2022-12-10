@@ -40,8 +40,8 @@
 <?php // testarray($months) ?>
 <!-- <div class="error_holder"><?//=validation_errors()?></div> -->
 
-
-<?php echo form_open("staff/staff_payment_submit") ?>
+staff_id
+<?php echo form_open("staff/staff_payment_submit/{$s}") ?>
  <h4> Enter Staff Payment Details For Officer : </h4>
 <div class="row">
 

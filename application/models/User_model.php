@@ -43,6 +43,20 @@ else{
 }
 }
 
+public function addUser($email,$firstname,$lastname,$encrypted_password,$role_id,$active,$modified_by)
+    {
+        $query = "
+        INSERT INTO users
+        (email,firstname,lastname,password,role_id,active,modified_by)
+        VALUES
+        (?, ?, ?, ?, ?, ?, ?)";
+
+        if($this->db->query($query, array($email,$firstname,$lastname,$encrypted_password,$role_id,$active,$modified_by)))
+                return true;
+        else
+                return false;		
+    }
+
 
 public function login($email,$password)
 {
@@ -75,6 +89,8 @@ public function getCurrentUsername($user_id)
     $result = $this->db->query($query, array($user_id))->first_row('array');
     return $result['firstname']. ' ' .$result['lastname'];
 }
+
+
 
 
 

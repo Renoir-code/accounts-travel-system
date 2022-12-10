@@ -10,12 +10,20 @@
                 </div>
 
 
-<?php // echo 'View Payment recordds'; ?>
+<?php // testarray($data) ?>
 <div class="container">
 
 
-<h4> Payment Record List  </h4>
-      <?php // echo anchor ("user/adminRegister" , "Update Payment Record", ['class'=> 'btn btn-primary']); ?>
+    <br> <br>
+
+    
+     
+ <?php echo '<h4> Hi These are the payment Records for :</h4>' . " <h4 style='color: red; font-size: 30px;' nowrap> $staff_name </h4> "  ?>
+ <br>
+
+ <td>  <?php  echo anchor ("staff/modify_staff_records/{$data['staff_id']}" , "Update $staff_name 's Account Details ", ['class'=> 'btn btn-primary text-right']); ?>   </td>
+       
+
       
     
       <hr>
@@ -23,7 +31,7 @@
         <table class="table table-striped table-hover ">
           <thead>
               <tr>
-                <th scope="col" >Staff ID</th>
+                <th scope="col ">Staff ID</th>
                 <th scope="col">Voucher Number </th>
                 <th scope="col">Year Travelled </th>
                 <th scope="col">Month Travelled</th>

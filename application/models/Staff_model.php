@@ -8,6 +8,23 @@ class Staff_model extends CI_Model{
         return $this->db->insert('staff',$officerDetails);
     }
 
+  public function checktrn($trn)
+{
+$this -> db -> select('trn');
+$this -> db -> from('staff');
+$this -> db -> where('trn', $trn);
+$this -> db -> limit(1);
+
+$query = $this -> db -> get();
+
+if($query -> num_rows() == 1){
+  return $query->result();
+}
+else{
+  return false;
+}
+}
+
 
       public function get_locations()
     {
@@ -150,6 +167,65 @@ class Staff_model extends CI_Model{
                 
             return false;
     }
+
+    public function getStaffUsername($staff_id)
+{
+    $query = "
+    SELECT firstname, lastname
+    FROM staff
+    WHERE staff_id=?
+    ";
+
+    $result = $this->db->query($query, array($staff_id))->first_row('array');
+    return $result['firstname']. ' ' .$result['lastname'];
+}
+
+public function get_staffRecords($staff_id)
+    {
+     //  $query = " SELECT * FROM staff WHERE staff_id=?  ";
+               
+      //  return $this->db->query($query, array($staff_id))->first_row('array');
+
+        $query = "SELECT * FROM staff
+        INNER JOIN location ON staff.location_id = location.location_id
+        INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
+        INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id
+        WHERE staff_id=?  ";
+        return $this->db->query($query, array($staff_id))->first_row('array'); 
+
+    }
+
+    public function update_staffMember($firstname , $lastname , $post_title ,$trn,$location_id,$upkeep_id,$officer_id
+    ,$vehicle_model,$vehicle_make,$vehicle_chasisnum,$vehicle_engine_num,$staff_id)
+    {
+
+      $query = "UPDATE `staff` "
+					          . " SET `firstname`=?, "
+                    . "`lastname`=?, "
+                    . "`post_title`=?, "
+                    . "`trn`=?, " 
+                    . "`location_id`=?, "                    
+					          . "`officer_id`=?, "
+                    . "`upkeep_id`=?, "
+                    . "`vehicle_model`=?, "                 
+                    . "`vehicle_make`=?, "
+                    . "`vehicle_chasisnum`=?, "
+                    . "`vehicle_engine_num`=? "
+                    . " WHERE staff_id=?";
+            
+        
+            if($this->db->query($query,array($firstname , $lastname , $post_title ,$trn,$location_id,$upkeep_id,$officer_id
+            ,$vehicle_model,$vehicle_make,$vehicle_chasisnum,$vehicle_engine_num,$staff_id)))
+                
+            return true;
+
+          else
+          return false;
+
+
+    }
+
+
 
 
 

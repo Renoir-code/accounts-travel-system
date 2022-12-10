@@ -74,14 +74,16 @@ class User extends MY_Controller {
 
 	public function adminRegister()
 	{   
+		//testarray($data);
 		if($_SESSION['role_id'] !=4){
 			redirect ('main');
 		}
 		$this->load->model('user_model');
 		$roles = $this->user_model->getRoles();
-		$this->load->view('register',['roles'=>$roles]);
+		$this->load->view('register',['roles'=>$roles] );
 	}
 
+	/*
 	public function adminSignup()
 	{
 		$this->form_validation->set_rules('email','Email','required|trim|valid_email|callback_checkEmail|callback_validCADEmail');
@@ -118,12 +120,69 @@ class User extends MY_Controller {
 			else
 			{
 				$this->session->set_flashdata('error_message','Registration Failed');
-				return redirect("user/adminRegister");
+				$data =[
+				
+					'email' => "",
+					'firstname' =>"",
+					'lastname' => "",
+					'password' => "",
+					'role_id' => "",
+					'active' => ""
+				];
+				return redirect("user/adminRegister/{$data}");
 			}
 		}	
 		else
+		{	$encrypted_password = hash('sha256', 'x(93g'.$this->input->post("password").'4$b7@');
+			$data =[
+				
+				'email' => $this->input->post('email'),
+				'firstname' => $this->input->post('firstname'),
+				'lastname' => $this->input->post('lastname'),
+				'password' => $encrypted_password,
+				'role_id' => $this->input->post('role_id'),
+				'active' => 'yes'
+			];
+			$this->adminRegister($data);
+		}
+		
+	}
+	*/
+
+	public function adminSignup()
+	{
+		$this->form_validation->set_rules('email','Email','required|trim|valid_email|callback_checkEmail|callback_validCADEmail');
+		$this->form_validation->set_rules('firstname','FirstName','required|trim|alpha');
+		$this->form_validation->set_rules('lastname','LastName','required|trim|alpha');
+		$this->form_validation->set_rules('password','Password','required|max_length[20]|callback_valid_password');
+		$this->form_validation->set_rules('confirm_pass','Confirm Password','required|matches[password]');
+		$this->form_validation->set_rules('role_id','Role','required');
+		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+		if($this->form_validation->run() == FALSE)
+		{	
+			$roles = $this->user_model->getRoles();
+			$this->load->view('register',['roles'=>$roles]);
+		}
+
+		else
 		{
-			$this->adminRegister();
+			$modified_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+			$encrypted_password = hash('sha256', 'x(93g'.$this->input->post("password").'4$b7@');
+			$isActive = 'yes';
+
+			if($this->user_model->addUser($this->input->post('email'),$this->input->post('firstname'), $this->input->post('lastname'), $encrypted_password, 
+			$this->input->post('role_id'),$isActive,$modified_by))	{
+			
+			$this->session->set_flashdata('message', 'User Successfully Created');
+			redirect('admin/dashboard');
+			}	
+			
+			
+			else
+			redirect('admin/adminSignup');
+
+				
 		}
 		
 	}

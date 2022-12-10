@@ -96,13 +96,18 @@
              <label for=""> Role</label>
                 <div class="col-md input-group mb-6">
                    <select class="form-select" name="role_id" >
-                       <option value="">Choose Role</option>
-                       <?php if(count($roles)):?>
+                       <option value="0"  >Choose an option</option>
+                       <option value="1" <?php if(isset($_POST['role_id']) && $_POST['role_id']==1) echo ' selected';?> >Insertor </option>
+                       <option value="2" <?php if(isset($_POST['role_id']) && $_POST['role_id']==2) echo ' selected';?> >Certifier </option>
+                       <option value="3" <?php if(isset($_POST['role_id']) && $_POST['role_id']==3) echo ' selected';?> >Authorizer </option>
+                       <option value="4" <?php if(isset($_POST['role_id']) && $_POST['role_id']==4) echo ' selected';?> >System Administrator </option>
+                    
+                       <?php /* if(count($roles)):?>
                        <?php foreach($roles as $role):?>
-                       <option value=<?php echo $role->role_id?>>
+                       <option value=<?php echo $role->role_id?>  <?php echo 'selected' ?>>
                        <?php echo $role->rolename?></option>
                        <?php endforeach;?>
-                      <?php endif;?>
+                       <?php endif;*/?>
                    </select>
                 </div>
                
