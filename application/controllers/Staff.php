@@ -195,14 +195,21 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
-            $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); // Should be dropdown
+            $this->form_validation->set_rules('mileage_rate','Mileage Rate',''); //dropdown
+            $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); 
+            $this->form_validation->set_rules('passenger_rate','Passenger Rate',''); // Should be dropdown
             $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
             $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
+            $this->form_validation->set_rules('subsistence_rate','Subsistence Rate',''); // 
             $this->form_validation->set_rules('actual_expense','Actual Expense','trim|numeric'); // 
             $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
+            $this->form_validation->set_rules('supper_rate','Supper Rate',''); // veh
             $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
+            $this->form_validation->set_rules('refreshment_rate','Refreshment Rate',''); // veh
             $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','trim|numeric');
+            $this->form_validation->set_rules('taxi_out_rate','Taxi Out Rate','trim|numeric');
             $this->form_validation->set_rules('taxi_in_town','Taxi In Town','trim|numeric');
+            $this->form_validation->set_rules('taxi_in_rate','Taxi Rate','');
             $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','alpha');
 
 
@@ -215,7 +222,15 @@ class Staff extends MY_Controller {
                 $currentYear =$this->input->post('year_travalled');
                 $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
                 $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
-                $this->load->view('staff_payment',['months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
+                $mileage_rate = $this->staff_model-> get_enum_values('staff_payment','mileage_rate');
+                $passenger_rate = $this->staff_model-> get_enum_values('staff_payment','passenger_rate');
+                $subsistence_rate = $this->staff_model-> get_enum_values('staff_payment','subsistence_rate');
+                $supper_rate = $this->staff_model-> get_enum_values('staff_payment','supper_rate');
+                $refreshment_rate = $this->staff_model-> get_enum_values('staff_payment','refreshment_rate');
+                $taxi_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_rate');
+                $this->load->view('staff_payment',['mileage_rate' =>  $mileage_rate, 'passenger_rate' =>  $passenger_rate ,'subsistence_rate' =>  $subsistence_rate ,'supper_rate' =>  $supper_rate 
+                  ,'refreshment_rate' => $refreshment_rate,'taxi_rate' => $taxi_rate,'months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff,
+                   'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
             }
             else
             {
@@ -232,14 +247,20 @@ class Staff extends MY_Controller {
                     $this->input->post('year_travelled'),
                     $this->input->post('month_travelled'),
                     $this->input->post('mileage_km'),
+                    $this->input->post('mileage_rate'), //drpdown
                     $this->input->post('passenger_km'),
+                    $this->input->post('passenger_rate'), //dropwodn
                     $this->input->post('toll_amt'),
                     $this->input->post('subsistence_km'),
+                    $this->input->post('subsistence_rate'), //dropdown
                     $this->input->post('actual_expense'),
                     $this->input->post('supper_days'),
+                    $this->input->post('supper_rate'), //dropdown
                     $this->input->post('refreshment_days'),
                     $this->input->post('taxi_out_town'),
+                    $this->input->post('taxi_out_rate'),
                     $this->input->post('taxi_in_town'),
+                    $this->input->post('taxi_in_rate'),
                     $this->input->post('certifier_remarks') ,
                     $added_by,
                     $date_created

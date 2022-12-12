@@ -57,7 +57,7 @@
           <td><?php  echo $row['voucher_number']; ?></td>
           <td><?php  echo $row['year_travelled']; ?></td>
           <td><?php  echo $row['month_travelled']; ?></td>
-          <td><?php  echo $row['mileage_km']; ?></td> 
+          <td><?php  echo $row['mileage_km'] ; ?></td> 
           <td><?php  echo $row['passenger_km']; ?></td> 
           <td><?php  echo $row['toll_amt']; ?></td> 
           <td><?php  echo $row['subsistence_km']; ?></td> 
