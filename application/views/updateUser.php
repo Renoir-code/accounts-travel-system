@@ -1,5 +1,5 @@
 <?php include("inc/header.php"); ?>
-<!-- simpleyute-->
+<!-- simpleyute from Mandeville-->
 <div class="container">
     <?php echo form_open("admin/modifyUser/{$userData->user_id}",['class'=>'form-horizontal']); ?>
     <?php if($msg = $this->session->flashdata('message')):?>
