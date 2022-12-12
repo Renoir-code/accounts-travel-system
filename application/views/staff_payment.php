@@ -157,6 +157,15 @@ staff_id
     </div>
   </div>
   <small> <?php echo form_error('subsistence_km','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Actual Expense </label>
+    <div class="col-sm-10">
+      <input type="text" name="actual_expense" class="form-control-lg" value="<?php set_value('actual_expense') ?>" placeholder="">
+    </div>
+  </div>
+  <small> <?php echo form_error('actual_expense','<div class="text-danger">','</div>');?> </small>
+  
   
   <div class="form-group ">
     <label class="form-label">Supper (days) </label>

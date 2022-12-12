@@ -81,6 +81,8 @@ else{
       }
 
       
+
+      
       public function getStaff()
       {
         $query = "SELECT * from staff order by staff_id desc ";
@@ -110,15 +112,15 @@ else{
       return $enum;
     }
 
-    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)
+    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)
     {
       $query = "
       INSERT INTO staff_payment
       (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,passenger_km,toll_amt,
-      subsistence_km,supper_days,refreshment_days,taxi_out_town,taxi_in_town,certifier_remarks,added_by,date_created)
+      subsistence_km,actual_expense,supper_days,refreshment_days,taxi_out_town,taxi_in_town,certifier_remarks,added_by,date_created)
       VALUES
-       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)))
+       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)))
        return true;
        else
        return false;
@@ -141,7 +143,7 @@ else{
     }
 
     public function update_staffPayment($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
-    $subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)
+    $subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)
     {
       $query = "UPDATE `staff_payment` "
 					          . " SET `voucher_number`=?, "
@@ -150,7 +152,8 @@ else{
                     . "`mileage_km`=?, "                     
                     . "`passenger_km`=?, "
 					          . "`toll_amt`=?, "
-                    . "`subsistence_km`=?, "                 
+                    . "`subsistence_km`=?, " 
+                    . "`actual_expense`=?, "                 
                     . "`supper_days`=?, "
                     . "`refreshment_days`=?, "
                     . "`taxi_out_town`=?, "
@@ -162,7 +165,7 @@ else{
             
         
             if($this->db->query($query,array($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
-            $subsistence_km,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)))
+            $subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)))
                 return true;
                 
             return false;

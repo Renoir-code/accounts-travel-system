@@ -30,7 +30,7 @@ class User extends MY_Controller {
 		
 		if($this->form_validation->run() == FALSE)
 		{
-			$this->load->view('login');
+			$this->load->view('login'); //comment
 		}
 		else {
 			$email = $this->input->post('email');
@@ -83,71 +83,6 @@ class User extends MY_Controller {
 		$this->load->view('register',['roles'=>$roles] );
 	}
 
-	/*
-	public function adminSignup()
-	{
-		$this->form_validation->set_rules('email','Email','required|trim|valid_email|callback_checkEmail|callback_validCADEmail');
-		$this->form_validation->set_rules('firstname','FirstName','required|trim|alpha');
-		$this->form_validation->set_rules('lastname','LastName','required|trim|alpha');
-		$this->form_validation->set_rules('password','Password','required|max_length[20]|callback_valid_password');
-		$this->form_validation->set_rules('confirm_pass','Confirm Password','required|matches[password]');
-		$this->form_validation->set_rules('role_id','Role','required');
-		$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
-
-		if($this->form_validation->run() )
-		{
-			
-			$encrypted_password = hash('sha256', 'x(93g'.$this->input->post("password").'4$b7@');
-			
-			$data =[
-				
-				'email' => $this->input->post('email'),
-				'firstname' => $this->input->post('firstname'),
-				'lastname' => $this->input->post('lastname'),
-				'password' => $encrypted_password,
-				'role_id' => $this->input->post('role_id'),
-				'active' => 'yes'
-			];
-
-			$this->load->model('user_model');
-			$success = $this->user_model->registerUser($data);	
-			
-			if($success)
-			{ 
-				$this->session->set_flashdata('success_message','User Registered Successfully');
-				return redirect("admin/dashboard");
-			}	
-			else
-			{
-				$this->session->set_flashdata('error_message','Registration Failed');
-				$data =[
-				
-					'email' => "",
-					'firstname' =>"",
-					'lastname' => "",
-					'password' => "",
-					'role_id' => "",
-					'active' => ""
-				];
-				return redirect("user/adminRegister/{$data}");
-			}
-		}	
-		else
-		{	$encrypted_password = hash('sha256', 'x(93g'.$this->input->post("password").'4$b7@');
-			$data =[
-				
-				'email' => $this->input->post('email'),
-				'firstname' => $this->input->post('firstname'),
-				'lastname' => $this->input->post('lastname'),
-				'password' => $encrypted_password,
-				'role_id' => $this->input->post('role_id'),
-				'active' => 'yes'
-			];
-			$this->adminRegister($data);
-		}
-		
-	}
-	*/
 
 	public function adminSignup()
 	{
@@ -467,6 +402,11 @@ class User extends MY_Controller {
 
 	public function payment(){
 		$this->load->view('staff_payment');
+	}
+
+
+	public function testpage() {
+		$this->load->view('testpage');
 	}
 
 

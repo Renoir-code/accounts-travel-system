@@ -39,6 +39,7 @@
                 <th scope="col"> Passenger Miles </th>
                 <th scope="col"> Toll Amount </th>
                 <th scope="col"> Subsistence Amount </th>
+                <th scope="col"> Actual Expense </th>
                 <th scope="col"> Supper Days </th>
                 <th scope="col"> Refreshment Days </th>
                 <th scope="col"> Taxi Out Town  </th>
@@ -60,6 +61,7 @@
           <td><?php  echo $row['passenger_km']; ?></td> 
           <td><?php  echo $row['toll_amt']; ?></td> 
           <td><?php  echo $row['subsistence_km']; ?></td> 
+          <td><?php  echo $row['actual_expense']; ?></td> 
           <td><?php  echo $row['supper_days']; ?></td> 
           <td><?php  echo $row['refreshment_days']; ?></td> 
           <td><?php  echo $row['taxi_out_town']; ?></td> 

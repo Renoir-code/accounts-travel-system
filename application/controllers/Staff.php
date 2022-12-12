@@ -103,7 +103,8 @@ class Staff extends MY_Controller {
     public function staff_information()
     {
         $trn = $this->input->post('trn');
-        $trn_records = $this->staff_model->getStaffIDbyTRN($trn);
+  
+        $trn_records = $this->staff_model->getStaffIDbyTRN($trn );
         //testarray( $trn_records);
         $this->load->view('staff_dashboard',['trn_records' => $trn_records]);
     }
@@ -188,7 +189,7 @@ class Staff extends MY_Controller {
 
          public function staff_payment_submit($staff_id)
         {
-            echo $staff_id;
+            //echo $staff_id;
 
             $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
@@ -197,6 +198,7 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); // Should be dropdown
             $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
             $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
+            $this->form_validation->set_rules('actual_expense','Actual Expense','trim|numeric'); // 
             $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
             $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
             $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','trim|numeric');
@@ -233,6 +235,7 @@ class Staff extends MY_Controller {
                     $this->input->post('passenger_km'),
                     $this->input->post('toll_amt'),
                     $this->input->post('subsistence_km'),
+                    $this->input->post('actual_expense'),
                     $this->input->post('supper_days'),
                     $this->input->post('refreshment_days'),
                     $this->input->post('taxi_out_town'),
@@ -294,6 +297,7 @@ class Staff extends MY_Controller {
         $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); // Should be dropdown
         $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
         $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
+        $this->form_validation->set_rules('actual_expense','Actual Expense','trim|numeric'); // 
         $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
         $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
         $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','trim|numeric');
@@ -322,6 +326,7 @@ class Staff extends MY_Controller {
                     $this->input->post('passenger_km'),
                     $this->input->post('toll_amt'),
                     $this->input->post('subsistence_km'),
+                    $this->input->post('actual_expense'),
                     $this->input->post('supper_days'),
                     $this->input->post('refreshment_days'),
                     $this->input->post('taxi_out_town'),
