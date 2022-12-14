@@ -112,15 +112,17 @@ else{
       return $enum;
     }
 
-    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)
+    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,
+    $mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,
+    $actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,
+    $taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)
     {
       $query = "
       INSERT INTO staff_payment
-      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,passenger_km,toll_amt,
-      subsistence_km,actual_expense,supper_days,refreshment_days,taxi_out_town,taxi_in_town,certifier_remarks,added_by,date_created)
+      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created)
       VALUES
-       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,$subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks,$added_by,$date_created)))
+       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
        return true;
        else
        return false;
@@ -226,6 +228,22 @@ public function get_staffRecords($staff_id)
           return false;
 
 
+    }
+
+
+    //work in progress
+    public function insert_new_rate($rate_value,$rate_id)
+    {
+      $query = "
+      INSERT INTO rates 
+      (rate_value)
+      VALUES
+      (?)
+      WHERE rate_id = ? ";
+      if($this->db->query($query,array($rate_value,$rate_id)))
+       return true;
+       else
+       return false;
     }
 
 

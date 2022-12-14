@@ -40,7 +40,6 @@
 <?php // testarray($months) ?>
 <!-- <div class="error_holder"><?//=validation_errors()?></div> -->
 
-staff_id
 <?php echo form_open("staff/staff_payment_submit/{$s}") ?>
  <h4> Enter Staff Payment Details For Officer : </h4>
 <div class="row">
@@ -95,8 +94,7 @@ staff_id
 
             <option value=<?php echo $row?> > <?php echo $row ?></option>
              <?php } ?>
-            
-         
+                    
             <?php endforeach;?>
             <?php endif;?>
         </select>
@@ -134,6 +132,21 @@ staff_id
   </div>
   <small> <?php echo form_error('mileage_km','<div class="text-danger">','</div>');?> </small>
 
+
+  <div class="form-group ">
+    <label class="form-label">Mileage Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="mileage_rate">
+        <option value="">Choose The Mileage Rate ..</option>
+            <?php if(count($mileage_rate)):?>
+            <?php foreach($mileage_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?> 
+            <?php endif?>       
+        </select>
+    </div>
+  </div>
+
   <div class="form-group ">
     <label class="form-label">Passenger (Km)</label>
     <div class="col-sm-10">
@@ -141,6 +154,20 @@ staff_id
     </div>
   </div>
   <small> <?php echo form_error('passenger_km','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Passenger Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="passenger_rate">
+        <option value="">Choose The Passenger Rate ..</option>
+            <?php if(count($passenger_rate)):?>
+            <?php foreach($passenger_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?>  
+            <?php endif?>      
+        </select>
+    </div>
+  </div>
   
   <div class="form-group ">
     <label class="form-label">Toll Amount </label>
@@ -157,6 +184,21 @@ staff_id
     </div>
   </div>
   <small> <?php echo form_error('subsistence_km','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Subsistence Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="subsistence_rate">
+        <option value="">Choose The Subsistence Rate ..</option>
+            <?php if(count($subsistence_rate)):?>
+            <?php foreach($subsistence_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?>   
+            <?php endif?>    
+        </select>
+    </div>
+  </div>
+
 
   <div class="form-group ">
     <label class="form-label">Actual Expense </label>
@@ -176,6 +218,20 @@ staff_id
   <small> <?php echo form_error('supper_days','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
+    <label class="form-label">Supper Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="supper_rate">
+        <option value="">Choose The Supper Rate ..</option>
+            <?php if(count($supper_rate)):?>
+            <?php foreach($supper_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?>      
+            <?php endif?>  
+        </select>
+    </div>
+  </div>
+
+  <div class="form-group ">
     <label class="form-label">Refreshment(days)</label>
     <div class="col-sm-10">
       <input type="text" name="refreshment_days" class="form-control-lg" value="<?php set_value('refreshment_days') ?>" placeholder="">
@@ -184,7 +240,21 @@ staff_id
   <small> <?php echo form_error('refreshment_days','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
-    <label class="form-label">Taxi_out_town(days)</label>
+    <label class="form-label">Refreshment Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="refreshment_rate">
+        <option value="">Choose The Refreshment Rate ..</option>
+            <?php if(count($refreshment_rate)):?>
+            <?php foreach($refreshment_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?>      
+            <?php endif?>  
+        </select>
+    </div>
+  </div>
+
+  <div class="form-group ">
+    <label class="form-label">Taxi Out Town (Days)</label>
     <div class="col-sm-10">
       <input type="text" name="taxi_out_town" class="form-control-lg" value="<?php set_value('taxi_out_town') ?>" placeholder="">
     </div>
@@ -192,12 +262,41 @@ staff_id
   <small> <?php echo form_error('taxi_out_town','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
-    <label class="form-label"> Taxi_in_town(days)</label>
+    <label class="form-label">Taxi Out Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="taxi_out_rate">
+        <option value="">Choose The Out TOwn Taxi Rate ..</option>
+            <?php if(count($taxi_out_rate)):?>
+            <?php foreach($taxi_out_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?> 
+            <?php endif?>       
+        </select>
+    </div>
+  </div>
+
+
+  <div class="form-group ">
+    <label class="form-label"> Taxi In Town (Days)</label>
     <div class="col-sm-10">
       <input type="text" name="taxi_in_town" class="form-control-lg" value="<?php set_value('taxi_in_town') ?>" placeholder="">
     </div>
   </div>
   <small> <?php echo form_error('taxi_in_town','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Taxi In Town Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="taxi_in_rate">
+        <option value="">Choose The In Town Taxi Rate ..</option>
+            <?php if(count($taxi_in_rate)):?>
+            <?php foreach($taxi_in_rate as $row):?>
+            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <?php endforeach;?>   
+            <?php endif?>     
+        </select>
+    </div>
+  </div>
 
   <div class="form-group ">
     <label class="form-label"> Remarks </label>
@@ -212,7 +311,6 @@ staff_id
   <hr>
 </div>
   </div>
-
 
 
 

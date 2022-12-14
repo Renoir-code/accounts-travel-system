@@ -191,7 +191,7 @@ class Staff extends MY_Controller {
         {
             //echo $staff_id;
 
-            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
+            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
@@ -227,9 +227,10 @@ class Staff extends MY_Controller {
                 $subsistence_rate = $this->staff_model-> get_enum_values('staff_payment','subsistence_rate');
                 $supper_rate = $this->staff_model-> get_enum_values('staff_payment','supper_rate');
                 $refreshment_rate = $this->staff_model-> get_enum_values('staff_payment','refreshment_rate');
-                $taxi_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_rate');
+                $taxi_out_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_out_rate');
+                $taxi_in_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_in_rate');
                 $this->load->view('staff_payment',['mileage_rate' =>  $mileage_rate, 'passenger_rate' =>  $passenger_rate ,'subsistence_rate' =>  $subsistence_rate ,'supper_rate' =>  $supper_rate 
-                  ,'refreshment_rate' => $refreshment_rate,'taxi_rate' => $taxi_rate,'months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff,
+                  ,'refreshment_rate' => $refreshment_rate,'taxi_out_rate' => $taxi_out_rate,'taxi_in_rate' => $taxi_in_rate,'months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff,
                    'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
             }
             else
@@ -239,7 +240,7 @@ class Staff extends MY_Controller {
                 $date_created = date("Y-m-d h:i:sa",time());
                 $added_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
            
-
+                  //  echo  $this->input->post('mileage_rate');  die();
                 if($this->staff_model->insert_staffPayment(
 
                     $this->input->post('staff_id'),
@@ -257,6 +258,7 @@ class Staff extends MY_Controller {
                     $this->input->post('supper_days'),
                     $this->input->post('supper_rate'), //dropdown
                     $this->input->post('refreshment_days'),
+                    $this->input->post('refreshment_rate'),
                     $this->input->post('taxi_out_town'),
                     $this->input->post('taxi_out_rate'),
                     $this->input->post('taxi_in_town'),
@@ -294,7 +296,7 @@ class Staff extends MY_Controller {
         $data = $this->staff_model->get_staffRecords($staff_id);
        $staff_name = $this->staff_model->getStaffUsername($staff_id);
        $payment_records = $this->staff_model->getPaymentRecords($staff_id);
-       //testarray($staff_name);
+       //testarray($payment_records);
         $this->load->view('payment_list_view',['data'=>$data ,'payment_records'=> $payment_records , 'staff_name' => $staff_name ] );
 
     }
@@ -454,10 +456,51 @@ class Staff extends MY_Controller {
     }
 
 
+    public function insert_rate_submit()
+    {
+      
+        
+        $this->form_validation->set_rules('rate_id','Rates','required' );
+        $this->form_validation->set_rules('rate_value','Rate Value','required' );
+       
+
+        if($this->form_validation->run() == FALSE)
+        {   
+            
+          //  $rates = $this->staff_model-> get_enum_values('rates','rate_value');
+           // testarray($rates);
+          echo 'false';
+            $this->load->view('update_rates');
+        }
+        else
+        {
+
+            echo 'true';
+                        
+            if($this->staff_model->insert_new_rate( $this->input->post('rate_id'),$this->input->post('rate_value'))){
+
+                    $this->session->set_flashdata('success_message','Payment Record Successfully Added');
+                    redirect("staff/insert_rate_submit");
+                }
+               
+                else{
+                    $this->session->set_flashdata('fail_message','Payment Record Not Added');
+                    redirect("staff/insert_rate_submit");
+                
+                }
+                    
+                          
+            }
+        
+    }
+
+    }
 
 
 
-}
+
+
+
 
 
 

@@ -1,5 +1,7 @@
 <?php include("inc/header.php"); ?>
 
+<?php //echo  $row['mileage_rate'] ?>
+
 <?php if($msg = $this->session->flashdata('success_message')):?>
             <div class="row ">
                 <div class ="col-md-3">
@@ -57,8 +59,8 @@
           <td><?php  echo $row['voucher_number']; ?></td>
           <td><?php  echo $row['year_travelled']; ?></td>
           <td><?php  echo $row['month_travelled']; ?></td>
-          <td><?php  echo $row['mileage_km'] ; ?></td> 
-          <td><?php  echo $row['passenger_km']; ?></td> 
+          <td><?php  echo '$'. $row['mileage_km'] * $row['mileage_rate'] ; ?> <br> <sub>  <?php echo '('. $row['mileage_km'] . '*'. $row['mileage_rate'] . ') </sub> ' ;  ?></td> 
+          <td><?php  echo $row['passenger_km'] ; ?></td> 
           <td><?php  echo $row['toll_amt']; ?></td> 
           <td><?php  echo $row['subsistence_km']; ?></td> 
           <td><?php  echo $row['actual_expense']; ?></td> 
