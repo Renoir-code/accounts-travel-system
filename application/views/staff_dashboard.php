@@ -39,7 +39,8 @@
 <?php echo form_close(); ?>
 
       <h4> Staff Information Dashboard </h4>
-      <?php echo anchor ("staff/staff_create" , "Add Travelling/CasualOfficer", ['class'=> 'btn btn-success']); ?>
+      <?php echo anchor ("staff/staff_create" , "Add Travelling/CasualOfficer", ['class'=> 'btn btn-primary']); ?>
+      <?php echo anchor ("staff/insert_rate_submit" , "Add a Rate ", ['class'=> 'btn btn-danger']); ?>
       
      
       <hr>

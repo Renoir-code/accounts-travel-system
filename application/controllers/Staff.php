@@ -222,16 +222,18 @@ class Staff extends MY_Controller {
                 $currentYear =$this->input->post('year_travalled');
                 $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
                 $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
-                $mileage_rate = $this->staff_model-> get_enum_values('staff_payment','mileage_rate');
-                $passenger_rate = $this->staff_model-> get_enum_values('staff_payment','passenger_rate');
-                $subsistence_rate = $this->staff_model-> get_enum_values('staff_payment','subsistence_rate');
-                $supper_rate = $this->staff_model-> get_enum_values('staff_payment','supper_rate');
-                $refreshment_rate = $this->staff_model-> get_enum_values('staff_payment','refreshment_rate');
-                $taxi_out_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_out_rate');
-                $taxi_in_rate = $this->staff_model-> get_enum_values('staff_payment','taxi_in_rate');
+               // $mileage_rate = $this->staff_model-> get_enum_values('staff_payment','mileage_rate');
+               $mileage_rate = $this->staff_model-> getRates('mileage');
+                $passenger_rate = $this->staff_model-> getRates('passenger');
+                $subsistence_rate = $this->staff_model-> getRates('subsistence');
+                $supper_rate = $this->staff_model-> getRates('supper');
+                $refreshment_rate = $this->staff_model-> getRates('refreshment');
+                $taxi_out_rate =$this->staff_model-> getRates('taxi_out_town');
+                $taxi_in_rate = $this->staff_model-> getRates('taxi_in_town');
                 $this->load->view('staff_payment',['mileage_rate' =>  $mileage_rate, 'passenger_rate' =>  $passenger_rate ,'subsistence_rate' =>  $subsistence_rate ,'supper_rate' =>  $supper_rate 
                   ,'refreshment_rate' => $refreshment_rate,'taxi_out_rate' => $taxi_out_rate,'taxi_in_rate' => $taxi_in_rate,'months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff,
                    'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
+                
             }
             else
             {
@@ -460,7 +462,7 @@ class Staff extends MY_Controller {
     {
       
         
-        $this->form_validation->set_rules('rate_id','Rates','required' );
+        $this->form_validation->set_rules('rate_name','Rates','required' ); //change from rate_id
         $this->form_validation->set_rules('rate_value','Rate Value','required' );
        
 
@@ -469,23 +471,23 @@ class Staff extends MY_Controller {
             
           //  $rates = $this->staff_model-> get_enum_values('rates','rate_value');
            // testarray($rates);
-          echo 'false';
+        
             $this->load->view('update_rates');
         }
         else
         {
 
-            echo 'true';
+        
                         
-            if($this->staff_model->insert_new_rate( $this->input->post('rate_id'),$this->input->post('rate_value'))){
+            if($this->staff_model->insert_new_rate( $this->input->post('rate_value'),$this->input->post('rate_name'))){
 
-                    $this->session->set_flashdata('success_message','Payment Record Successfully Added');
-                    redirect("staff/insert_rate_submit");
+                    $this->session->set_flashdata('success_message','Rate Added Successfully Added');
+                    redirect("staff/staff_information");
                 }
                
                 else{
-                    $this->session->set_flashdata('fail_message','Payment Record Not Added');
-                    redirect("staff/insert_rate_submit");
+                    $this->session->set_flashdata('fail_message','Rate failed Not Added');
+                    redirect("staff/staff_information");
                 
                 }
                     
@@ -494,13 +496,134 @@ class Staff extends MY_Controller {
         
     }
 
-    }
+
+    public function certifier_record($staff_payment_id)
+    {
+
+        $data = $this->staff_model->getCertifierEmail();
+
+       // testarray($data);
+
+        //$this->load->view('certifier_view',['data'=>$data] );
+
+        date_default_timezone_set('America/Bogota');
+			$this->form_validation->set_rules('certifier_email','Certifier Email','required');
+	
+			if($this->form_validation->run() === FALSE)
+			{
+				 $this->load->view('certifier_view',['data'=>$data] );
+			}
+			else
+			{			
+				//$myconfig['mailtype'] = 'html';
+				//$this->load->library('email', $myconfig);
+				//$this->email->set_newline( '\r\n' );
+				$this->load->model('user_model');
+				//use this line to find if the email address entered corresponds to an account in the system.
+				$emp = $data;
+	
+				if(empty($emp) || $emp == array())
+				{
+					$data['message'] = 'No such user exists';
+					$this->load->view('certifier_view', $data);
+				}
+				else
+				{
+					 $c_email = md5($this->input->post('certifier_email'));
+
+
+	                $this->staff_model->saveCertifying($c_email,$staff_payment_id);
+
+					//save the request in the database
+					//if($this->staff_model->saveCertifierEmail( $this->input->post('certifier_email')))
+					//{
+                        
+						$link = '<a href="'.base_url('staff/certified_page').'/'.$c_email.'">Certification Needed </a>';
+			
+						$config['mailtype'] = 'html';
+						$config['protocol'] = 'smtp';
+						$config['smtp_host'] = 'secure.emailsrvr.com';
+						$config['smtp_port'] = '465';
+						$config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
+						$config['smtp_pass'] =  'Qwerty12345@6';//'P7Umw9e#4H&q'; 
+						$config['smtp_crypto'] = 'ssl';
+						$config['smtp_timeout'] = '20';
+						$config['charset'] = 'iso-8859-1';		
+	
+						$this->email->initialize($config);
+						
+						// Set Email Variables
+						$from_name = 'System Administrator';
+						$from_emailaddress = 'webmaster@cad.gov.jm'; 
+						$to = trim($this->input->post('certifier_email')); 
+						$subject = "Certification Needed";
+	
+						 $message = 'Good day,<br/><br/>'
+						.'Please click the link to see the payment records to certiy <br/><br/>';
+						$message .= $link;                    
+						$message .= '<br/><br/>Regards <br/><br/>'
+						.'System Administrator';
+						
+						// Run Email methods
+						$this->email->from($from_emailaddress, $from_name);
+						$this->email->to($to);
+	
+						$this->email->subject($subject);
+						$this->email->message($message);
+	
+						
+						// Send Email
+						$sent = $this->email->send();
+	
+						// Check for errors How to hide warnings in if statements
+						if($sent)
+						{           // this need to be updated
+							 $data['message'] = 'Please access your email to reset your password.';
+							$this->load->view('forgotPassword', $data);
+						}					
+						else
+						{
+							$data['message'] = 'Possible database error. Please try again.';
+							$this->load->view('forgotPassword', $data);
+						}
+					//}
+
+
+
+          }
+        }
+     }  
+
+     public function certified_page()
+     {
+        
+        
+
+         if(isset($_SESSION['role_id']) && $_SESSION['role_id']==2 )
+          {
+            $c_email = $_SESSION['email'];
+         //  
+            $data = $this->staff_model->getCertifierRecords( md5($c_email ));
+            $this->load->view('certified_view',['data'=>$data] );
+           
+          }else
+
+          {
+            $_SESSION['redirect_url'] =  uri_string(); // gets url from the certified project
+            $this->load->view('login');
+          }
+         
+
+           
+     }
+
+    
 
 
 
 
 
-
+}
 
 
 

@@ -23,6 +23,7 @@ class User extends MY_Controller {
 			//user login
 	public function index()
 	{
+		
 	$this->form_validation->set_rules('email','Email','required|trim|callback_validCADEmail');
 	$this->form_validation->set_rules('password','Password','required|callback_valid_password');
 	$this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
@@ -30,6 +31,8 @@ class User extends MY_Controller {
 		
 		if($this->form_validation->run() == FALSE)
 		{
+			//var_dump($_SESSION['certifier_url']);
+			//testarray($_SESSION['certifier_url']);
 			$this->load->view('login'); //comment
 		}
 		else {
@@ -43,11 +46,20 @@ class User extends MY_Controller {
 				$this->session->set_flashdata('message','Invalid email or Password');
 				redirect('user'); //
 			}
+			
 			else{
 				$row = $success[0];
 				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['role_id'] = $row['role_id'];
+			
+				
+				if(isset($_SESSION['redirect_url'])) 
+				{
+						redirect($_SESSION['redirect_url']);
+
+				}
+				
 			}
 			if(in_array($row['password'],$this->default_passwords)) // if user logs in with Qwerty1@3 Immediately prompt to change
 			{
@@ -56,7 +68,7 @@ class User extends MY_Controller {
 			}
 			else{
 				
-				if($row['role_id']== 4)
+				if($row['role_id']== 4) // if admin
 				redirect('admin/dashboard');
 
 				elseif($row['role_id']== 1||$row['role_id']== 2||$row['role_id']== 3)

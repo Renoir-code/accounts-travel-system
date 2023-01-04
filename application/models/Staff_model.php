@@ -130,7 +130,7 @@ else{
 
     public function getPaymentRecords($staff_id)
     {
-       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by date_modified desc";
+       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by date_modified asc";
                
         return $this->db->query($query, array($staff_id))->result_array(); 
 
@@ -232,20 +232,56 @@ public function get_staffRecords($staff_id)
 
 
     //work in progress
-    public function insert_new_rate($rate_value,$rate_id)
+    public function insert_new_rate($rate_value,$rate_name)
     {
       $query = "
-      INSERT INTO rates 
-      (rate_value)
+      INSERT INTO rate
+      (rate_value , rate_name)
       VALUES
-      (?)
-      WHERE rate_id = ? ";
-      if($this->db->query($query,array($rate_value,$rate_id)))
+      (?,?) ";
+      
+      if($this->db->query($query,array($rate_value,$rate_name)))
        return true;
        else
        return false;
     }
 
+    public function getRates($name)
+    {
+     $query = "SELECT rate_value
+     
+               FROM rate
+
+               WHERE rate_name = '$name'        
+     ";
+     return $this->db->query($query)->result_array();
+    }
+
+    public function getCertifierEmail()
+    {
+        $query = " SELECT email , firstname , lastname FROM users  WHERE role_id = 2 ";
+        return $this->db->query($query)->result_array();
+
+    }
+
+
+  public function saveCertifying($c_email,$staff_payment_id)
+  {
+    $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
+
+      if($this->db->query($query,array($c_email,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  }
+  
+  public function getCertifierRecords ($c_email)
+  {
+    $query = " SELECT * FROM staff_payment    WHERE view_by=? order by date_modified ";
+               
+    return $this->db->query($query, array($c_email))->result_array();
+
+  }
 
 
 

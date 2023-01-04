@@ -2,6 +2,8 @@
     <?php include_once('inc/header.php') ?>
     <br>
 
+    <?php // testarray($mileage_rate); ?>
+
     <?php 
       
       //$s = $this->uri->segment(3);
@@ -140,7 +142,7 @@
         <option value="">Choose The Mileage Rate ..</option>
             <?php if(count($mileage_rate)):?>
             <?php foreach($mileage_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?>> <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?> 
             <?php endif?>       
         </select>
@@ -162,7 +164,7 @@
         <option value="">Choose The Passenger Rate ..</option>
             <?php if(count($passenger_rate)):?>
             <?php foreach($passenger_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?>  
             <?php endif?>      
         </select>
@@ -192,7 +194,7 @@
         <option value="">Choose The Subsistence Rate ..</option>
             <?php if(count($subsistence_rate)):?>
             <?php foreach($subsistence_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?>   
             <?php endif?>    
         </select>
@@ -224,7 +226,7 @@
         <option value="">Choose The Supper Rate ..</option>
             <?php if(count($supper_rate)):?>
             <?php foreach($supper_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?>      
             <?php endif?>  
         </select>
@@ -246,7 +248,7 @@
         <option value="">Choose The Refreshment Rate ..</option>
             <?php if(count($refreshment_rate)):?>
             <?php foreach($refreshment_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value']?></option>
             <?php endforeach;?>      
             <?php endif?>  
         </select>
@@ -268,7 +270,7 @@
         <option value="">Choose The Out TOwn Taxi Rate ..</option>
             <?php if(count($taxi_out_rate)):?>
             <?php foreach($taxi_out_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?> 
             <?php endif?>       
         </select>
@@ -291,7 +293,7 @@
         <option value="">Choose The In Town Taxi Rate ..</option>
             <?php if(count($taxi_in_rate)):?>
             <?php foreach($taxi_in_rate as $row):?>
-            <option value=<?php echo $row?> > <?php echo $row ?></option>
+            <option value=<?php echo $row['rate_value']?> > <?php echo $row['rate_value'] ?></option>
             <?php endforeach;?>   
             <?php endif?>     
         </select>
