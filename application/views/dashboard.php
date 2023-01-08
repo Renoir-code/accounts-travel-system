@@ -35,8 +35,8 @@
       <h4> System Administrator Dashboard </h4>
       <?php // if(isset($_SESSION['role_id']) && ($_SESSION['role_id'] !=4) ){ ?>
       <?php echo anchor ("user/adminRegister" , "ADD USER", ['class'=> 'btn btn-primary']); ?>
-      <?php echo anchor ("staff/staff_create" , "ADD OFFICER", ['class'=> 'btn btn-light']); ?>
-      <?php echo anchor ("user/payment", "STAFF PAYMENT DETAILS", ['class'=> 'btn btn-light']); ?>
+      <?php //echo anchor ("staff/staff_create" , "ADD OFFICER", ['class'=> 'btn btn-light']); ?>
+      <?php //echo anchor ("user/payment", "STAFF PAYMENT DETAILS", ['class'=> 'btn btn-light']); ?>
 
       <hr>
       <div class="row">

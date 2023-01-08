@@ -18,23 +18,39 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="container">
     <a class="navbar-brand" href="<?php echo base_url('/') ?>">Accounts Travel Management System </a>
     </button>
+      
+      
     <div id="navbar">
       <ul class="nav navbar-nav navbar-right ">
-        <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('/') ?>">Home
-          </a>
+        <li class="nav-item"> 
+          <?php //$this->load->model('user_model'); ?>
+        <?php if(isset($_SESSION['user_id'])) {
+      echo '<a class="nav-link" href="'. base_url('/').' "></a>';}
+      ?>
+
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('admin/dashboard') ?>">Dashboard</a>
+      <?php if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin only
+      echo '<a class="nav-link" href="'. base_url('admin/dashboard').' "> Dashboard</a>';}
+      ?>
+
+      <?php if(isset($_SESSION['user_id']) && (  $_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3  ) ){ // insertor // certifier// authorizer
+      echo '<a class="nav-link" href="'. base_url('staff/staff_information').' "> Dashboard</a>';}
+      ?>
+         
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="<?php echo base_url('user/logout') ?>">Logout</a>
+        <?php if(isset($_SESSION['user_id'])) {
+      echo '<a class="nav-link" href="'. base_url('user/logout').' ">Logout</a>';}
+      ?>
         </li>
+
+      
         <li class="nav-item">
           <a class="nav-link" href="#"> </a>
         </li>
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
+        <!--  <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Options</a>
 		      <div class="dropdown-menu">
             <a class="dropdown-item" href="" ></a>
             <a class="dropdown-item" href="">Other Options </a>
@@ -43,9 +59,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             <a class="dropdown-item" href="#">My Choice</a>
           </div>
         </li>
+        -->
       </ul>
     </div>
   </div>
+  
 </nav>
 
 <div class="container">

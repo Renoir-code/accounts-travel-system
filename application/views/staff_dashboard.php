@@ -81,9 +81,13 @@
           <td><?php  echo $trn_records['vehicle_engine_num']; ?></td> 
           <td><?php  echo $trn_records['location_name']; ?></td> 
           
-          <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $trn_records['staff_id'] ?>"> Add Payment</a> -->
-          <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $this->uri->segment(3) ?>"> Add Payment</a> -->
-         <td>  <?php  echo anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']); ?>   </td>
+          
+         <td><?php  // Only insertor can access this button/page
+              if(isset($_SESSION['user_id']) &&  ($_SESSION['role_id'] == 1)){
+                echo anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']); 
+              }
+            ?>  
+        </td>
          <td>  <?php  echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']); ?>   </td>
         </td>
         </tr>

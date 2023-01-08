@@ -9,6 +9,7 @@
       //$s = $this->uri->segment(3);
       // $staff_id=11;
      // $lastname = $this->uri->segment(5);
+     
         if($fname == "")
         {
           $x = $this->uri->segment(4);

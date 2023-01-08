@@ -70,7 +70,7 @@
           <td><?php  echo '$'. number_format( $row['taxi_out_town'] * $row['taxi_out_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_out_town'] . '*'. $row['taxi_out_rate'] . ') </sub> ' ;?></td> 
           <td><?php  echo '$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
           <td><?php  echo $row['certifier_remarks']; ?></td> 
-          <td>  <?php   echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Authorization", ['class'=> 'btn btn-success btn-sm text-right']); ?>   </td>
+          <td>  <?php   echo anchor ("staff/authorize_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Authorization", ['class'=> 'btn btn-success btn-sm text-right']); ?>   </td>
           
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $trn_records['staff_id'] ?>"> Add Payment</a> -->
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $this->uri->segment(3) ?>"> Add Payment</a> -->

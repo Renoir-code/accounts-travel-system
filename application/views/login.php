@@ -4,6 +4,8 @@
 <br>
 <br>
 
+<?php //echo $password= hash('sha256', 'x(93gQwerty1@44$b7@'); die(); ?>
+
 <div class="container ">
     <div class="row justify-content-center">
         <div class="col-6">

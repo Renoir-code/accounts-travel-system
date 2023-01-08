@@ -264,8 +264,36 @@ public function get_staffRecords($staff_id)
 
     }
 
+    public function getAuthorizerEmail()
+    {
+        $query = " SELECT email , firstname , lastname FROM users  WHERE role_id = 3 ";
+        return $this->db->query($query)->result_array();
+
+    }
+
 
   public function saveCertifying($c_email,$staff_payment_id)
+  {
+    $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
+
+      if($this->db->query($query,array($c_email,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  }
+
+  public function saveAuthorizer($c_email,$staff_payment_id)
+  {
+    $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
+
+      if($this->db->query($query,array($c_email,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  }
+
+  
+  public function addCer($c_email,$staff_payment_id)
   {
     $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
 
@@ -282,6 +310,41 @@ public function get_staffRecords($staff_id)
     return $this->db->query($query, array($c_email))->result_array();
 
   }
+
+  public function getAuthorizedRecords ($c_email)
+  {
+    $query = " SELECT * FROM staff_payment    WHERE view_by=? order by date_modified ";
+               
+    return $this->db->query($query, array($c_email))->result_array();
+
+  }
+
+  public function saveCertifierByEmail ($c_email , $date_created, $staff_payment_id)
+  {
+    echo $c_email .$date_created . $staff_payment_id;
+    $query = " UPDATE staff_payment SET certified_by = ? , date_certified = ? WHERE staff_payment_id = ? ";
+
+      if($this->db->query($query,array($c_email,$date_created,$staff_payment_id)))
+      return true;
+      else
+      return false;
+
+  }
+
+  public function saveAuthorizerByEmail ($c_email , $date_created, $staff_payment_id)
+  {
+    echo $c_email .$date_created . $staff_payment_id;
+    $query = " UPDATE staff_payment SET authorized_by =  ? , date_authorized = ?  WHERE staff_payment_id = ? ";
+
+      if($this->db->query($query,array($c_email,$date_created,$staff_payment_id)))
+      return true;
+      else
+      return false;
+
+  }
+
+
+
 
 
 

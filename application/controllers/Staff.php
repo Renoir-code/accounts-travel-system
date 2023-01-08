@@ -14,6 +14,9 @@ class Staff extends MY_Controller {
     
     public function staff_create()
     {
+        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
+            redirect('admin/dashboard');
+       }
         $this->load->model('staff_model');
         $location = $this->staff_model->get_locations();
         $officers = $this->staff_model->get_officer_type();
@@ -102,6 +105,9 @@ class Staff extends MY_Controller {
 
     public function staff_information()
     {
+       if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
+            redirect('admin/dashboard');
+       }
         $trn = $this->input->post('trn');
   
         $trn_records = $this->staff_model->getStaffIDbyTRN($trn );
@@ -110,86 +116,26 @@ class Staff extends MY_Controller {
     }
 
 
-   /* public function test(){
-
-        $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
-        $this->load->view('staff_payment',['months' => $months],);
-    }
-*/
-
-/*
-    public function staff_payment_submit()
-    {
-    //   $display =  $_GET['staff_id'];
-        
-         
-            $this->form_validation->set_rules('voucher_number','Voucher Number','required');
-            $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
-            $this->form_validation->set_rules('month_travelled','Month Travelled','required');
-            $this->form_validation->set_rules('mileage_km','Mileage','required');
-            $this->form_validation->set_rules('passenger_km','Passenger Km','required'); // Should be dropdown
-            $this->form_validation->set_rules('toll_amt','Toll Amount','required');
-            $this->form_validation->set_rules('subsistence_km','Subsistence Km','required'); // 
-            $this->form_validation->set_rules('supper_days','Supper Days','required'); // veh
-            $this->form_validation->set_rules('refreshment_days','Refreshment Days','required');
-            $this->form_validation->set_rules('taxi_out_town','Taxi Out of Town','required');
-            $this->form_validation->set_rules('taxi_in_town','Taxi In Town','required');
-            $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','required');
-
-          
-        
-            if($this->form_validation->run())
-            {       
-                $data = [
-                    'staff_id'          => $this->input->post('staff_id'),
-                    'firstname'          => $this->input->post('firstname'),
-                    'lastname'          => $this->input->post('lastname'),                  
-                    'voucher_number'    => $this->input->post('voucher_number'),
-                    'year_travalled'    => $this->input->post('year_travelled'),
-                    'month_travelled'   => $this->input->post('month_travelled'),
-                    'mileage_km'        => $this->input->post('mileage_km'),
-                    'passenger_km'      => $this->input->post('passenger_km'),
-                    'toll_amt'          => $this->input->post('toll_amt'),
-                    'subsistence_km'    => $this->input->post('subsistence_km'),
-                    'supper_days'       => $this->input->post('supper_days'),
-                    'refreshment_days'  => $this->input->post('refreshment_days'),
-                    'taxi_out_town'     => $this->input->post('taxi_out_town'),
-                    'taxi_in_town'      => $this->input->post('taxi_in_town'),
-                    'certifier_remarks' => $this->input->post('certifier_remarks')
-                ];
-               
-        
-            $success = $this->staff_model->add_staffPayment($data);
-
-            if($success == True)
-            {
-                $this->session->set_flashdata('message','Payment Successfully Added');
-                return redirect("main/index"); // return to main dashboard for staff members
-            }
-            else
-            {
-                $this->session->set_flashdata('message','Payment Not Added');
-                return redirect("main/index");
-            }
-          
-        } 
-        else      
-        { 
-            $fname =$this->input->post('firstname');
-            $staff =$this->input->post('staff_id');
-            $lname =$this->input->post('lastname');
-            $currentMonth =$this->input->post('month_travelled');
-            $currentYear =$this->input->post('year_travalled');
-            $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
-            $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
-            $this->load->view('staff_payment',['months' => $months,'years'=>$years, 'fname' => $fname, 'staff' => $staff, 'lname' => $lname ,'currentMonth' => $currentMonth ,'currentYear'=>$currentYear ]);
-        }
-    }
-    */
+   
 
          public function staff_payment_submit($staff_id)
         {
             //echo $staff_id;
+
+            
+       if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
+        redirect('admin/dashboard');
+   }
+
+   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3) { 
+    redirect('staff/staff_information');
+}
+
+/*if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 1 ) { // admin access removed to this page|| only account staff members should have access
+    
+}*/
+
+
 
             $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
@@ -461,6 +407,9 @@ class Staff extends MY_Controller {
     public function insert_rate_submit()
     {
       
+        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
+            redirect('admin/dashboard');
+       }
         
         $this->form_validation->set_rules('rate_name','Rates','required' ); //change from rate_id
         $this->form_validation->set_rules('rate_value','Rate Value','required' );
@@ -545,7 +494,7 @@ class Staff extends MY_Controller {
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
 						$config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
-						$config['smtp_pass'] =  'Qwerty12345@6';//'P7Umw9e#4H&q'; 
+						$config['smtp_pass'] =  'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
@@ -579,7 +528,10 @@ class Staff extends MY_Controller {
 						if($sent)
 						{           // this need to be updated
 							 $data['message'] = 'Please access your email to reset your password.';
+                           $date_created = date("Y-m-d h:i:sa",time());
+                           $this->staff_model->saveCertifierByEmail($c_email,$date_created, $staff_payment_id);
 							$this->load->view('forgotPassword', $data);
+                           
 						}					
 						else
 						{
@@ -594,11 +546,107 @@ class Staff extends MY_Controller {
         }
      }  
 
+     public function authorize_records ($staff_payment_id)
+     {
+
+        $data = $this->staff_model->getAuthorizerEmail(); // function to retrieve Authorizer email from DB
+
+        // testarray($data);
+ 
+         //$this->load->view('certifier_view',['data'=>$data] );
+ 
+         date_default_timezone_set('America/Bogota');
+             $this->form_validation->set_rules('authorizer_email','Authorizer Email','required');
+     
+             if($this->form_validation->run() === FALSE)
+             {
+                  $this->load->view('authorizer_view',['data'=>$data] );
+             }
+             else
+             {			
+                 //$myconfig['mailtype'] = 'html';
+                 //$this->load->library('email', $myconfig);
+                 //$this->email->set_newline( '\r\n' );
+                 $this->load->model('user_model');
+                 //use this line to find if the email address entered corresponds to an account in the system.
+                 $emp = $data;
+     
+                 if(empty($emp) || $emp == array())
+                 {
+                     $data['message'] = 'No such user exists';
+                     $this->load->view('authorizer_view', $data);
+                 }
+                 else
+                 {
+                      $c_email = md5($this->input->post('authorizer_email'));
+ 
+ 
+                     $this->staff_model->saveAuthorizer($c_email,$staff_payment_id);
+ 
+                     //save the request in the database
+                     //if($this->staff_model->saveCertifierEmail( $this->input->post('certifier_email')))
+                     //{
+                         
+                         $link = '<a href="'.base_url('staff/authorized_page').'/'.$c_email.'">Authorization Needed </a>';
+             
+                         $config['mailtype'] = 'html';
+                         $config['protocol'] = 'smtp';
+                         $config['smtp_host'] = 'secure.emailsrvr.com';
+                         $config['smtp_port'] = '465';
+                         $config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
+                         $config['smtp_pass'] =  'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_crypto'] = 'ssl';
+                         $config['smtp_timeout'] = '20';
+                         $config['charset'] = 'iso-8859-1';		
+     
+                         $this->email->initialize($config);
+                         
+                         // Set Email Variables
+                         $from_name = 'System Administrator';
+                         $from_emailaddress = 'webmaster@cad.gov.jm'; 
+                         $to = trim($this->input->post('authorizer_email')); 
+                         $subject = "Certification Needed";
+     
+                          $message = 'Good day,<br/><br/>'
+                         .'Please click the link to see the payment records to Authorize <br/><br/>';
+                         $message .= $link;                    
+                         $message .= '<br/><br/>Regards <br/><br/>'
+                         .'System Administrator';
+                         
+                         // Run Email methods
+                         $this->email->from($from_emailaddress, $from_name);
+                         $this->email->to($to);
+     
+                         $this->email->subject($subject);
+                         $this->email->message($message);
+     
+                         
+                         // Send Email
+                         $sent = $this->email->send();
+     
+                         // Check for errors How to hide warnings in if statements
+                         if($sent)
+                         {           // this need to be updated
+                              $data['message'] = 'Please access your email to reset your password.';
+                              $date_created = date("Y-m-d h:i:sa",time());
+                           $this->staff_model->saveAuthorizerByEmail($c_email,$date_created, $staff_payment_id);
+                             $this->load->view('forgotPassword', $data);
+                         }					
+                         else
+                         {
+                             $data['message'] = 'Possible database error. Please try again.';
+                             $this->load->view('forgotPassword', $data);
+                         }
+
+                    }
+                }
+
+
+     }
+
      public function certified_page()
      {
         
-        
-
          if(isset($_SESSION['role_id']) && $_SESSION['role_id']==2 )
           {
             $c_email = $_SESSION['email'];
@@ -616,6 +664,41 @@ class Staff extends MY_Controller {
 
            
      }
+
+     public function authorized_page()
+     {
+        
+         if(isset($_SESSION['role_id']) && $_SESSION['role_id']==3 )
+          {
+            $c_email = $_SESSION['email'];
+         //  
+            $data = $this->staff_model->getAuthorizedRecords( md5($c_email ));
+            $this->load->view('authorized_page',['data'=>$data] );
+           
+          }else
+
+          {
+            $_SESSION['redirect_url'] =  uri_string(); // gets url from the certified project
+            $this->load->view('login');
+          }
+         
+
+           
+     }
+
+
+     public function authorize_payments ($voucher_number ) 
+     {
+
+        //echo $voucher_number , $firstname , $lastname;
+
+        
+
+        $this->load->view('payment_authorized', ['voucher_number' =>  $voucher_number] );
+
+
+     }
+
 
     
 
