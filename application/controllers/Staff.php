@@ -14,9 +14,7 @@ class Staff extends MY_Controller {
     
     public function staff_create()
     {
-        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
-            redirect('admin/dashboard');
-       }
+    
         $this->load->model('staff_model');
         $location = $this->staff_model->get_locations();
         $officers = $this->staff_model->get_officer_type();
@@ -28,6 +26,9 @@ class Staff extends MY_Controller {
 
     public function staff_submit()
     {
+        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] != 4 ) { // admin access removed to this page|| only account staff members should have access
+            redirect('admin/dashboard');
+       }
 
             $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
             $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
@@ -38,9 +39,11 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('upkeep_id','Type of Upkeep','required'); // 
             $this->form_validation->set_rules('vehicle_model','Vehicle Model'); // veh
             $this->form_validation->set_rules('vehicle_make','Vehicle Model');
-            $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','numeric');
-            $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','numeric');
+            $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','alpha_numeric');
+            $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','alpha_numeric');
             $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
+
+
 
          
         if($this->form_validation->run())
@@ -67,12 +70,12 @@ class Staff extends MY_Controller {
                 if($response)
                 {
                     $this->session->set_flashdata('message','Officer Registered Successfully');
-                    return redirect('admin/dashboard');
+                    return redirect('staff/staff_information');
                 }
                 else
                 {
-                    
-                    return redirect('welcome/login');
+                    $this->session->set_flashdata('fail_message','Possible Database Error Contact Administrator');
+                    return redirect('staff/staff_information');
                 }
 
         }
@@ -137,10 +140,10 @@ class Staff extends MY_Controller {
 
 
 
-            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]');
+            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]','required');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
-            $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
+            $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
             $this->form_validation->set_rules('mileage_rate','Mileage Rate',''); //dropdown
             $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); 
             $this->form_validation->set_rules('passenger_rate','Passenger Rate',''); // Should be dropdown
@@ -435,7 +438,9 @@ class Staff extends MY_Controller {
                 }
                
                 else{
-                    $this->session->set_flashdata('fail_message','Rate failed Not Added');
+                    
+                    
+                    $this->session->set_flashdata('fail_message','Possible Database Error Contact the Administrator');
                     redirect("staff/staff_information");
                 
                 }
@@ -494,7 +499,7 @@ class Staff extends MY_Controller {
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
 						$config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
-						$config['smtp_pass'] =  'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+						$config['smtp_pass'] = 'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
@@ -594,7 +599,7 @@ class Staff extends MY_Controller {
                          $config['smtp_host'] = 'secure.emailsrvr.com';
                          $config['smtp_port'] = '465';
                          $config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
-                         $config['smtp_pass'] =  'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_pass'] =  'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
                          $config['smtp_crypto'] = 'ssl';
                          $config['smtp_timeout'] = '20';
                          $config['charset'] = 'iso-8859-1';		

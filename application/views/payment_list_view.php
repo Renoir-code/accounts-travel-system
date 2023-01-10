@@ -33,7 +33,7 @@
         <table class="table table-striped table-hover ">
           <thead>
               <tr>
-                <th scope="col ">Staff ID</th>
+              <!--  <th scope="col ">Staff ID</th> -->
                 <th scope="col">Voucher Number </th>
                 <th scope="col">Year Travelled </th>
                 <th scope="col">Month Travelled</th>
@@ -46,7 +46,7 @@
                 <th scope="col"> Refreshment Days </th>
                 <th scope="col"> Taxi Out Town  </th>
                 <th scope="col"> Taxi In Town </th>
-                <th scope="col">Certifier Remarks </th>
+              <!--  <th scope="col">Certifier Remarks </th> -->
              
               </tr>
           </thead>
@@ -56,7 +56,7 @@
         <tr class = 'table-active'>
            <?php if(!empty($payment_records)): ?>
             <?php foreach($payment_records as $row): ?>
-          <td> <?php echo $row['staff_id']; ?></td>
+       <!--   <td> <?php // echo $row['staff_id']; ?></td> -->
           <td><?php  echo $row['voucher_number']; ?></td>
           <td><?php  echo $row['year_travelled']; ?></td>
           <td><?php  echo $row['month_travelled']; ?></td>
@@ -69,7 +69,7 @@
           <td><?php  echo '$'. number_format( $row['refreshment_days'] * $row['refreshment_rate']); ?> <br> <sub>  <?php echo '('. $row['refreshment_days'] . '*'. $row['refreshment_rate'] . ') </sub> ';?></td> 
           <td><?php  echo '$'. number_format( $row['taxi_out_town'] * $row['taxi_out_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_out_town'] . '*'. $row['taxi_out_rate'] . ') </sub> ' ;?></td> 
           <td><?php  echo '$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
-          <td><?php  echo $row['certifier_remarks']; ?></td> 
+        <!--  <td><?php // echo $row['certifier_remarks']; ?> </td> -->
           <td>  <?php   
           if($row['view_by']== NULL)
           {

@@ -16,8 +16,12 @@ class Admin extends MY_Controller {
 
     public function dashboard()
     {
-      //print_r($_SESSION['user_id']); //print session id of current user
-
+     
+      if(isset($_SESSION['user_id']) && $_SESSION['role_id'] != 4 ) { // only admins acess this page role of admin == 4
+        
+        redirect('user/logout');
+   }
+     
         $this->load->model('user_model');
         $users =$this->user_model->viewAllUsers();
         $this->load->view('dashboard',['users' => $users]);  //landingpage

@@ -130,7 +130,7 @@ else{
 
     public function getPaymentRecords($staff_id)
     {
-       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by date_modified asc";
+       $query = " SELECT * FROM staff_payment    WHERE staff_id=? order by year_travelled desc , month_travelled ";
                
         return $this->db->query($query, array($staff_id))->result_array(); 
 
@@ -234,16 +234,38 @@ public function get_staffRecords($staff_id)
     //work in progress
     public function insert_new_rate($rate_value,$rate_name)
     {
+
+
       $query = "
       INSERT INTO rate
       (rate_value , rate_name)
       VALUES
       (?,?) ";
+
+  /*
       
-      if($this->db->query($query,array($rate_value,$rate_name)))
-       return true;
+      if ( ! $this->db->query($query,array($rate_value,$rate_name)))
+      {
+      //  echo 'jhghf';
+              $error = $this->db->error(); // Has keys 'code' and 'message'
+            //  testarray($error);
+              if($error['code']==1062){
+                echo 'Rate Already Exists Please try again';
+              }
+      }
+      */
+    
+ 
+if($this->db->query($query,array($rate_value,$rate_name)))
+       {return true;}
        else
+       {
        return false;
+       }
+
+
+
+
     }
 
     public function getRates($name)

@@ -15,6 +15,17 @@
             </div>
         </div>
     <?php endif; ?>
+    <?php if($msg = $this->session->flashdata('message')):?>
+        <div class="row">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-success close">
+                     <?php echo $msg; ?>
+                    
+                    </div>
+
+            </div>
+        </div>
+    <?php endif; ?>
 
     <?php if($msg = $this->session->flashdata('fail_message')):?>
         <div class="row">
