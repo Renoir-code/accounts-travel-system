@@ -52,24 +52,25 @@
       <h4> Staff Information Dashboard </h4>
       <?php echo anchor ("staff/staff_create" , "Add Travelling/CasualOfficer", ['class'=> 'btn btn-primary']); ?>
       <?php echo anchor ("staff/insert_rate_submit" , "Add a Rate ", ['class'=> 'btn btn-danger']); ?>
-      
-     
+      <?php $hash_staff_email = md5($_SESSION['email']); ?>
+      <?php echo anchor ("staff/view_all_payment_records/{$hash_staff_email}" , "View all payment records ", ['class'=> 'btn btn-danger']); ?>
+      <?php echo anchor ("#" , "Reports", ['class'=> 'btn btn-danger']); ?>
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
           <thead>
               <tr>
-                <th scope="col" >Staff ID</th>
+               <!-- <th scope="col" >Staff ID</th> -->
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name </th>
                 <th scope="col">Post Title</th>
                 <th scope="col">Tax Registration Number</th>
                 <th scope="col"> Type of Upkeep</th>
                 <th scope="col"> Type of Officer</th>
-                <th scope="col"> Vehicle Model</th>
+             <!--    <th scope="col"> Vehicle Model</th>
                 <th scope="col"> Vehicle Make</th>
                 <th scope="col"> Vehicle Chasis Number</th>
-                <th scope="col"> Vehicle Engine Number</th>
+                <th scope="col"> Vehicle Engine Number</th> -->
                 <th scope="col"> Location</th>
                 <th scope="col"> Action </th>
               </tr>
@@ -79,17 +80,17 @@
         
         <tr class = 'table-active'>
            <?php if(!empty($trn_records)): ?>
-          <td> <?php echo $trn_records['staff_id']; ?></td>
+        <!--  <td>  <?php // echo $trn_records['staff_id']; ?></td> -->
           <td><?php  echo $trn_records['firstname']; ?></td>
           <td><?php  echo $trn_records['lastname']; ?></td>
           <td><?php  echo $trn_records['post_title']; ?></td>
           <td><?php  echo $trn_records['trn']; ?></td> 
           <td><?php  echo $trn_records['upkeep_name']; ?></td> 
           <td><?php  echo $trn_records['officer_name']; ?></td> 
-          <td><?php  echo $trn_records['vehicle_model']; ?></td> 
-          <td><?php  echo $trn_records['vehicle_make']; ?></td> 
-          <td><?php  echo $trn_records['vehicle_chasisnum']; ?></td> 
-          <td><?php  echo $trn_records['vehicle_engine_num']; ?></td> 
+        <!--  <td><?php //  echo $trn_records['vehicle_model']; ?></td> -->
+         <!--   <td><?php // echo $trn_records['vehicle_make']; ?></td> -->
+          <!--  <td><?php // echo $trn_records['vehicle_chasisnum']; ?></td> -->
+          <!--  <td><?php // echo $trn_records['vehicle_engine_num']; ?></td> -->
           <td><?php  echo $trn_records['location_name']; ?></td> 
           
           

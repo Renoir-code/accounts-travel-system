@@ -90,6 +90,23 @@
   </div>
   <small> <?php echo form_error('mileage_km','<div class="text-danger">','</div>');?> </small>
 
+  <?php //testarray($mileage_rate)?>
+  <div class="form-group ">
+    <label class="form-label">Mileage Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="mileage_rate">
+        <option value="">Choose The Mileage Rate ..</option>
+          <?php if(count($mileage_rate)):?>
+          <?php foreach($mileage_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['mileage_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('mileage_rate','<div class="text-danger">','</div>');?> </small>
+
   <div class="form-group ">
     <label class="form-label">Passenger (Km)</label>
     <div class="col-sm-10">
@@ -98,6 +115,23 @@
     </div>
   </div>
   <small> <?php echo form_error('passenger_km','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Passenger Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="passenger_rate">
+        <option value="">Choose The Passenger Rate ..</option>
+          <?php if(count($passenger_rate)):?>
+          <?php foreach($passenger_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['passenger_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('passenger_rate','<div class="text-danger">','</div>');?> </small>
+
   
   <div class="form-group ">
     <label class="form-label">Toll Amount </label>
@@ -116,6 +150,22 @@
     </div>
   </div>
   <small> <?php echo form_error('subsistence_km','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Subsistence Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="subsistence_rate">
+        <option value="">Choose The Subsistence Rate ..</option>
+          <?php if(count($subsistence_rate)):?>
+          <?php foreach($subsistence_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['subsistence_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('subsistence_rate','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
     <label class="form-label">Actual Expense </label>
@@ -137,6 +187,22 @@
   <small> <?php echo form_error('supper_days','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
+    <label class="form-label">Supper Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="supper_rate">
+        <option value="">Choose The Supper Rate ..</option>
+          <?php if(count($supper_rate)):?>
+          <?php foreach($supper_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['supper_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('supper_rate','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
     <label class="form-label">Refreshment(days)</label>
     <div class="col-sm-10">
       <input type="text" name="refreshment_days" class="form-control-lg"
@@ -144,6 +210,22 @@
     </div>
   </div>
   <small> <?php echo form_error('refreshment_days','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
+    <label class="form-label">Refreshment Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="refreshment_rate">
+        <option value="">Choose The Refreshment Rate ..</option>
+          <?php if(count($refreshment_rate)):?>
+          <?php foreach($refreshment_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['refreshment_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('refreshment_rate','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
     <label class="form-label">Taxi_out_town(days)</label>
@@ -155,6 +237,22 @@
   <small> <?php echo form_error('taxi_out_town','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
+    <label class="form-label">Taxi Out Town Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="taxi_out_rate">
+        <option value="">Choose The Taxi Out Town Rat..</option>
+          <?php if(count($taxi_out_rate)):?>
+          <?php foreach($taxi_out_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['taxi_out_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('taxi_out_rate','<div class="text-danger">','</div>');?> </small>
+
+  <div class="form-group ">
     <label class="form-label"> Taxi_in_town(days)</label>
     <div class="col-sm-10">
       <input type="text" name="taxi_in_town" class="form-control-lg"
@@ -162,6 +260,23 @@
     </div>
   </div>
   <small> <?php echo form_error('taxi_in_town','<div class="text-danger">','</div>');?> </small>
+
+  
+  <div class="form-group ">
+    <label class="form-label">Taxi In Town Rate </label>
+    <div class="col-sm-10">
+    <select  class="form-control-lg" name="taxi_in_rate">
+        <option value="">Choose The Taxi In Town Rate ..</option>
+          <?php if(count($taxi_in_rate)):?>
+          <?php foreach($taxi_in_rate as $row):?>
+          <option value=<?php echo $row['rate_value'] ?> <?php if($row['rate_value'] === $data['taxi_in_rate']) echo "selected" ?> > 
+          <?php echo $row['rate_value']?></option>
+          <?php endforeach;?>
+          <?php endif;?>               
+        </select>
+    </div>
+  </div>
+  <small> <?php echo form_error('taxi_in_rate','<div class="text-danger">','</div>');?> </small>
 
   <div class="form-group ">
     <label class="form-label"> Remarks </label>

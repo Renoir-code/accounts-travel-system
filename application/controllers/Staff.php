@@ -148,9 +148,9 @@ class Staff extends MY_Controller {
             $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); 
             $this->form_validation->set_rules('passenger_rate','Passenger Rate',''); // Should be dropdown
             $this->form_validation->set_rules('toll_amt','Toll Amount','trim|numeric');
-            $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); // 
-            $this->form_validation->set_rules('subsistence_rate','Subsistence Rate',''); // 
-            $this->form_validation->set_rules('actual_expense','Actual Expense','trim|numeric'); // 
+            $this->form_validation->set_rules('subsistence_km','Subsistence Km','trim|numeric'); 
+            $this->form_validation->set_rules('subsistence_rate','Subsistence Rate',''); 
+            $this->form_validation->set_rules('actual_expense','Actual Expense','trim|numeric'); 
             $this->form_validation->set_rules('supper_days','Supper Days','trim|numeric'); // veh
             $this->form_validation->set_rules('supper_rate','Supper Rate',''); // veh
             $this->form_validation->set_rules('refreshment_days','Refreshment Days','trim|numeric');
@@ -189,7 +189,7 @@ class Staff extends MY_Controller {
                    
                 date_default_timezone_set('America/Bogota');
                 $date_created = date("Y-m-d h:i:sa",time());
-                $added_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+                $added_by = $this->user_model->getCurrentUsername($_SESSION['email']);
            
                   //  echo  $this->input->post('mileage_rate');  die();
                 if($this->staff_model->insert_staffPayment(
@@ -252,13 +252,42 @@ class Staff extends MY_Controller {
 
     }
 
+    public function view_all_payment_records($staff_email)
+    {   
+        $e = 'added_by'; // default column if nothing is detected in the uri
+        if($this->uri->segment(4)=='inserter'){
+            $e = 'added_by';
+        }
+        $data = $this->staff_model->get_staffRecords($staff_email);
+      // $staff_name = $this->staff_model->getStaffUsername($staff_email);
+       $payment_records = $this->staff_model->getAllPaymentRecords($e,$staff_email);
+       //testarray($payment_records);
+        $this->load->view('all_payment_records',['data'=>$data ,'payment_records'=> $payment_records  ] );
+
+    }
+
     public function modify_payment_records($staff_payment_id)
     {
         $data = $this->staff_model->getinserted_paymentRecords($staff_payment_id);
         $months = $this->staff_model-> get_enum_values('staff_payment','month_travelled');
         $years = $this->staff_model-> get_enum_values('staff_payment','year_travelled');
+        $mileage_rate = $this->staff_model-> getRates('mileage');
+        $passenger_rate = $this->staff_model-> getRates('passenger');
+        $subsistence_rate = $this->staff_model-> getRates('subsistence');
+        $supper_rate = $this->staff_model-> getRates('supper');
+        $refreshment_rate = $this->staff_model-> getRates('refreshment');
+        $taxi_out_rate =$this->staff_model-> getRates('taxi_out_town');
+        $taxi_in_rate = $this->staff_model-> getRates('taxi_in_town');
        //testarray($data);
-       $this->load->view('modify_payment_view',['data' => $data , 'months' => $months , 'years' =>$years] );
+       $this->load->view('modify_payment_view',['data' => $data , 'months' => $months , 'years' =>$years, 
+       'mileage_rate' =>$mileage_rate 
+       , 'passenger_rate' =>$passenger_rate 
+       , 'subsistence_rate' =>$subsistence_rate 
+       , 'supper_rate' =>$supper_rate 
+       , 'refreshment_rate' =>$refreshment_rate
+       , 'taxi_out_rate' =>$taxi_out_rate
+       , 'taxi_in_rate' =>$taxi_in_rate
+       ]  );
       
     }
 
@@ -297,14 +326,21 @@ class Staff extends MY_Controller {
                     $this->input->post('year_travelled'),
                     $this->input->post('month_travelled'),
                     $this->input->post('mileage_km'),
+                    $this->input->post('mileage_rate'),
                     $this->input->post('passenger_km'),
+                    $this->input->post('passenger_rate'),
                     $this->input->post('toll_amt'),
                     $this->input->post('subsistence_km'),
+                    $this->input->post('subsistence_rate'),
                     $this->input->post('actual_expense'),
                     $this->input->post('supper_days'),
+                    $this->input->post('supper_rate'),
                     $this->input->post('refreshment_days'),
+                    $this->input->post('refreshment_rate'),
                     $this->input->post('taxi_out_town'),
+                    $this->input->post('taxi_out_rate'),
                     $this->input->post('taxi_in_town'),
+                    $this->input->post('taxi_in_rate'),
                     $this->input->post('certifier_remarks') ,
                     $date_modified,
                     $modified_by,
@@ -451,8 +487,10 @@ class Staff extends MY_Controller {
     }
 
 
-    public function certifier_record($staff_payment_id)
+    public function certifier_record($staff_payment_id,$staff_id)
     {
+
+       // echo $staff_id; die();
 
         $data = $this->staff_model->getCertifierEmail();
 
@@ -498,8 +536,8 @@ class Staff extends MY_Controller {
 						$config['protocol'] = 'smtp';
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
-						$config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
-						$config['smtp_pass'] = 'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+						$config['smtp_user'] =  'testy@cad.gov.jm'; //'webadmin@cad.gov.jm';
+						$config['smtp_pass'] = '769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
@@ -528,14 +566,21 @@ class Staff extends MY_Controller {
 						
 						// Send Email
 						$sent = $this->email->send();
+
+                        
 	
 						// Check for errors How to hide warnings in if statements
 						if($sent)
 						{           // this need to be updated
-							 $data['message'] = 'Please access your email to reset your password.';
+							 $data['message'] = 'Record sent for Certification.';
+                             $data['staff_id'] = $staff_id;
+                             $data['email_sent_page'] = 1;
+                             //testarray(($data['staff_id']));
                            $date_created = date("Y-m-d h:i:sa",time());
                            $this->staff_model->saveCertifierByEmail($c_email,$date_created, $staff_payment_id);
-							$this->load->view('forgotPassword', $data);
+							$this->load->view('email_sent', $data);
+
+                            //echo 'Record sent for certification'; 
                            
 						}					
 						else
@@ -551,7 +596,7 @@ class Staff extends MY_Controller {
         }
      }  
 
-     public function authorize_records ($staff_payment_id)
+     public function authorize_records ($staff_payment_id,$staff_id)
      {
 
         $data = $this->staff_model->getAuthorizerEmail(); // function to retrieve Authorizer email from DB
@@ -598,8 +643,8 @@ class Staff extends MY_Controller {
                          $config['protocol'] = 'smtp';
                          $config['smtp_host'] = 'secure.emailsrvr.com';
                          $config['smtp_port'] = '465';
-                         $config['smtp_user'] =  'test.test@cad.gov.jm'; //'webadmin@cad.gov.jm';
-                         $config['smtp_pass'] =  'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
+                         $config['smtp_pass'] =   '769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
                          $config['smtp_crypto'] = 'ssl';
                          $config['smtp_timeout'] = '20';
                          $config['charset'] = 'iso-8859-1';		
@@ -633,9 +678,11 @@ class Staff extends MY_Controller {
                          if($sent)
                          {           // this need to be updated
                               $data['message'] = 'Please access your email to reset your password.';
+                              $data['staff_id'] = $staff_id;
+                              $data['email_sent_page'] = 2;
                               $date_created = date("Y-m-d h:i:sa",time());
                            $this->staff_model->saveAuthorizerByEmail($c_email,$date_created, $staff_payment_id);
-                             $this->load->view('forgotPassword', $data);
+                             $this->load->view('email_sent', $data);
                          }					
                          else
                          {

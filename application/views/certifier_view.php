@@ -4,11 +4,11 @@
 
 <br>
 <?php $staff_payment_id = $this->uri->segment(3); 
-echo $staff_payment_id;
+ $staff_id = $this->uri->segment(4); 
 ?>
 
 <?php // testarray($data)?>
-<?php echo form_open("staff/certifier_record/{$staff_payment_id}") ?>
+<?php echo form_open("staff/certifier_record/{$staff_payment_id}/{$staff_id}") ?>
 <div class="form-group ">
     <label class="form-label">Choose the Certifier   </label>
     <div class="col-sm-10">
@@ -22,6 +22,6 @@ echo $staff_payment_id;
         </select>
     </div>
   </div>
-  
+  <br>
 
   <button type="submit" class="btn  btn-success ">Send Email </button>

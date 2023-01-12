@@ -34,6 +34,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       echo '<a class="nav-link" href="'. base_url('admin/dashboard').' "> Dashboard</a>';}
       ?>
 
+<li class="nav-item">
+        <?php if(isset($_SESSION['user_id'])) {
+      echo '<span class="nav-link"  > '.$_SESSION['email'].' </span>';}
+
+      ?>
+        </li>
+
       <?php if(isset($_SESSION['user_id']) && (  $_SESSION['role_id'] == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3  ) ){ // insertor // certifier// authorizer
       echo '<a class="nav-link" href="'. base_url('staff/staff_information').' "> Dashboard</a>';}
       ?>

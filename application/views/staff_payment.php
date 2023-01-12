@@ -90,10 +90,10 @@
     <div class="col-sm-10">
     <select  class="form-control-lg" name="year_travelled">
         <option value="">Choose The Year Travelled ..</option>
-        <option value="2020" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']==1) echo ' selected';?> >2020 </option>
-        <option value="2021" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']==2) echo ' selected';?> >2021 </option>
-        <option value="2022" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']==3) echo ' selected';?> >2022 </option>
-        <option value="2023" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']==4) echo ' selected';?> >2023 </option>
+        <option value="2020" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2020') echo ' selected';?> >2020 </option>
+        <option value="2021" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2021') echo ' selected';?> >2021 </option>
+        <option value="2022" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2022') echo ' selected';?> >2022 </option>
+        <option value="2023" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2023') echo ' selected';?> >2023 </option>
         </select>
     </div>
   </div>

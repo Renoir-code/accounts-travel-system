@@ -18,7 +18,7 @@
 
         <?php echo form_open('staff/staff_submit') ?>
         <div class="row">
-        <h4 > Enter Officer Details : </h4>
+        <h4 > Enter the Officer Details : </h4>
                 <div class="col-md-4 col-md-offset-4">
                        
             

@@ -69,12 +69,12 @@
                     <div class="col-sm-10">
                     <label for="" class="form-label"> Type of Officer </label>
                     <label for="inputState"></label>
-                    <select  class="form-control-lg" name="officer_id">
-                    <option value="">Choose Type of Officer..</option>
-                    <option value="1" <?php if($data['officer_id']==1)   echo ' selected';?> >Travelling Officer </option>
-                    <option value="2" <?php if($data['location_id']==2)  echo ' selected';?> >Casual Officer </option>
-                    
+                    <select  class="form-control-lg" name="officer_id" id="officer_id" onchange="val()">
+                    <option value="">Choose Type of Officer..</option>  <!-- if submit is clicked and an eror is there save what was typed if not return whats in the database -->
+                    <option value="1" <?php if(isset($_POST['officer_id']) && $_POST['officer_id']==1) {echo ' selected';} elseif($data['officer_id']==1)   {echo ' selected';}?> >Travelling Officer </option>
+                    <option value="2" <?php if(isset($_POST['officer_id']) && $_POST['officer_id']==2) {echo ' selected';} elseif($data['officer_id']==2)  {echo ' selected';}?> >Casual Officer </option>
                     </select>
+
                     </div>
                     </div>
                         
@@ -83,7 +83,7 @@
                     <div class="col-sm-10">
                     <label for="" class="form-label"> Type of Upkeep </label>
                     <label for="inputState"></label>
-                    <select  class="form-control-lg" name="upkeep_id">
+                    <select  class="form-control-lg" name="upkeep_id" id="upkeep_id">
                     <option value="">Choose The Type of Upkeep Received ..</option>
                     <option value="1" <?php  if($data['upkeep_id']==1) echo ' selected';?> >Fixed Upkeep Allowance </option>
                     <option value="2" <?php  if($data['upkeep_id']==2)echo ' selected';?> >Fixed Walkfoot Allowance </option>
@@ -96,6 +96,7 @@
                     
                       
                     </select>
+                    <input type="hidden" class="form-control-lg" name="upkeep_id" value="55" disabled id="hidden_input">
                     </div>
                     </div>
                 
@@ -141,6 +142,34 @@
             </div>
             </div>
   
+            <script type="text/javascript">
+    if( document.getElementById("officer_id").value == 2)
+    {
+        document.getElementById("hidden_input").disabled = false;  // enable hidden input ( submit with 55)
+        document.getElementById("upkeep_id").disabled = true;  // disable upkeep options
+    }
+        function val() {  // if travelling officer selected enable upkeep options if Casual officer selected disable upkeep options
+  
+        d = document.getElementById("officer_id").value;
+        if (d==2){
+            /* $select = document.querySelector('#upkeep_id');
+            $select.value = '55'
+            document.getElementById("upkeep_id").style.display = "none";
+            document.getElementById("upkeep_id_label").style.display = "none"; */
+            document.getElementById("upkeep_id").disabled = true;  
+            document.getElementById("hidden_input").disabled = false;  
+        }
+        else if(d!=2){
+            
+            /*document.getElementById("upkeep_id").style.display = "inline-block";
+            document.getElementById("upkeep_id_label").style.display = "inline-block"; */
+            document.getElementById("upkeep_id").disabled = false;
+            document.getElementById("hidden_input").disabled = true;  
 
+        }
+
+    
+} 
+</script>
 
 <?php include("inc/footer.php"); ?>

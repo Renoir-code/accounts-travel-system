@@ -76,8 +76,8 @@ else{
         INNER JOIN location ON staff.location_id = location.location_id
         INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
         INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id
-        WHERE trn=?  ";
-        return $this->db->query($query, array($trn))->first_row('array'); 
+        WHERE trn = ? OR firstname LIKE ? OR lastname LIKE ? ";
+        return $this->db->query($query, array($trn, $trn, $trn))->first_row('array'); 
       }
 
       
@@ -136,6 +136,17 @@ else{
 
     }
 
+    public function getAllPaymentRecords($e,$added_by)
+    {
+      ;
+       //$query = " SELECT * FROM staff_payment    WHERE added_by=? order by year_travelled desc , month_travelled ";
+         $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         WHERE staff_payment.".$e." = ? ORDER BY year_travelled desc , month_travelled";      
+        return $this->db->query($query, array( $added_by))->result_array(); 
+
+    }
+
     public function getinserted_paymentRecords($staff_payment_id)
     {
        $query = " SELECT * FROM staff_payment    WHERE staff_payment_id=? order by date_modified ";
@@ -144,30 +155,37 @@ else{
 
     }
 
-    public function update_staffPayment($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
-    $subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)
+    public function update_staffPayment($voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,
+    $subsistence_km,$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)
     {
       $query = "UPDATE `staff_payment` "
 					          . " SET `voucher_number`=?, "
                     . "`year_travelled`=?, "
                     . "`month_travelled`=?, "
-                    . "`mileage_km`=?, "                     
+                    . "`mileage_km`=?, "
+                    . "`mileage_rate`=?, "                        
                     . "`passenger_km`=?, "
+                    . "`passenger_rate`=?, "
 					          . "`toll_amt`=?, "
                     . "`subsistence_km`=?, " 
+                    . "`subsistence_rate`=?, " 
                     . "`actual_expense`=?, "                 
                     . "`supper_days`=?, "
+                    . "`supper_rate`=?, "
                     . "`refreshment_days`=?, "
+                    . "`refreshment_rate`=?, "
                     . "`taxi_out_town`=?, "
+                    . "`taxi_out_rate`=?, "
                     . "`taxi_in_town`=?, "
+                    . "`taxi_in_rate`=?, "
                     . "`certifier_remarks`=?, "
                     . "`date_modified`=?, "
                     . "`modified_by`=? "
                     . " WHERE staff_payment_id=?";
             
         
-            if($this->db->query($query,array($voucher_number,$year_travelled,$month_travelled,$mileage_km,$passenger_km,$toll_amt,
-            $subsistence_km,$actual_expense,$supper_days,$refreshment_days,$taxi_out_town,$taxi_in_town,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)))
+            if($this->db->query($query,array($voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,
+            $subsistence_km,$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks, $date_modified, $modified_by,$staff_payment_id)))
                 return true;
                 
             return false;
