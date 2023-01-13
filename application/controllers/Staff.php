@@ -177,7 +177,7 @@ class Staff extends MY_Controller {
                    
                 date_default_timezone_set('America/Bogota');
                 $date_created = date("Y-m-d h:i:sa",time());
-                $added_by = $this->user_model->getCurrentUsername($_SESSION['email']);
+                $added_by = md5($_SESSION['email']);
            
                   //  echo  $this->input->post('mileage_rate');  die();
                 if($this->staff_model->insert_staffPayment(
