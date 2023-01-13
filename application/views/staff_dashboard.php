@@ -51,10 +51,13 @@
 
       <h4> Staff Information Dashboard </h4>
       <?php echo anchor ("staff/staff_create" , "Add Travelling/CasualOfficer", ['class'=> 'btn btn-primary']); ?>
-      <?php echo anchor ("staff/insert_rate_submit" , "Add a Rate ", ['class'=> 'btn btn-danger']); ?>
-      <?php $hash_staff_email = md5($_SESSION['email']); ?>
-      <?php echo anchor ("staff/view_all_payment_records/{$hash_staff_email}" , "View all payment records ", ['class'=> 'btn btn-danger']); ?>
-      <?php echo anchor ("#" , "Reports", ['class'=> 'btn btn-danger']); ?>
+      <?php echo anchor ("staff/insert_rate_submit" , "Add a Rate ", ['class'=> 'btn btn-success']); ?>
+      <?php 
+      $hash_staff_email = md5($_SESSION['email']);
+      
+      ?>
+      <?php echo anchor ("staff/view_all_payment_records/{$hash_staff_email}" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
+      <?php echo anchor ("#" , "Reports", ['class'=> 'btn btn-light']); ?>
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
@@ -94,12 +97,12 @@
           <td><?php  echo $trn_records['location_name']; ?></td> 
           
           
-         <td><?php  // Only insertor can access this button/page
+        <?php  // Only insertor can access this button/page
               if(isset($_SESSION['user_id']) &&  ($_SESSION['role_id'] == 1)){
-                echo anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']); 
+                echo '<td>'.anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']) . '</td>' ;
               }
             ?>  
-        </td>
+  
          <td>  <?php  echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']); ?>   </td>
         </td>
         </tr>

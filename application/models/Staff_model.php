@@ -8,22 +8,22 @@ class Staff_model extends CI_Model{
         return $this->db->insert('staff',$officerDetails);
     }
 
-  public function checktrn($trn)
-{
-$this -> db -> select('trn');
-$this -> db -> from('staff');
-$this -> db -> where('trn', $trn);
-$this -> db -> limit(1);
+      public function checktrn($trn)
+    {
+        $this -> db -> select('trn');
+        $this -> db -> from('staff');
+        $this -> db -> where('trn', $trn);
+        $this -> db -> limit(1);
 
-$query = $this -> db -> get();
+        $query = $this -> db -> get();
 
-if($query -> num_rows() == 1){
-  return $query->result();
-}
-else{
-  return false;
-}
-}
+        if($query -> num_rows() == 1){
+          return $query->result();
+        }
+        else{
+          return false;
+    }
+    }
 
 
       public function get_locations()
@@ -71,13 +71,13 @@ else{
 
       public function getStaffIDbyTRN($trn)
       {
-
+       $trn = strtolower('%'.$trn.'%'); // lowercase characters OR characters (like)
         $query = "SELECT * FROM staff
         INNER JOIN location ON staff.location_id = location.location_id
         INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
         INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id
-        WHERE trn = ? OR firstname LIKE ? OR lastname LIKE ? ";
-        return $this->db->query($query, array($trn, $trn, $trn))->first_row('array'); 
+        WHERE trn = ? OR firstname LIKE ? OR lastname LIKE ? OR CONCAT(firstname,' ',lastname) LIKE ? ";
+        return $this->db->query($query, array($trn, $trn, $trn, $trn))->first_row('array'); 
       }
 
       
@@ -149,8 +149,7 @@ else{
 
     public function getinserted_paymentRecords($staff_payment_id)
     {
-       $query = " SELECT * FROM staff_payment    WHERE staff_payment_id=? order by date_modified ";
-               
+       $query = " SELECT * FROM staff_payment    WHERE staff_payment_id=? order by date_modified ";         
         return $this->db->query($query, array($staff_payment_id))->first_row('array');
 
     }
@@ -259,32 +258,14 @@ public function get_staffRecords($staff_id)
       (rate_value , rate_name)
       VALUES
       (?,?) ";
-
-  /*
-      
-      if ( ! $this->db->query($query,array($rate_value,$rate_name)))
-      {
-      //  echo 'jhghf';
-              $error = $this->db->error(); // Has keys 'code' and 'message'
-            //  testarray($error);
-              if($error['code']==1062){
-                echo 'Rate Already Exists Please try again';
-              }
-      }
-      */
-    
  
-if($this->db->query($query,array($rate_value,$rate_name)))
-       {return true;}
-       else
-       {
-       return false;
-       }
-
-
-
-
-    }
+      if($this->db->query($query,array($rate_value,$rate_name)))
+            {return true;}
+            else
+            {
+            return false;
+            }
+      }
 
     public function getRates($name)
     {
