@@ -101,10 +101,6 @@ class Staff extends MY_Controller {
 			}
 		}
 
-    public function search_staff()
-    {    
-        $this->load->view('search_staff');
-    }
 
     public function staff_information()
     {
@@ -119,8 +115,6 @@ class Staff extends MY_Controller {
     }
 
 
-   
-
          public function staff_payment_submit($staff_id)
         {
             //echo $staff_id;
@@ -128,17 +122,11 @@ class Staff extends MY_Controller {
             
        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
         redirect('admin/dashboard');
-   }
+         }
 
-   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3) { 
-    redirect('staff/staff_information');
-}
-
-/*if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 1 ) { // admin access removed to this page|| only account staff members should have access
-    
-}*/
-
-
+        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3) { 
+            redirect('staff/staff_information');
+        }
 
             $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]','required');
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
@@ -252,12 +240,13 @@ class Staff extends MY_Controller {
 
     }
 
-    public function view_all_payment_records($staff_email)
+    public function view_all_payment_records($staff_email) // Explanation needed
     {   
         $e = 'added_by'; // default column if nothing is detected in the uri
         if($this->uri->segment(4)=='inserter'){
             $e = 'added_by';
         }
+
         $data = $this->staff_model->get_staffRecords($staff_email);
       // $staff_name = $this->staff_model->getStaffUsername($staff_email);
        $payment_records = $this->staff_model->getAllPaymentRecords($e,$staff_email);
@@ -265,7 +254,7 @@ class Staff extends MY_Controller {
         $this->load->view('all_payment_records',['data'=>$data ,'payment_records'=> $payment_records  ] );
 
     }
-
+        //test
     public function modify_payment_records($staff_payment_id)
     {
         $data = $this->staff_model->getinserted_paymentRecords($staff_payment_id);
@@ -453,7 +442,6 @@ class Staff extends MY_Controller {
         $this->form_validation->set_rules('rate_name','Rates','required' ); //change from rate_id
         $this->form_validation->set_rules('rate_value','Rate Value','required' );
        
-
         if($this->form_validation->run() == FALSE)
         {   
             
