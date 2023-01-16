@@ -71,7 +71,7 @@ class Staff_model extends CI_Model{
 
       public function getStaffIDbyTRN($trn)
       {
-       $trn = strtolower('%'.$trn.'%'); // lowercase characters OR characters (like)
+       $trn = strtolower($trn); // lowercase characters OR characters (like)
         $query = "SELECT * FROM staff
         INNER JOIN location ON staff.location_id = location.location_id
         INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id

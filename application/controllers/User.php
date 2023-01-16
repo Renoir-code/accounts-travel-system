@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+/* if (!isset($_SESSION['user_id'])) 
+{
+  echo 'Please <a href = "#">log in</a> first to see this page.';
+  die();
+} */
 class User extends MY_Controller {
 
 	 //password,Snq3r@321,Qwerty1@3
@@ -198,7 +202,8 @@ class User extends MY_Controller {
 	{
 
 		session_destroy();
-		redirect('user');
+		//redirect('user');
+		$this->load->view('login');
 
 	}
 

@@ -1,5 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+/* if (!isset($_SESSION['user_id'])) 
+{
+  echo "Please log in first to see this page.";
+  die();
+} */
 
 class Staff extends MY_Controller {
 
@@ -242,10 +247,20 @@ class Staff extends MY_Controller {
 
     public function view_all_payment_records($staff_email) // Explanation needed
     {   
-        $e = 'added_by'; // default column if nothing is detected in the uri
+       /* $e = 'added_by'; // default column if nothing is detected in the uri
         if($this->uri->segment(4)=='inserter'){
             $e = 'added_by';
+        }*/
+        if($_SESSION['role_id']==1){
+            $e = 'added_by';
         }
+        elseif($_SESSION['role_id']==2){
+            $e = 'certified_by';
+        }
+        elseif($_SESSION['role_id']==3){
+            $e = 'authorized_by';
+        }
+        
 
         $data = $this->staff_model->get_staffRecords($staff_email);
       // $staff_name = $this->staff_model->getStaffUsername($staff_email);

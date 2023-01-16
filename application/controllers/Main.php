@@ -1,6 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+/* if (!isset($_SESSION['user_id'])) 
+{
+  echo 'Please <a href ="#">log in</a> first to see this page.';
+  die();
+} */
 class Main extends MY_Controller {
 
     public function __construct()

@@ -13,6 +13,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 
+<?php 
+/* if (!isset($_SESSION['user_id'])) 
+{
+  echo 'Please <a href = "#">log in</a> first to see this page.';
+  die();
+} */
+
+
+?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
   <div class="container">

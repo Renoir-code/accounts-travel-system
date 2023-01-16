@@ -71,19 +71,65 @@
           <td><?php  echo '$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
         <!--  <td><?php // echo $row['certifier_remarks']; ?> </td> -->
           <td>  <?php   
-          if($row['view_by']== NULL)
-          {
-          echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Certification", ['class'=> 'btn btn-danger btn-sm text-right ']); 
-          }
-          elseif($row['view_by']!= NULL)
-          {
-            echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Pending Certification", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
-          }
-          elseif($row['certified_by']!= NULL)
-          {
-            echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certified", ['class'=> 'btn btn-primary btn-sm text-right disabled']); 
-          }
           
+          switch ($_SESSION['role_id']) {
+            case 1:
+                if($row['view_by']== NULL)
+                {
+                echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Certification", ['class'=> 'btn btn-danger btn-sm text-right ']); 
+                }
+                elseif($row['view_by']!= NULL)
+                {
+                  echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Pending Certification", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
+                }
+                elseif($row['certified_by']!= NULL)
+                {
+                  echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certified", ['class'=> 'btn btn-primary btn-sm text-right disabled']); 
+                }
+            break;
+              
+            case 2:
+             
+             if($row['view_by']== md5($_SESSION['email']))
+                {
+                  //echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Certify", ['class'=> 'btn btn-primary btn-sm text-right']);
+                  echo anchor ("staff/authorize_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certify", ['class'=> 'btn btn-primary btn-sm text-right']); 
+                  echo '<button class="button btn btn-warning btn-sm text-right" >Reject</button>';
+
+                }
+                elseif($row['view_by'] != md5($_SESSION['email']) && $row['authorized_by']== NULL)
+                {
+                  echo '<button class="button btn btn-secondary btn-sm text-right" disabled>Pending</button>';
+                } 
+                elseif($row['authorized_by']!= NULL)
+                {
+                  echo '<button class="button btn btn-success btn-sm text-right" disabled>Authorized</button>';
+                }
+
+            break;
+
+            case 3:
+             
+              if($row['view_by']== md5($_SESSION['email']))
+                 {
+                   echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Authorize", ['class'=> 'btn btn-primary btn-sm text-right']);
+                   echo '<button class="button btn btn-warning btn-sm text-right" >Reject</button>';
+ 
+                 }
+                 elseif($row['view_by'] != md5($_SESSION['email']) && $row['authorized_by']== NULL)
+                 {
+                   echo '<button class="button btn btn-secondary btn-sm text-right" disabled>Pending</button>';
+                 } 
+                 elseif($row['authorized_by']!= NULL)
+                 {
+                   echo '<button class="button btn btn-success btn-sm text-right" disabled>Authorized</button>';
+                 }
+ 
+             break;
+
+             default:
+             break;
+              }
           ?>   </td>
           
          
