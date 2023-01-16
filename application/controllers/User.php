@@ -315,8 +315,8 @@ class User extends MY_Controller {
 						$config['protocol'] = 'smtp';
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
-						$config['smtp_user'] = 'webadmin@cad.gov.jm';
-						$config['smtp_pass'] = 'c0urtCAD@0509';
+						$config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
+						$config['smtp_pass'] =  'f*2g}fdQ324xgeBU';//'c0urtCAD@0509';
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
