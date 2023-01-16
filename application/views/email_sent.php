@@ -22,7 +22,8 @@
 <?php 
 if($email_sent_page == 1){
   $hashed_email = md5 ($_SESSION['email']);
-echo anchor ("staff/view_all_payment_records/{$hashed_email}" , "Return to Payment Records for Certiciation", ['class'=> 'btn btn-danger btn-sm text-right ']); 
+//echo anchor ("staff/view_all_payment_records/{$hashed_email}" , "Return to Payment Records for Certiciation", ['class'=> 'btn btn-danger btn-sm text-right ']); 
+echo anchor ("staff/view_payment_records/{$staff_id}" , "Return to Payment Record for ", ['class'=> 'btn btn-danger btn-sm text-right ']); 
 }
 elseif($email_sent_page==2){
 

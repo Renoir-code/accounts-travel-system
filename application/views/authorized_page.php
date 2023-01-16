@@ -62,8 +62,20 @@
           <td><?php  echo $row['certifier_remarks']; ?></td> 
           <td>  <?php   
           
-          echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved for Payment ", ['class'=> 'btn btn-success btn-sm text-right']); ?>   </td>
+          if($row['authorized_by']== NULL){
+            echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved for Payment ", ['class'=> 'btn btn-success btn-sm text-right']); 
+          }
+          elseif($row['authorized_by']!= NULL)
+          {
+             echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved/Authorized ", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
+           
+          }
+            ?>   
+            
+          </td>
+         
           
+        
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $trn_records['staff_id'] ?>"> Add Payment</a> -->
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $this->uri->segment(3) ?>"> Add Payment</a> -->
          <td>  <?php // echo anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']); ?>   </td>

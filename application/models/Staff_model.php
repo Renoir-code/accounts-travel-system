@@ -292,7 +292,7 @@ public function get_staffRecords($staff_id)
 
     }
 
-
+//--------------------------------------------------------------------------------------------------------------
   public function saveCertifying($c_email,$staff_payment_id)
   {
     $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
@@ -363,6 +363,8 @@ public function get_staffRecords($staff_id)
       return false;
 
   }
+
+
 
 
 

@@ -543,7 +543,7 @@ class Staff extends MY_Controller {
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
 						$config['smtp_user'] =  'testy@cad.gov.jm'; //'webadmin@cad.gov.jm';
-						$config['smtp_pass'] = 'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+						$config['smtp_pass'] = //'yr7LY70DGrdEcB2*5s%D';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
@@ -650,7 +650,7 @@ class Staff extends MY_Controller {
                          $config['smtp_host'] = 'secure.emailsrvr.com';
                          $config['smtp_port'] = '465';
                          $config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
-                         $config['smtp_pass'] =  'f*2g}fdQ324xgeBU'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_pass'] =  'yr7LY70DGrdEcB2*5s%D'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
                          $config['smtp_crypto'] = 'ssl';
                          $config['smtp_timeout'] = '20';
                          $config['charset'] = 'iso-8859-1';		
@@ -687,7 +687,7 @@ class Staff extends MY_Controller {
                               $data['staff_id'] = $staff_id;
                               $data['email_sent_page'] = 2;
                               $date_created = date("Y-m-d h:i:sa",time());
-                           $this->staff_model->saveAuthorizerByEmail($c_email,$date_created, $staff_payment_id);
+                           $this->staff_model->saveAuthorizer($c_email, $staff_payment_id);
                              $this->load->view('email_sent', $data);
                          }					
                          else
@@ -750,9 +750,12 @@ class Staff extends MY_Controller {
 
         //echo $voucher_number , $firstname , $lastname;
 
-        
+       
+        $c_email = $_SESSION['email'];
 
         $this->load->view('payment_authorized', ['voucher_number' =>  $voucher_number] );
+       
+        $this->staff_model->saveAuthorizerByEmail($c_email,$voucher_number);
 
 
      }
