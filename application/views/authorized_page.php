@@ -15,19 +15,9 @@
 
 <div class="container">
 
-
+<h3>  These Records Need to be Approved for Payment !!! </h3>
     <br> <br>
 
-    
-     
- <?php // echo '<h4>  These are the payment Records for :</h4>' . " <h4 style='color: red; font-size: 30px;' nowrap> $staff_name </h4> "  ?>
- <br>
-
- <td> <?php // echo anchor ("staff/modify_staff_records/{$data['staff_id']}" , "Update $staff_name 's Account Details ", ['class'=> 'btn btn-primary text-right']); ?>   </td>
-       
-
-      
-    
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
@@ -72,7 +62,7 @@
           <td><?php  echo $row['certifier_remarks']; ?></td> 
           <td>  <?php   
           
-          echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Authorized", ['class'=> 'btn btn-success btn-sm text-right']); ?>   </td>
+          echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved for Payment ", ['class'=> 'btn btn-success btn-sm text-right']); ?>   </td>
           
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $trn_records['staff_id'] ?>"> Add Payment</a> -->
           <!-- <td class="text-right " > <a class="btn btn-danger" href="<? //= base_url('staff/staff_payment_submit') ?>?varname=<?php // echo $this->uri->segment(3) ?>"> Add Payment</a> -->

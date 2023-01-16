@@ -1,5 +1,4 @@
 
-
 <?php include_once('inc/header.php') ?>
 
 <br>
@@ -7,10 +6,14 @@
  $staff_id = $this->uri->segment(4); 
 ?>
 
+
+
+<h3> Choose the Person who Should Certify this Record </h3>
+
 <?php // testarray($data)?>
 <?php echo form_open("staff/certifier_record/{$staff_payment_id}/{$staff_id}") ?>
 <div class="form-group ">
-    <label class="form-label">Choose the Certifier   </label>
+    <label class="form-label">....   </label>
     <div class="col-sm-10">
     <select  class="form-control-lg" name="certifier_email">
         <option value="">Choose.. </option>

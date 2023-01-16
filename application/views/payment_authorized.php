@@ -1,7 +1,7 @@
 <?php include("inc/header.php"); ?>
 
 <?php
-echo '<h3> This is the Authorized Voucher Number  : '.$voucher_number.' </h3> ' ;
+echo '<h3>  Voucher Number  : '.$voucher_number.' is Authorized for Payment  </h3> ' ;
 
 
 

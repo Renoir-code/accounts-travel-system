@@ -12,21 +12,10 @@
                 </div>
 
 
-
 <div class="container">
-
-
     <br> <br>
 
-    
-     
- <?php // echo '<h4>  These are the payment Records for :</h4>' . " <h4 style='color: red; font-size: 30px;' nowrap> $staff_name </h4> "  ?>
- <br>
-
- <td> <?php // echo anchor ("staff/modify_staff_records/{$data['staff_id']}" , "Update $staff_name 's Account Details ", ['class'=> 'btn btn-primary text-right']); ?>   </td>
-       
-
-      
+    <h3> These Records Need to be Authorized!!! </h3>
     
       <hr>
       <div class="row">
