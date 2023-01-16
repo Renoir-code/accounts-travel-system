@@ -2,8 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 /* if (!isset($_SESSION['user_id'])) 
 {
-  echo "Please log in first to see this page.";
-  die();
+  echo 'Please <a href = "localhost/testproject/user">log in</a> first to see this page.';
+ // die(); 
 } */
 
 class Staff extends MY_Controller {
@@ -543,7 +543,7 @@ class Staff extends MY_Controller {
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
 						$config['smtp_user'] =  'testy@cad.gov.jm'; //'webadmin@cad.gov.jm';
-						$config['smtp_pass'] = //'yr7LY70DGrdEcB2*5s%D';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+						$config['smtp_pass'] = '13GEyu@U@2sg';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
@@ -650,7 +650,7 @@ class Staff extends MY_Controller {
                          $config['smtp_host'] = 'secure.emailsrvr.com';
                          $config['smtp_port'] = '465';
                          $config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
-                         $config['smtp_pass'] =  'yr7LY70DGrdEcB2*5s%D'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_pass'] =  '13GEyu@U@2sg'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
                          $config['smtp_crypto'] = 'ssl';
                          $config['smtp_timeout'] = '20';
                          $config['charset'] = 'iso-8859-1';		
@@ -745,17 +745,19 @@ class Staff extends MY_Controller {
      }
 
 
-     public function authorize_payments ($voucher_number ) 
+     public function authorize_payments ($voucher_number,$staff_payment_id,$staff_id ) 
      {
 
-        //echo $voucher_number , $firstname , $lastname;
+
 
        
         $c_email = $_SESSION['email'];
+        $this->staff_model->saveAuthorizerByEmail($c_email,$staff_payment_id);
+        $data = $this->staff_model->get_staffRecords($staff_id);
 
-        $this->load->view('payment_authorized', ['voucher_number' =>  $voucher_number] );
+        $this->load->view('payment_authorized', ['voucher_number' =>  $voucher_number , 'data' => $data] );
        
-        $this->staff_model->saveAuthorizerByEmail($c_email,$voucher_number);
+       
 
 
      }

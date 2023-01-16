@@ -13,13 +13,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 
-<?php 
-/* if (!isset($_SESSION['user_id'])) 
+<?php /* 
+if (!isset($_SESSION['user_id'])) 
 {
-  echo 'Please <a href = "#">log in</a> first to see this page.';
-  die();
-} */
-
+  echo 'Please <a href = "'. base_url('').'">log in</a> first to see this page.';
+  die(); 
+} 
+*/
 
 ?>
 

@@ -11,7 +11,7 @@
                     </div> 
                 </div>
 
-
+<?php //testarray($data);?>
 
 <div class="container">
 
@@ -63,11 +63,11 @@
           <td>  <?php   
           
           if($row['authorized_by']== NULL){
-            echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved for Payment ", ['class'=> 'btn btn-success btn-sm text-right']); 
+            echo anchor ("staff/authorize_payments/{$row['voucher_number']}/{$row['staff_payment_id']}/{$row['staff_id']}" , "Approved for Payment ", ['class'=> 'btn btn-success btn-sm text-right']); 
           }
           elseif($row['authorized_by']!= NULL)
           {
-             echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Approved/Authorized ", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
+             echo anchor ("staff/authorize_payments/{$row['voucher_number']}/{$row['staff_payment_id']}/{$row['staff_id']}" , "Approved/Authorized ", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
            
           }
             ?>   

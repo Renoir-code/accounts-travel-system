@@ -352,19 +352,27 @@ public function get_staffRecords($staff_id)
 
   }
 
-  public function saveAuthorizerByEmail ($c_email , $date_created, $staff_payment_id)
+  public function saveAuthorizerByEmail ($c_email , $staff_payment_id)
   {
-    echo $c_email .$date_created . $staff_payment_id;
-    $query = " UPDATE staff_payment SET authorized_by =  ? , date_authorized = ?  WHERE staff_payment_id = ? ";
+   // echo $c_email . $staff_payment_id;
+    $query = " UPDATE staff_payment SET authorized_by =  ?  WHERE staff_payment_id = ? ";
 
-      if($this->db->query($query,array($c_email,$date_created,$staff_payment_id)))
+      if($this->db->query($query,array($c_email,$staff_payment_id)))
       return true;
       else
       return false;
 
   }
 
+  /*
+  public function getStaff($staff_payment_id)
+  {
+    $query = "";
 
+
+  }
+
+*/
 
 
 
