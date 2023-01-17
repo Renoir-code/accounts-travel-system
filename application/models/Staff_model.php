@@ -364,16 +364,22 @@ public function get_staffRecords($staff_id)
 
   }
 
-  /*
-  public function getStaff($staff_payment_id)
-  {
-    $query = "";
+ public function insertChanges($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type ,  $post_change , $dateof_change ,$changes_remarks)
+ {
+
+  $query = " INSERT INTO changes
+  (staff_id , monthly_allotment , arrears , travel_recovery , upkeepchange_type , post_change , dateof_change ,changes_remarks )
+  VALUES
+  (? , ? , ? , ? , ? , ? , ? , ?)
+  ";
+  if($this->db->query($query,array($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type , $post_change , $dateof_change ,$changes_remarks)))
+  return true;
+  else
+  return false;
 
 
-  }
 
-*/
-
+ }
 
 
 

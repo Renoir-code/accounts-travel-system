@@ -37,13 +37,13 @@ class Staff extends MY_Controller {
 
             $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
             $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
-            $this->form_validation->set_rules('post_title','Post Title','required');
+            $this->form_validation->set_rules('post_title','Post Title','required|trim','alpha_numeric');
             $this->form_validation->set_rules('trn','TRN','required|trim|numeric|exact_length[9]|callback_checkTRN');
             $this->form_validation->set_rules('officer_id','Type of Officer','required'); // Should be dropdown
             $this->form_validation->set_rules('location_id','Location','required');
             $this->form_validation->set_rules('upkeep_id','Type of Upkeep','required'); // 
-            $this->form_validation->set_rules('vehicle_model','Vehicle Model'); // veh
-            $this->form_validation->set_rules('vehicle_make','Vehicle Model');
+            $this->form_validation->set_rules('vehicle_model','Vehicle Model','alpha'); // veh
+            $this->form_validation->set_rules('vehicle_make','Vehicle Model','alpha');
             $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','alpha_numeric');
             $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','alpha_numeric');
             $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
@@ -458,7 +458,7 @@ class Staff extends MY_Controller {
        }
         
         $this->form_validation->set_rules('rate_name','Rates','required' ); //change from rate_id
-        $this->form_validation->set_rules('rate_value','Rate Value','required' );
+        $this->form_validation->set_rules('rate_value','Rate Value','required|trim|numeric' );
        
         if($this->form_validation->run() == FALSE)
         {   
@@ -748,16 +748,64 @@ class Staff extends MY_Controller {
      public function authorize_payments ($voucher_number,$staff_payment_id,$staff_id ) 
      {
 
-
-
-       
         $c_email = $_SESSION['email'];
         $this->staff_model->saveAuthorizerByEmail($c_email,$staff_payment_id);
         $data = $this->staff_model->get_staffRecords($staff_id);
 
         $this->load->view('payment_authorized', ['voucher_number' =>  $voucher_number , 'data' => $data] );
        
+     }
+
+
+
+     public function change($staff_id)
+     {
+
+      
+        $this->form_validation->set_rules('post_change','Post Title','required');
+        $this->form_validation->set_rules('monthly_allotment','Monthly Allotment','');
+        $this->form_validation->set_rules('arrears','Arrears Due',''); 
+        $this->form_validation->set_rules('travel_recovery','Travel Recovery','');
+        $this->form_validation->set_rules('changes_remarks','Change Remarks',''); 
        
+
+        $data = $this->staff_model->get_staffRecords($staff_id);
+      
+        //testarray($data);
+
+         if($this->form_validation->run() == FALSE)
+         {  
+             $this->load->view('change_view',['data'=> $data]);
+         }
+
+         else
+         {
+             date_default_timezone_set('America/Bogota');
+             //$dateof_change = date("Y-m-d h:i:sa",time());
+             $modified_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
+
+             if($this->staff_model->insertChanges(
+                 $staff_id= $data['staff_id'],
+                 $this->input->post('monthly_allotment'),
+                 $this->input->post('arrears'),
+                 $this->input->post('travel_recovery'), 
+                 $this->input->post('upkeepchange_type'),
+                 $this->input->post('post_change'),  
+                 $this->input->post('date_of_change'),        
+                 $this->input->post('changes_remarks')     
+             
+               //  $date_modified,
+               //  $modified_by,
+
+                 ))
+                 {
+                     $this->session->set_flashdata('message',"Changes table has been Inserted");
+                     redirect("staff/change/{$staff_id}");
+                 }
+
+
+         }
+
 
 
      }

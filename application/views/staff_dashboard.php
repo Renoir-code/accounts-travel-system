@@ -57,7 +57,7 @@
       
       ?>
       <?php echo anchor ("staff/view_all_payment_records/{$hash_staff_email}" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
-      <?php echo anchor ("#" , "Reports", ['class'=> 'btn btn-light']); ?>
+      <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-grey']); ?>
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
@@ -82,7 +82,9 @@
        
         
         <tr class = 'table-active'>
+          <?php ?>
            <?php if(!empty($trn_records)): ?>
+            <?php //foreach($trn_records as $row): ?>
         <!--  <td>  <?php // echo $trn_records['staff_id']; ?></td> -->
           <td><?php  echo $trn_records['firstname']; ?></td>
           <td><?php  echo $trn_records['lastname']; ?></td>
@@ -107,12 +109,13 @@
         </td>
         </tr>
         </tr>
-        
+                <?php //endforeach; ?>
        <?php else: ?>
        
           <tr>
             <td> No Records</td>
           </tr>
+          
        <?php endif; ?>
         
         </tbody>
