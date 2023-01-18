@@ -27,8 +27,11 @@
        
 
       
-    
+    <?php $test1 =2;?>
+    <?php $test2 =3;?>
+
       <hr>
+     <?php echo form_open("staff/certifier_record/{$test1}/{$test2}" ) ?>
       <div class="row">
         <table class="table table-striped table-hover ">
           <thead>
@@ -89,7 +92,7 @@
          
          
          <td>  <?php   echo anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']); ?>   </td>
-
+           <td> <input type="checkbox" name ="payment_record_to_certify[]" class = "payment_record_to_certify" value = "<?php echo $row['staff_payment_id'] ?>"></td>
         </td>
         </tr>
         </tr>
@@ -105,6 +108,9 @@
         </tbody>
         
       </table>
+      <input type="checkbox" id="checkAll">Check All
+      <input type="submit">
+      <?php  echo form_close(); ?>
     </div>
 </div>
 </div>

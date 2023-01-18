@@ -498,7 +498,9 @@ class Staff extends MY_Controller {
 
        // echo $staff_id; die();
 
-        $data = $this->staff_model->getCertifierEmail();
+       testarray($_POST);
+       
+       $data = $this->staff_model->getCertifierEmail();
 
        // testarray($data);
 

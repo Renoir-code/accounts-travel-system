@@ -10,6 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/jquery-3.6.1.min') ?>"></script>
+<script src="<?php echo base_url('assets/js/myscripts.js') ?>"></script>
 <link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
 </head>
 
