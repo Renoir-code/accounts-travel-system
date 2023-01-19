@@ -301,8 +301,19 @@ public function get_staffRecords($staff_id)
       return true;
       else
       return false;
-  }
+   }
 
+ public function updateViewBy($authorizer_or_certifier,$staff_payment_id)
+  {
+ 
+  $query = "UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
+      if($this->db->query($query,array($authorizer_or_certifier,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  
+  
+  }
   public function saveAuthorizer($c_email,$staff_payment_id)
   {
     $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";

@@ -8,10 +8,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
+<script src="<?php echo base_url('assets/js/jquery-3.6.1.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/jquery-3.6.1.min') ?>"></script>
 <script src="<?php echo base_url('assets/js/myscripts.js') ?>"></script>
-<link href="<?php echo base_url('assets/css/style.css'); ?>" rel="stylesheet">
+<!--<link href="<?php //echo base_url('assets/css/style.css'); ?>" rel="stylesheet">-->
 </head>
 
 <?php /* 

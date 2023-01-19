@@ -38,8 +38,8 @@
               <tr>
               <!--  <th scope="col ">Staff ID</th> -->
                 <th scope="col">Voucher Number </th>
-                <th scope="col">Year Travelled </th>
-                <th scope="col">Month Travelled</th>
+                <th scope="col">Period</th>
+                <!--<th scope="col">Month Travelled</th>-->
                 <th scope="col">Mileage Amount </th>
                 <th scope="col"> Passenger Miles </th>
                 <th scope="col"> Toll Amount </th>
@@ -49,6 +49,7 @@
                 <th scope="col"> Refreshment Days </th>
                 <th scope="col"> Taxi Out Town  </th>
                 <th scope="col"> Taxi In Town </th>
+				 <th scope="col"> Status </th>
               <!--  <th scope="col">Certifier Remarks </th> -->
              
               </tr>
@@ -61,8 +62,8 @@
             <?php foreach($payment_records as $row): ?>
        <!--   <td> <?php // echo $row['staff_id']; ?></td> -->
           <td><?php  echo $row['voucher_number']; ?></td>
-          <td><?php  echo $row['year_travelled']; ?></td>
-          <td><?php  echo $row['month_travelled']; ?></td>
+          <td><?php  echo $row['year_travelled'] .'<br>'. $row['month_travelled']; ?></td>
+          <!--<td><?php // echo $row['month_travelled']; ?></td>-->
           <td><?php  echo '$'. number_format( $row['mileage_km'] * $row['mileage_rate'], 2) ; ?> <br> <sub>  <?php   echo '('. $row['mileage_km'] . '*'. $row['mileage_rate'] . ') </sub> '; ?></td> 
           <td><?php  echo '$'. number_format ($row['passenger_km'] * $row['passenger_rate'],2) ; ?> <br> <sub>  <?php echo '('. $row['passenger_km'] . '*'. $row['passenger_rate'] . ') </sub> ' ; ?></td> 
           <td><?php  echo $row['toll_amt']; ?></td> 
@@ -104,14 +105,20 @@
           </tr>
          
        <?php endif; ?>
+	   
         
         </tbody>
         
       </table>
-      <input type="checkbox" id="checkAll">Check All
-      <input type="submit">
+
+    </div><hr>
+		<div  style = "float:right;"><input type="checkbox" id="checkAll"> <label for ="checkAll" >Check All</label>
+      <input type="submit" value = "Send to certify">
+	  </div>
       <?php  echo form_close(); ?>
-    </div>
 </div>
+      
+
 </div>
+
 <?php include("inc/footer.php"); ?>

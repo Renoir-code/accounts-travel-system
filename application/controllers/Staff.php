@@ -15,7 +15,9 @@ class Staff extends MY_Controller {
         parent::__construct();
         $this->load->model('staff_model');
         $this->load->model('user_model');
-    }    
+		//$this->load->library('javascript/jquery');
+    
+	}    
     
     public function staff_create()
     {
@@ -492,14 +494,88 @@ class Staff extends MY_Controller {
         
     }
 
+	public function sendEmail($recipients, $subject_of_email, $message_of_email){
+	//$link = '<a href="'.base_url('staff/certified_page').'/'.$c_email.'">Certification Needed </a>';
+			
+	$config['mailtype'] = 'html';
+	$config['protocol'] = 'smtp';
+	$config['smtp_host'] = 'secure.emailsrvr.com';
+	$config['smtp_port'] = '465';
+	$config['smtp_user'] =  'testy@cad.gov.jm'; //'webadmin@cad.gov.jm';
+	$config['smtp_pass'] = '13GEyu@U@2sg123';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+	$config['smtp_crypto'] = 'ssl';
+	$config['smtp_timeout'] = '20';
+	$config['charset'] = 'iso-8859-1';		
+	$this->email->initialize($config);
+						
+						// Set Email Variables
+	$from_name = 'System Administrator';
+	$from_emailaddress = 'webmaster@cad.gov.jm'; 
+	$to = $recipients;//trim($this->input->post('certifier_email')); 
+	$subject = $subject_of_email;
+	$message = $message_of_email;
+						
+	// Run Email methods
+	$this->email->from($from_emailaddress, $from_name);
+	$this->email->to($to);
+	$this->email->subject($subject);
+	$this->email->message($message);
+	// Send Email
+	return $sent = $this->email->send();	
+		
+	}
 
     public function certifier_record($staff_payment_id,$staff_id)
     {
-
-       // echo $staff_id; die();
-
-       testarray($_POST);
-       
+    
+	   //check if there are any post values 
+       	if(isset($_POST['payment_record_to_certify']) && count($_POST['payment_record_to_certify'] > 0))
+		{
+			
+		//loop through post and update payment records individually
+		foreach($_POST['payment_record_to_certify'] as $record ){
+					$result = $this->staff_model->updateViewBy(2,$record);
+					}//ends for loop
+	   	
+	   
+	   //Send email to all certifiers
+	   
+	   //get all Certifier email addresses
+	   $certifier_name_email = $this->staff_model->getCertifierEmail();
+	   $certifierEmailAddresses = ''; 
+		//
+		foreach($certifier_name_email as $record ){
+		   $certifierEmailAddresses .= $record['email'] .',';
+		}
+		rtrim($certifierEmailAddresses, ",");
+	   
+		//set the message to be sent
+		$link = '<a href="'.base_url('staff/certified_page').'/'.$c_email.'">Certification Needed </a>';
+		$message = 'Good day,<br/><br/>'
+						.'Please click the link to see the payment records to certiy <br/><br/>';
+						$message .= $link;                    
+						$message .= '<br/><br/>Regards <br/><br/>'
+						.'System Administrator';
+	   
+	   $email_sent = $this->sendEmail($certifierEmailAddresses,count($_POST["payment_record_to_certify"]) .' Records needs to be certified.',$message);
+	   
+	   
+	   if(!$email_sent){
+		   echo "Email not sent";
+	   }else
+	   {
+		$this->session->set_flashdata('message',count($_POST["payment_record_to_certify"]) . ' Record(s) sent for certification.');
+		redirect("staff/staff_information");
+		return;
+		exit();		
+	   }
+	   }
+	$this->session->set_flashdata('message','Records not sent for Certification.');
+	redirect("staff/staff_information");
+	return;
+	exit();
+		
+		////////////////////
        $data = $this->staff_model->getCertifierEmail();
 
        // testarray($data);
@@ -811,6 +887,12 @@ class Staff extends MY_Controller {
 
 
      }
+	 
+	 public function record_status( $who_has_record){
+		 
+		 
+		 
+	 }
 
 
     
