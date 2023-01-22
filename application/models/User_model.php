@@ -63,6 +63,7 @@ public function login($email,$password)
   $query = "Select * From users where email=? and password=? and active = 'yes' ";
   
   $result = $this->db->query($query,array($email,$password))->result_array();
+  
   return $result;
 }
 

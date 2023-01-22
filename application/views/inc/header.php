@@ -12,15 +12,43 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/myscripts.js') ?>"></script>
 <!--<link href="<?php //echo base_url('assets/css/style.css'); ?>" rel="stylesheet">-->
-</head>
+<link rel="stylesheet" href = "//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
+<script src = "//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready( function () {
+    $('#view_all_records').DataTable();
+} );
+</script>
 
-<?php /* 
+<?php 
 if (!isset($_SESSION['user_id'])) 
 {
-  echo 'Please <a href = "'. base_url('').'">log in</a> first to see this page.';
-  die(); 
+
+//echo 'Please <a href = "http://localhost/testproject/user/logout">log in</a> first to see this page.';
+
+
 } 
-*/
+
+
+?>
+</head>
+
+
+
+<?php
+if (isset($_SESSION['timeout'])){
+	//$idletime = $_SESSION['timeout']->diff(new DateTime(time()));
+	
+/* 	if($idletime->i> 15){
+echo 'logout'; */
+//$this->User->logout();
+	}		
+	
+	
+
+
+
+
 
 ?>
 
@@ -37,8 +65,8 @@ if (!isset($_SESSION['user_id']))
         <?php if(isset($_SESSION['user_id'])) {
       echo '<a class="nav-link" href="'. base_url('/').' "></a>';}
       ?>
-
-        </li>
+		</li>
+        
         <li class="nav-item">
       <?php if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin only
       echo '<a class="nav-link" href="'. base_url('admin/dashboard').' "> Dashboard</a>';}
@@ -46,8 +74,8 @@ if (!isset($_SESSION['user_id']))
 
 <li class="nav-item">
         <?php if(isset($_SESSION['user_id'])) {
-      echo '<span class="nav-link"  > '.$_SESSION['email'].' </span>';}
-
+      echo '<span class="nav-link"  > '.$_SESSION['email'].' </span>';
+		}
       ?>
         </li>
 
@@ -82,7 +110,7 @@ if (!isset($_SESSION['user_id']))
   </div>
   
 </nav>
-
+<body>
 <div class="container">
 
 

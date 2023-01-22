@@ -75,7 +75,7 @@
           <td><?php  echo '$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
         <!--  <td><?php // echo $row['certifier_remarks']; ?> </td> -->
           <td>  <?php   
-          if($row['view_by']== NULL)
+          /*if($row['view_by']== NULL)
           {
           echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Certification", ['class'=> 'btn btn-danger btn-sm text-right ']); 
           }
@@ -87,8 +87,34 @@
           {
             echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certified", ['class'=> 'btn btn-primary btn-sm text-right disabled']); 
           }
-          
-          ?>   </td>
+	  
+		  */
+		 
+		  switch($row['view_by']){
+			 
+			 case 1:
+			 echo "Record Inserted";
+			 break;
+			 
+			 case 2:
+			 echo "Pending Certification";
+			 break;
+			 
+			 case 3:
+			 echo "Pending Authorization";
+			 break;
+			 
+			 case 3:
+			 echo "Authorized";
+			 break;
+			 			 
+			 default:
+			 echo "Record Inserted";
+			 break;
+		 
+		 
+	 }
+		  ?>   </td>
           
          
          

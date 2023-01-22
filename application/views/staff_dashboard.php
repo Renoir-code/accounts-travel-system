@@ -19,7 +19,7 @@
         <div class="row">
             <div class ="col-md-6">
                 <div class="alert alert-dismissable alert-success close">
-                     <?php echo $msg; ?>
+                     <?php echo $this->session->flashdata('message'); ?>
                     
                     </div>
 
@@ -39,6 +39,12 @@
         </div>
     <?php endif; ?>
 
+<?php 
+unset($_SESSION['message']);
+unset($_SESSION['fail_message']);
+unset($_SESSION['success_message']);
+
+?>
 <br>
 
 <h4> Please Enter the TRN Number for the Staff Member : </h4>
@@ -56,8 +62,12 @@
       $hash_staff_email = md5($_SESSION['email']);
       
       ?>
-      <?php echo anchor ("staff/view_all_payment_records/{$hash_staff_email}" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
-      <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-grey']); ?>
+      <?php echo anchor ("staff/view_all_payment_records/1" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
+      <?php echo ($_SESSION['role_id'] == 2 ) ? anchor ("staff/view_all_payment_records/2" , "View records to be certified ", ['class'=> 'btn btn-success']): ''; ?>
+      <?php echo ($_SESSION['role_id'] == 3 ) ? anchor ("staff/view_all_payment_records/3" , "View records to be authorized ", ['class'=> 'btn btn-success']): ''; ?>
+
+	  
+	  <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-grey']); ?>
       <hr>
       <div class="row">
         <table class="table table-striped table-hover ">
@@ -105,7 +115,9 @@
               }
             ?>  
   
-         <td>  <?php  echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']); ?>   </td>
+         <td>  <?php  //echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']);
+			echo anchor ("staff/view_all_payment_records/100{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']);
+		 ?>   </td>
         </td>
         </tr>
         </tr>

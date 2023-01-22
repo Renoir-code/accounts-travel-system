@@ -119,9 +119,9 @@ class Staff_model extends CI_Model{
     {
       $query = "
       INSERT INTO staff_payment
-      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created)
+      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created, view_by)
       VALUES
-       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
       if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
        return true;
        else
@@ -136,15 +136,32 @@ class Staff_model extends CI_Model{
 
     }
 
-    public function getAllPaymentRecords($e,$added_by)
+    public function getAllPaymentRecords($staff_role)
     {
-      ;
-       //$query = " SELECT * FROM staff_payment    WHERE added_by=? order by year_travelled desc , month_travelled ";
-         $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+     
+         if($staff_role == 1)
+		 {
+		 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
          INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
-         WHERE staff_payment.".$e." = ? ORDER BY year_travelled desc , month_travelled";      
-        return $this->db->query($query, array( $added_by))->result_array(); 
-
+         ORDER BY year_travelled desc , month_travelled";      
+       	return $this->db->query($query, array())->result_array(); 
+		 }
+		 else if(strlen($staff_role)>3)
+		 {
+			$query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         WHERE staff_payment.staff_id = ?  ORDER BY year_travelled desc , month_travelled";      
+       	return $this->db->query($query, array(substr($staff_role, 3)))->result_array(); 
+		 }
+		 
+		 
+		 else
+		 {
+		$query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         WHERE staff_payment.view_by = ?  ORDER BY year_travelled desc , month_travelled";      
+       	return $this->db->query($query, array($staff_role))->result_array(); 
+		 }
     }
 
     public function getinserted_paymentRecords($staff_payment_id)
@@ -311,9 +328,21 @@ public function get_staffRecords($staff_id)
       return true;
       else
       return false;
-  
-  
   }
+  
+  public function updateRemarks($certifier_remarks,$staff_payment_id,$remarks_column)
+  {
+ 
+  $query = "UPDATE staff_payment SET ".$remarks_column." = ? WHERE staff_payment_id = ?";
+      
+	  
+	  
+	  if($this->db->query($query,array($certifier_remarks,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  }
+  
   public function saveAuthorizer($c_email,$staff_payment_id)
   {
     $query = " UPDATE staff_payment SET view_by = ? WHERE staff_payment_id = ?";
@@ -392,7 +421,18 @@ public function get_staffRecords($staff_id)
 
  }
 
+public function getNotifications(){
+	
+	$role = $_SESSION['role_id'];
+	
+	$query = "
+	SELECT COUNT(view_by) FROM staff_payment WHERE view_by = ?; 
+	";
+	
+	return $this->db->query($query,array($role));
 
+	
+}
 
 
 

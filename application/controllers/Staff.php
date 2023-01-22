@@ -1,13 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-/* if (!isset($_SESSION['user_id'])) 
-{
-  echo 'Please <a href = "localhost/testproject/user">log in</a> first to see this page.';
- // die(); 
-} */
+ 
+
 
 class Staff extends MY_Controller {
-
+ 
 
     
     function __construct() 
@@ -15,10 +12,20 @@ class Staff extends MY_Controller {
         parent::__construct();
         $this->load->model('staff_model');
         $this->load->model('user_model');
-		//$this->load->library('javascript/jquery');
-    
+		
+	 
+if (!isset($_SESSION['user_id'])) 
+{
+  session_unset(); 
+  $this->load->view('login');
+}	 
+
+	
+	
 	}    
     
+	
+	
     public function staff_create()
     {
     
@@ -111,7 +118,8 @@ class Staff extends MY_Controller {
 
     public function staff_information()
     {
-       if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
+      
+	   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
             redirect('admin/dashboard');
        }
         $trn = $this->input->post('trn');
@@ -243,32 +251,21 @@ class Staff extends MY_Controller {
        $staff_name = $this->staff_model->getStaffUsername($staff_id);
        $payment_records = $this->staff_model->getPaymentRecords($staff_id);
        //testarray($payment_records);
-        $this->load->view('payment_list_view',['data'=>$data ,'payment_records'=> $payment_records , 'staff_name' => $staff_name ] );
+       
+
+
+
+
+	   $this->load->view('payment_list_view',['data'=>$data ,'payment_records'=> $payment_records , 'staff_name' => $staff_name ] );
 
     }
 
-    public function view_all_payment_records($staff_email) // Explanation needed
+    public function view_all_payment_records( $staff_role ) // Explanation needed
     {   
-       /* $e = 'added_by'; // default column if nothing is detected in the uri
-        if($this->uri->segment(4)=='inserter'){
-            $e = 'added_by';
-        }*/
-        if($_SESSION['role_id']==1){
-            $e = 'added_by';
-        }
-        elseif($_SESSION['role_id']==2){
-            $e = 'certified_by';
-        }
-        elseif($_SESSION['role_id']==3){
-            $e = 'authorized_by';
-        }
-        
-
-        $data = $this->staff_model->get_staffRecords($staff_email);
-      // $staff_name = $this->staff_model->getStaffUsername($staff_email);
-       $payment_records = $this->staff_model->getAllPaymentRecords($e,$staff_email);
+     
+       $payment_records = $this->staff_model->getAllPaymentRecords($staff_role);
        //testarray($payment_records);
-        $this->load->view('all_payment_records',['data'=>$data ,'payment_records'=> $payment_records  ] );
+        $this->load->view('all_payment_records',['payment_records'=> $payment_records  ] );
 
     }
     //testing again
@@ -357,7 +354,8 @@ class Staff extends MY_Controller {
                     ))
                     {
                         $this->session->set_flashdata('success_message','Payment Record SuccessFully Updated!');
-                        redirect("staff/view_payment_records/{$staff_id}");
+                        //redirect("staff/view_payment_records/{$staff_id}");
+						redirect("staff/view_all_payment_records/100{$staff_id}");
                     }
 
             }
@@ -511,7 +509,7 @@ class Staff extends MY_Controller {
 						// Set Email Variables
 	$from_name = 'System Administrator';
 	$from_emailaddress = 'webmaster@cad.gov.jm'; 
-	$to = $recipients;//trim($this->input->post('certifier_email')); 
+	$to = 'shayne.gilpin@cad.gov.jm'; //$recipients;//trim($this->input->post('certifier_email')); 
 	$subject = $subject_of_email;
 	$message = $message_of_email;
 						
@@ -525,16 +523,47 @@ class Staff extends MY_Controller {
 		
 	}
 
-    public function certifier_record($staff_payment_id,$staff_id)
+public function certifier_record($staff_payment_id,$staff_id)
     {
     
+	 //reject certifing multiple records
+	   if (isset($_POST['deny_certify_records']) && count($_POST['payment_record_to_certify'])) {
+    //delete action
+	foreach($_POST['payment_record_to_certify'] as $record ){
+					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] - 1,$record);
+					}
+	redirect("staff/staff_information");
+	return;
+	exit();	
+	
+}
+if (isset($_POST['reject_certify_single_payment'])) {
+					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] - 1,$_POST['certify_record_to_reject']);				
+	
+if (isset($_POST['certifier_remarks'])){
+	if($_SESSION['role_id']==2){
+		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'certifier_remarks');
+	}
+}
+	if($_SESSION['role_id']==3){
+		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'approver_remarks');
+	}
+	echo json_encode(array("rejected_record"=>$_POST['certify_record_to_reject']));
+	exit();		
+
+
+}  
+	   
+	   
 	   //check if there are any post values 
-       	if(isset($_POST['payment_record_to_certify']) && count($_POST['payment_record_to_certify'] > 0))
+       	if(isset($_POST['payment_record_to_certify']) && count($_POST['payment_record_to_certify']))
 		{
-			
+		
+		
+		
 		//loop through post and update payment records individually
 		foreach($_POST['payment_record_to_certify'] as $record ){
-					$result = $this->staff_model->updateViewBy(2,$record);
+					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] + 1,$record); 
 					}//ends for loop
 	   	
 	   
@@ -550,7 +579,7 @@ class Staff extends MY_Controller {
 		rtrim($certifierEmailAddresses, ",");
 	   
 		//set the message to be sent
-		$link = '<a href="'.base_url('staff/certified_page').'/'.$c_email.'">Certification Needed </a>';
+		$link = '<a href="'.base_url('staff/view_all_payment_records').'/'.($_SESSION['role_id'] + 1).'">Certification Needed </a>';
 		$message = 'Good day,<br/><br/>'
 						.'Please click the link to see the payment records to certiy <br/><br/>';
 						$message .= $link;                    
@@ -564,19 +593,21 @@ class Staff extends MY_Controller {
 		   echo "Email not sent";
 	   }else
 	   {
+		
 		$this->session->set_flashdata('message',count($_POST["payment_record_to_certify"]) . ' Record(s) sent for certification.');
 		redirect("staff/staff_information");
 		return;
 		exit();		
 	   }
 	   }
+	   redirect("staff/staff_information");
 	$this->session->set_flashdata('message','Records not sent for Certification.');
-	redirect("staff/staff_information");
+	
 	return;
 	exit();
 		
 		////////////////////
-       $data = $this->staff_model->getCertifierEmail();
+       /* $data = $this->staff_model->getCertifierEmail();
 
        // testarray($data);
 
@@ -677,7 +708,7 @@ class Staff extends MY_Controller {
 
 
           }
-        }
+        } */
      }  
 
      public function authorize_records ($staff_payment_id,$staff_id)
@@ -890,10 +921,39 @@ class Staff extends MY_Controller {
 	 
 	 public function record_status( $who_has_record){
 		 
+		 switch($who_has_record){
+			 
+			 case 1:
+			 echo "Record Inserted";
+			 break;
+			 
+			 case 2:
+			 echo "Pending Certification";
+			 break;
+			 
+			 case 3:
+			 echo "Pending Authorization";
+			 break;
+			 
+			 case 3:
+			 echo "Authorized";
+			 break;
+			 			 
+			 default:
+			 echo "Record Inserted";
+			 break;
 		 
 		 
 	 }
-
+	 }
+	 
+	 public function getCurrentNotifications(){
+		 
+		 return $this->staff_model->getNotifications();
+		 
+		 
+	 }
+	 
 
     
 

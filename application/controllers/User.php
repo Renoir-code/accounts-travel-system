@@ -56,14 +56,16 @@ class User extends MY_Controller {
 				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['role_id'] = $row['role_id'];
+				//$_SESSION['timeout'] = new DateTime(time());
+				
 			
 				
-				if(isset($_SESSION['redirect_url'])) 
+				/* if(isset($_SESSION['redirect_url'])) 
 				{
 						redirect($_SESSION['redirect_url']);
 
 				}
-				
+				 */
 			}
 			if(in_array($row['password'],$this->default_passwords)) // if user logs in with Qwerty1@3 Immediately prompt to change
 			{
@@ -200,7 +202,7 @@ class User extends MY_Controller {
 	
 	public function logout()
 	{
-
+		session_unset(); 
 		session_destroy();
 		//redirect('user');
 		$this->load->view('login');

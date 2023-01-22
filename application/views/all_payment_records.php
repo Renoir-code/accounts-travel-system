@@ -19,132 +19,140 @@
     <br> <br>
 
     
-     
- <?php  //echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$staff_name.' </span>  </h4>'   ?>
- <br>
-
- <td> <?php  //echo anchor ("staff/modify_staff_records/{$data['staff_id']}" , "Update $staff_name 's Account Details ", ['class'=> 'btn btn-primary text-right']); ?>   </td>
+ <?php 
+ 
+ if(count($payment_records)>0){
+ $name_of_staff = $payment_records[0]['firstname'].' '.$payment_records[0]['lastname'];    
+ echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$name_of_staff.' </span>  </h4><br>';  
+ echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
+ }
+ 
+ //echo $this->staff->getCurrentNotifications() .' Notifications';
+ ?>
        
 
       
     
+      <?php $test1 =2;?>
+    <?php $test2 =3;?>
+
       <hr>
+     <?php echo form_open("staff/certifier_record/{$test1}/{$test2}" ) ?>
       <div class="row">
-        <table class="table table-striped table-hover ">
+        <table id = "view_all_records" class="table table-striped table-hover ">
           <thead>
               <tr>
                 <th scope="col ">Staff Member</th> 
                 <th scope="col">Voucher Number </th>
-                <th scope="col">Year Travelled </th>
-                <th scope="col">Month Travelled</th>
-                <th scope="col">Mileage Amount </th>
-                <th scope="col"> Passenger Miles </th>
-                <th scope="col"> Toll Amount </th>
-                <th scope="col"> Subsistence Amount </th>
-                <th scope="col"> Actual Expense </th>
-                <th scope="col"> Supper Days </th>
-                <th scope="col"> Refreshment Days </th>
-                <th scope="col"> Taxi Out Town  </th>
-                <th scope="col"> Taxi In Town </th>
+                 <th scope="col">Period</th>
+                <!--<th scope="col">Month Travelled</th>-->
+                <th scope="col">Mileage </th>
+                <!-- <th scope="col"> Passenger Miles </th>
+                <th scope="col"> Toll Amount </th> -->
+                <th scope="col"> Subsistence Amount/Expense </th>
+                <!--<th scope="col"> Actual Expense </th>-->
+                <th scope="col"> Supper/Refreshment </th>
+                <!--<th scope="col"> Refreshment Days </th>-->
+                <!--<<th scope="col"> Taxi Out Town  </th>-->
+                <th scope="col"> Taxi</th>
+				<th scope="col"> Status </th>
+				<th></th>
+				<th><input type="checkbox" id="checkAll" style = "visibility: hidden;" > <label for ="checkAll" class = "checkAll">Select All</label></th>
               <!--  <th scope="col">Certifier Remarks </th> -->
              
               </tr>
           </thead>
       <tbody>
        
-        
-        <tr class = 'table-active'>
-           <?php if(!empty($payment_records)): ?>
+        <?php if(!empty($payment_records)): ?>
             <?php foreach($payment_records as $row): ?>
+        <tr class = 'table-active' id ="<?php echo $row['staff_payment_id'] ?>" >
+           
           <td> <?php echo $row['firstname'] .' '.$row['lastname'] ; ?></td> 
           <td><?php  echo $row['voucher_number']; ?></td>
-          <td><?php  echo $row['year_travelled']; ?></td>
-          <td><?php  echo $row['month_travelled']; ?></td>
-          <td><?php  echo '$'. number_format( $row['mileage_km'] * $row['mileage_rate'], 2) ; ?> <br> <sub>  <?php   echo '('. $row['mileage_km'] . '*'. $row['mileage_rate'] . ') </sub> '; ?></td> 
-          <td><?php  echo '$'. number_format ($row['passenger_km'] * $row['passenger_rate'],2) ; ?> <br> <sub>  <?php echo '('. $row['passenger_km'] . '*'. $row['passenger_rate'] . ') </sub> ' ; ?></td> 
-          <td><?php  echo $row['toll_amt']; ?></td> 
-          <td><?php  echo '$'. number_format( $row['subsistence_km'] * $row['subsistence_rate'],2) ; ?> <br> <sub>  <?php echo '('. $row['subsistence_km'] . '*'. $row['subsistence_rate'] . ') </sub> '; ?></td> 
-          <td><?php  echo $row['actual_expense']; ?></td> 
-          <td><?php  echo '$'. number_format ($row['supper_days'] * $row['supper_rate'],2); ?> <br> <sub>  <?php echo '('. $row['supper_days'] . '*'. $row['supper_rate'] . ') </sub> ' ;  ?> </td> 
-          <td><?php  echo '$'. number_format( $row['refreshment_days'] * $row['refreshment_rate']); ?> <br> <sub>  <?php echo '('. $row['refreshment_days'] . '*'. $row['refreshment_rate'] . ') </sub> ';?></td> 
-          <td><?php  echo '$'. number_format( $row['taxi_out_town'] * $row['taxi_out_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_out_town'] . '*'. $row['taxi_out_rate'] . ') </sub> ' ;?></td> 
-          <td><?php  echo '$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
+          <td><?php  echo $row['year_travelled'] .'<br>'. $row['month_travelled']; ?></td>
+          <!--<td><?php // echo $row['month_travelled']; ?></td>-->
+          <td><?php  echo '<sub><b>Actual Mileage</b></sub><br>$'. number_format( $row['mileage_km'] * $row['mileage_rate'], 2) ; ?> <br> <sub>  <?php   echo '('. $row['mileage_km'] . '*'. $row['mileage_rate'] . ') </sub> '; ?>
+          <?php  echo '<sub><b>Passenger</b></sub><br>$'. number_format ($row['passenger_km'] * $row['passenger_rate'],2) ; ?> <br> <sub>  <?php echo '('. $row['passenger_km'] . '*'. $row['passenger_rate'] . ') </sub> <br>' ; ?>
+          <?php  echo '<sub><b>Toll</b></sub><br>$'. number_format ($row['toll_amt'],2); ?></td> 
+          <td>	<?php  echo '<sub><b>Subsistence</b></sub><br>$'. number_format( $row['subsistence_km'] * $row['subsistence_rate'],2) ; ?> <br> <sub>  <?php echo '('. $row['subsistence_km'] . '*'. $row['subsistence_rate'] . ') </sub> <br>'; ?>
+				<?php  echo '<sub><b>Actual Expense</b></sub><br>$'. number_format($row['actual_expense'],2); ?></td> 
+          <td><?php  echo '<sub><b>Supper</b></sub><br>$'. number_format ($row['supper_days'] * $row['supper_rate'],2); ?> <br> <sub>  <?php echo '('. $row['supper_days'] . '*'. $row['supper_rate'] . ') </sub><br>' ;  ?> 
+          <?php  echo '<sub><b>Refreshment</b></sub><br>$'. number_format( $row['refreshment_days'] * $row['refreshment_rate']); ?> <br> <sub>  <?php echo '('. $row['refreshment_days'] . '*'. $row['refreshment_rate'] . ') </sub> ';?></td> 
+          <td><?php  echo '<sub><b>Out Town</b></sub><br>$'. number_format( $row['taxi_out_town'] * $row['taxi_out_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_out_town'] . '*'. $row['taxi_out_rate'] . ') </sub><br>' ;?> 
+			<?php  echo '<sub><b>In Town</b></sub><br>$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
         <!--  <td><?php // echo $row['certifier_remarks']; ?> </td> -->
           <td>  <?php   
           
-          switch ($_SESSION['role_id']) {
-            case 1:
-                if($row['view_by']== NULL)
-                {
-                echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Send for Certification", ['class'=> 'btn btn-danger btn-sm text-right ']); 
-                }
-                elseif($row['view_by']!= NULL)
-                {
-                  echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Pending Certification", ['class'=> 'btn btn-light  btn-sm text-right disabled']); 
-                }
-                elseif($row['certified_by']!= NULL)
-                {
-                  echo anchor ("staff/certifier_record/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certified", ['class'=> 'btn btn-primary btn-sm text-right disabled']); 
-                }
-            break;
+         switch($row['view_by']){
+			 
+			 case 1:
+			 echo "Record Inserted";
+			 break;
+			 
+			 case 2:
+			 echo "Pending Certification<br>";
+			 if($_SESSION['role_id'] == 2){
+			 echo '<button  name = "certify_record_to_reject" class = "btn btn-primary btn-sm text-right reject_payments" value = "'.$row['staff_payment_id'].'">Reject</button>
+			 <textarea rows="4" cols="20" ></textarea>
+			 ';
+			 }
+			 break;
+			 
+			 case 3:
+			 echo "Pending Authorization";
+			 if($_SESSION['role_id'] == 3){
+			 echo '<button  name = "certify_record_to_reject" class = "btn btn-primary btn-sm text-right reject_payments" value = "'.$row['staff_payment_id'].'">Reject</button>
+			 <textarea rows="4" cols="20" ></textarea>
+			 ';
+			 }
+			 break;
+			 
+			 case 4:
+			 echo "Authorized";
+			 break;
+			 			 
+			 default:
+			 echo "Record Inserted";
+			 break;
+		 
+		 
+	 }
+	 
               
-            case 2:
-             
-             if($row['view_by']== md5($_SESSION['email']))
-                {
-                  //echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Certify", ['class'=> 'btn btn-primary btn-sm text-right']);
-                  echo anchor ("staff/authorize_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Certify", ['class'=> 'btn btn-primary btn-sm text-right']); 
-                  echo '<button class="button btn btn-warning btn-sm text-right" >Reject</button>';
-
-                }
-                elseif($row['view_by'] != md5($_SESSION['email']) && $row['authorized_by']== NULL)
-                {
-                  echo '<button class="button btn btn-secondary btn-sm text-right" disabled>Pending</button>';
-                } 
-                elseif($row['authorized_by']!= NULL)
-                {
-                  echo '<button class="button btn btn-success btn-sm text-right" disabled>Authorized</button>';
-                }
-
-            break;
-
-            case 3:
-             
-              if($row['view_by']== md5($_SESSION['email']))
-                 {
-                   echo anchor ("staff/authorize_payments/{$row['voucher_number']}" , "Authorize", ['class'=> 'btn btn-primary btn-sm text-right']);
-                   echo '<button class="button btn btn-warning btn-sm text-right" >Reject</button>';
- 
-                 }
-                 elseif($row['view_by'] != md5($_SESSION['email']) && $row['authorized_by']== NULL)
-                 {
-                   echo '<button class="button btn btn-secondary btn-sm text-right" disabled>Pending</button>';
-                 } 
-                 elseif($row['authorized_by']!= NULL)
-                 {
-                   echo '<button class="button btn btn-success btn-sm text-right" disabled>Authorized</button>';
-                 }
- 
-             break;
-
-             default:
-             break;
-              }
           ?>   </td>
           
          
+         <?php 
+		  
+		 ?>
+         <td>  <?php   echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):''; ?>   </td>
          
-         <td>  <?php   echo anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']); ?>   </td>
+		 <td> 
+		 <?php 
+		 if($_SESSION['role_id'] == 1 &&  $row['view_by'] == 1 ){
+		 echo '<input type="checkbox" name ="payment_record_to_certify[]" class = "payment_record_to_certify checkAll" value = "'. $row["staff_payment_id"].' ">';
+		 }
+		 
+		 else if($_SESSION['role_id'] == 2 &&  $row['view_by'] == 2 ){
+		 echo '<input type="checkbox" name ="payment_record_to_certify[]" class = "payment_record_to_certify checkAll" value = "'. $row["staff_payment_id"].' ">';
+		 }
+		  else if($_SESSION['role_id'] == 3 &&  $row['view_by'] == 3 ){
+		 echo '<input type="checkbox" name ="payment_record_to_certify[]" class = "payment_record_to_certify checkAll" value = "'. $row["staff_payment_id"].' ">';
+		 }
+		 
+		 ?>
+		 </td>
 
-        </td>
+        
         </tr>
-        </tr>
+        
         <?php endforeach; ?>
        <?php else: ?>
        
-          <tr>
-            <td> No Records</td>
-          </tr>
+          
+             No Records
+          
          
        <?php endif; ?>
         
@@ -152,6 +160,36 @@
         
       </table>
     </div>
+	<hr>
+		<div  style = "float:right;"><input type="checkbox" id="checkAllLower" > <label for ="checkAllLower" >Check All</label>
+      
+		<?php 
+		switch($_SESSION['role_id']){
+		case 1:
+		echo '<input type="submit" value = "Send to certify" name = "certify_records">';
+		break;
+		
+		case 2:
+		echo '
+		<input type="submit" value = "Send to authorize" name = "certify_records">
+		<input type="submit" value = "Reject " name = "deny_certify_records">
+		';
+		break;
+		
+		case 3:
+		echo '
+		<input type="submit" value = "Authorize" name = "certify_records">
+		<input type="submit" value = "Reject " name = "deny_certify_records">
+		';
+		break;
+		
+		
+		default:
+		break;
+		}
+	  ?>
+	  
 </div>
+<?php  echo form_close(); ?>
 </div>
 <?php include("inc/footer.php"); ?>
