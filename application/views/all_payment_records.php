@@ -27,7 +27,6 @@
  echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
  }
  
- //echo $this->staff->getCurrentNotifications() .' Notifications';
  ?>
        
 
