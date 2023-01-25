@@ -14,6 +14,9 @@
         </div>
     <?php endif; ?>
 
+<?php
+echo $data['dateof_change'];
+?>
 
         <?php echo form_open("staff/change/{$data['staff_id']}") ?>
         <div class="row">
@@ -38,14 +41,21 @@
                     <div class="form-group">
                     <label for="" class="form-label"> New Post Title </label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control-lg" name="post_change" value="" placeholder="">
+                            <input type="text" class="form-control-lg" name="post_change" value="<?php if(isset($_POST['post_title'])) {echo $_POST['post_title'];}elseif (isset($data['post_title'])){echo $data['post_title'];}?>" placeholder="">
                         </div>
                     </div>
                 
                     <div class="form-group">
                     <label for="" class="form-label">Date of Change</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control-lg" name="date_of_change" value="<?php echo set_value('date_of_change') ?>" placeholder="">
+                        <input type="date" class="form-control-lg" name="date_of_change" value="<?php echo substr($data['dateof_change'],0,10);//echo set_value('date_of_change') ?>" placeholder="">
+                        </div>
+                    </div>
+					
+					  <div class="form-group">
+					 <label for="" class="form-label">End Date</label>
+                    <div class="col-sm-10">
+                        <input type="date" class="form-control-lg" name="date_of_change_end" value="<?php echo set_value('date_of_change') ?>" placeholder="">
                         </div>
                     </div>
 
@@ -53,18 +63,17 @@
                     <div class="col-sm-10">
                     <label for="" class="form-label" id = "upkeepchange_type _label"> Type of Upkeep </label>
                     <label for="inputState"></label>
-                    <select  class="form-control-lg" name="upkeepchange_type" id="upkeepchange_type">
-                    <option value="55">Choose The Type of Upkeep Received ..</option>
-                    <option value="1" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==1) echo ' selected';?> >Fixed Upkeep Allowance</option>
-                    <option value="2" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==2) echo ' selected';?> >Fixed Walkfoot Allowance</option>
-                    <option value="3" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==3) echo ' selected';?> >Judges(Partially Owned)</option>
-                    <option value="4" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==4) echo ' selected';?> >(Judges) Other Partially Owned Vehicle</option>
-                    <option value="5" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==5) echo ' selected';?> >Commuted Allowance</option>
-                    <option value="6" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==6) echo ' selected';?> >Commuted Walkfoot Allowance</option>
-                    <option value="7" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==7) echo ' selected';?> >Full Allowance</option>
-                    <option value="8" <?php if(isset($_POST['upkeepchange_type ']) && $_POST['upkeepchange_type ']==8) echo ' selected';?> >Walkfoot Allowance</option>
-                    
-                    </select>
+                   <select  class="form-control-lg" name="upkeepchange_type" id="upkeepchange_type">
+                    <option value="">Choose The Type of Upkeep Received ..</option>
+                    <option value="1" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==1) {echo ' selected';} elseif($data['upkeep_id']==1)   {echo ' selected';}?> >Fixed Upkeep Allowance </option>
+                    <option value="2" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==2) {echo ' selected';} elseif($data['upkeep_id']==2)   {echo ' selected';}?> >Fixed Walkfoot Allowance </option>
+                    <option value="3" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==3) {echo ' selected';} elseif($data['upkeep_id']==3)   {echo ' selected';}?> >Judges(Partially Owned) </option>
+                    <option value="4" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==4) {echo ' selected';} elseif($data['upkeep_id']==4)   {echo ' selected';}?> >(Judges) Other Partially Owned Vehicle </option>
+                    <option value="5" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==5) {echo ' selected';} elseif($data['upkeep_id']==5)   {echo ' selected';}?> >Commuted Allowance </option>
+                    <option value="6" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==6) {echo ' selected';} elseif($data['upkeep_id']==6)   {echo ' selected';}?> >Commuted Walkfoot Allowance </option>
+                    <option value="7" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==7) {echo ' selected';} elseif($data['upkeep_id']==7)   {echo ' selected';}?> >Full Allowance </option>
+                    <option value="8" <?php if(isset($_POST['upkeepchange_type']) && $_POST['upkeepchange_type']==8) {echo ' selected';} elseif($data['upkeep_id']==8)   {echo ' selected';}?> >Walkfoot Allowance </option>
+					</select>
                     </div>
                     </div>
 
@@ -98,7 +107,7 @@
 
                     <br>
                     <div class="col-sm-10">
-                   <button type="submit" class="btn btn-primary btn-block "> Submit </button> 
+                   <button type="submit" class="btn btn-primary btn-block" value = "submit" name = "changes"> Submit </button> 
                     </div>
                     <hr>
                 

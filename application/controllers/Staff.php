@@ -13,12 +13,24 @@ class Staff extends MY_Controller {
         $this->load->model('staff_model');
         $this->load->model('user_model');
 		
-	 
+
+//if user is not logged in unset session variables and load login screen	 
 if (!isset($_SESSION['user_id'])) 
 {
   session_unset(); 
   $this->load->view('login');
-}	 
+}
+
+//if user has not done any action in 20 minutes, unset session variables and load login screen 
+$current_time = time();
+$time_since_last_action = (time() - $_SESSION['timeout']) / 60;
+if($time_since_last_action > 20 ){
+ session_unset();
+$this->session->set_flashdata('timeout','Session timed out.'); 
+$this->load->view('login');
+}else{
+$_SESSION['timeout'] = time();
+}	
 
 	
 	
@@ -40,9 +52,9 @@ if (!isset($_SESSION['user_id']))
 
     public function staff_submit()
     {
-        if(isset($_SESSION['user_id']) && $_SESSION['role_id'] != 4 ) { // admin access removed to this page|| only account staff members should have access
+       /*  if(isset($_SESSION['user_id']) && $_SESSION['role_id'] != 4 ) { // admin access removed to this page|| only account staff members should have access
             redirect('admin/dashboard');
-       }
+       } */
 
             $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
             $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
@@ -115,18 +127,40 @@ if (!isset($_SESSION['user_id']))
 			}
 		}
 
-
+ function checkVoucherNumber($value)
+		{
+			$this->load->model('user_model');
+			$trn=$this->staff_model->checkVoucherNum($value);
+			if($trn == FALSE)
+			{
+			return true;
+			}
+			else 
+			{
+			$this->form_validation->set_message('checkVoucherNumber', 'This Voucher Number already exists!');
+			return FALSE;
+			}
+		}
     public function staff_information()
     {
       
 	   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
             redirect('admin/dashboard');
        }
-        $trn = $this->input->post('trn');
-  
+        
+		if(isset($_POST['trn'])){
+		$trn = $this->input->post('trn');
         $trn_records = $this->staff_model->getStaffIDbyTRN($trn );
-        //testarray( $trn_records);
         $this->load->view('staff_dashboard',['trn_records' => $trn_records]);
+		}else{
+		//load default view for user
+		//$this->view_all_payment_records( $_SESSION['role_id'], 1 );
+		$all_staff_records=$this->staff_model->getAllStaffRecords();
+        
+        $this->load->view('staff_dashboard',['trn_records' => $all_staff_records]);
+		
+		}
+		
     }
 
 
@@ -143,7 +177,7 @@ if (!isset($_SESSION['user_id']))
             redirect('staff/staff_information');
         }
 
-            $this->form_validation->set_rules('voucher_number','Voucher Number','trim|alpha_numeric|max_length[7]','required');
+            $this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNum' );
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
@@ -195,7 +229,7 @@ if (!isset($_SESSION['user_id']))
                 $added_by = md5($_SESSION['email']);
            
                   //  echo  $this->input->post('mileage_rate');  die();
-                if($this->staff_model->insert_staffPayment(
+                $result =  $this->staff_model->insert_staffPayment(
 
                     $this->input->post('staff_id'),
                     $this->input->post('voucher_number'),
@@ -220,13 +254,27 @@ if (!isset($_SESSION['user_id']))
                     $this->input->post('certifier_remarks') ,
                     $added_by,
                     $date_created
-                    )){
+                    );
+					
+					
+					if(!is_array($result))
+					{
                         $this->session->set_flashdata('success_message','Payment Record Successfully Added');
                         redirect("staff/view_payment_records/{$staff_id}");
                     }
                    
                     else{
-                        $this->session->set_flashdata('fail_message','Payment Record Not Added');
+                        		//handle the error
+								/* if($result['code'] == 1062) // Error code 1062 corresponds to a duplicate entry
+								{
+									$this->session->set_flashdata('fail_message','Payment record not added. There seems to be a duplicate entry for the Payment Voucher Number. Please Check.');									
+								}else
+								{
+									 $this->session->set_flashdata('fail_message','Payment record not added. '.$result['message']);
+								}
+						 */
+						
+						
                         redirect('staff/staff_information');
                     
                     }
@@ -260,18 +308,15 @@ if (!isset($_SESSION['user_id']))
 
     }
 
-    public function view_all_payment_records( $staff_role ) // Explanation needed
+    public function view_all_payment_records( $staff_role, $show_certified_only=0 ) // Explanation needed
     {   
      
-       $payment_records = $this->staff_model->getAllPaymentRecords($staff_role);
+       $payment_records = $this->staff_model->getAllPaymentRecords($staff_role,$show_certified_only);
        //testarray($payment_records);
         $this->load->view('all_payment_records',['payment_records'=> $payment_records  ] );
 
     }
-    //testing again
-        //test
-        //tester
-        //testing
+
     public function modify_payment_records($staff_payment_id)
     {
         $data = $this->staff_model->getinserted_paymentRecords($staff_payment_id);
@@ -299,7 +344,7 @@ if (!isset($_SESSION['user_id']))
 
     public function update_payment_records($staff_payment_id,$staff_id)
     {
-        $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7]');
+        $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7] | callback_checkVoucherNum');
         $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
         $this->form_validation->set_rules('month_travelled','Month Travelled','required');
         $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
@@ -564,6 +609,13 @@ if (isset($_POST['certifier_remarks'])){
 		//loop through post and update payment records individually
 		foreach($_POST['payment_record_to_certify'] as $record ){
 					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] + 1,$record); 
+					
+					if($_SESSION['role_id'] == 2)
+					$column = 'certified_by';
+				
+					if($_SESSION['role_id'] == 3)
+					$column = 'authorized_by';
+					$this->staff_model->updateCertifyAuthorizeBy($_SESSION['email'],$record,$column);
 					}//ends for loop
 	   	
 	   
@@ -901,7 +953,9 @@ if (isset($_POST['certifier_remarks'])){
                  $this->input->post('upkeepchange_type'),
                  $this->input->post('post_change'),  
                  $this->input->post('date_of_change'),        
-                 $this->input->post('changes_remarks')     
+                 $this->input->post('changes_remarks'),
+				 $this->input->post('date_of_change_end'),
+				 $this->input->post('changes')
              
                //  $date_modified,
                //  $modified_by,
