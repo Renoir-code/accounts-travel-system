@@ -15,7 +15,7 @@
         </div>
     <?php endif; ?>
 
-   <?php echo anchor ("staff/change/{$data['staff_id']}" , "Make a CHange here", ['class'=> 'btn btn-danger btn-sm text-right ']); ?>
+   <?php echo anchor ("staff/change/{$data['staff_id']}" , "Click Here to Insert a Change", ['class'=> 'btn btn-danger btn-lg text-right ']); ?>
 
 
         <?php echo form_open("staff/update_staff_records/{$data['staff_id']}") ?>
