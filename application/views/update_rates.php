@@ -3,15 +3,23 @@
 
 <?php include_once('inc/header.php') ?>
 
-<?php echo form_open('staff/insert_rate_submit')?>
-<br>
 
-<div class="row">
-    <div class="col-md-4">
-            <div class="form-group ">
-             <label for=""> Add a New Rate </label>
-                <div class="col-md input-group mb-6">
-                   <select class="form-select" name="rate_name" >
+<div class="container mt-5">
+  <div class="card">
+    <form>
+      <!-- Card header -->
+      <div class="card-header">
+        <h4 class="fw-bold">Add A New Rate </h4>
+      </div>
+      <?php echo form_open('staff/insert_rate_submit')?>
+
+      <!-- Card body -->
+      <div class="card-body">
+      <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label">Rate Options </label>
+              <select class="form-select" name="rate_name" >
                        <option value="0"  >Choose an option</option>
                        <option value="mileage" <?php if(isset($_POST['rate_name']) && $_POST['rate_name']==1) echo ' selected';?> >Mileage_Rate </option>
                        <option value="passenger" <?php if(isset($_POST['rate_name']) && $_POST['rate_name']==2) echo ' selected';?> >Passenger RAte </option>
@@ -22,20 +30,23 @@
                        <option value="taxi_in_town" <?php if(isset($_POST['rate_name']) && $_POST['rate_name']==7) echo ' selected';?> >Taxi In Town Rate </option>
                        
                     </select>
-                      
-                </div>
-               
             </div>
-    </div>
-    <small> <?php echo form_error('rate_name','<div class="text-danger">','</div>');?>  </small>   
-</div>
+          </div>
 
-  <div class="form-group ">
-    <label class="form-label">Enter the Value of the Rate </label>
-    <div class="col-sm-10">
-      <input type="text" name = "rate_value"  class="form-control-lg" value="<?php // set_value('rate_value') ?>" placeholder="">
-    </div>
+          <div class="col-md-6">
+            <label for="exampleInput5" class="form-label">Add Rate Value</label>
+            <input type="text" name = "rate_value"  class="form-control" value="<?php // set_value('rate_value') ?>" placeholder="">
+            <small> <?php echo form_error('rate_value','<div class="text-danger">','</div>');?> </small>
+          </div>
+        </div>
+
+        <div class="card-footer">
+        <button class="btn btn-danger">Cancel</button>
+        <button type="submit" class="btn  btn-success ">Add new Rate </button>
+      </div>
+    </form>
   </div>
-  <small> <?php echo form_error('rate_value','<div class="text-danger">','</div>');?> </small>
 
-  <button type="submit" class="btn  btn-success ">Add new Rate </button>
+
+<br>
+<br>
