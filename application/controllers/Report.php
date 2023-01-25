@@ -26,7 +26,8 @@ class Report extends MY_Controller {
     public function changesReport ()
     {
         $date = $this->input->post('monthly_change');
-        $data = $this->report_model->change_reports($date);
+		$location_id = $this->input->post('location_id');
+        $data = $this->report_model->change_reports($date,$location_id);
         //testarray($data);
         $this->load->view('report_view',['data' => $data]);
        

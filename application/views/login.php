@@ -44,6 +44,25 @@
             </div>
         </div>
     <?php endif; ?>
+	
+	
+	    <?php 
+		if($this->session->flashdata('timeout')){
+            echo '<div class="row ">
+                
+                    <div class="alert alert-dismissable alert-success">
+                   ';   
+						
+							echo $this->session->flashdata('timeout'); 
+							unset($_SESSION['timeout']);
+				
+						
+             echo'     
+                </div>
+			</div>';
+	}?>
+	
+	
     <br>
     <div class="error_holder alert-danger "><?php if(isset($message) && $message != '') echo $message; ?></div>
     <br>

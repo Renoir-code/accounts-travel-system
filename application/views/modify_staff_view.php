@@ -97,11 +97,8 @@
                     <option value="6" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==6) {echo ' selected';} elseif($data['upkeep_id']==6)   {echo ' selected';}?> >Commuted Walkfoot Allowance </option>
                     <option value="7" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==7) {echo ' selected';} elseif($data['upkeep_id']==7)   {echo ' selected';}?> >Full Allowance </option>
                     <option value="8" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==8) {echo ' selected';} elseif($data['upkeep_id']==8)   {echo ' selected';}?> >Walkfoot Allowance </option>
-        
-               
-                    
-                      
-                    </select>
+					</select>
+					
                     <input type="hidden" class="form-control-lg" name="upkeep_id" value="55" disabled id="hidden_input">
                     </div>
                     </div>
