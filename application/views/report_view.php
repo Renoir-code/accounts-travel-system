@@ -19,6 +19,7 @@
                 <th scope="col">Upkeep Change Type </th>
                 <th scope="col">Post Change </th>
                 <th scope="col">Date of Change </th>
+				<th scope="col">Location </th>
                 <th scope="col">Changes Remarks </th>            
               </tr>
           </thead>
@@ -35,7 +36,8 @@
           <td><?php  echo $row['upkeep_name']; ?></td>
           <td><?php  echo $row['post_change']; ?></td>
           <td><?php  echo date(' F j\, Y', strtotime($row['dateof_change'])); ?></td>
-          <td><?php  echo $row['changes_remarks']; ?></td>
+           <td><?php  echo $row['location_name']; ?></td>
+		  <td><?php  echo $row['changes_remarks']; ?></td>
             </tr>
          
          
@@ -54,7 +56,7 @@
 </div>
 
 
-<script  type="text/javascript">
+<!-- <script  type="text/javascript">
 
 document.getElementById("print_report").onclick = function PrintElem(report_to_print)
 {
@@ -87,7 +89,7 @@ document.getElementById("print_report").onclick = function PrintElem(report_to_p
     return true; 
 }
 
-</script>
+</script> -->
 
 
 

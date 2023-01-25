@@ -12,18 +12,19 @@
 <table class="table table-striped table-hover " >
           <thead>
               <tr>
-                <th scope="col ">Monthly Change Report</th>  
+                <th scope="col ">Choose Date</th>
+				<th scope="col ">Location</th> 
               </tr>
           </thead>
       <tbody>
 	  <tr class = 'table-active'>
-           <td>
+<!--            <td>
 <div class="row">
     <div class="col-md-4">
             <div class="form-group ">
              <label for=""> Choose Month for Report  </label>
                 <div class="col-md input-group mb-6">
- </td> 
+ </td>  -->
  
  <td> 
                     
@@ -31,7 +32,21 @@
                       
                 </div>
   </td>              
-            </div>
+            
+			<td>
+			<!--<label for="" class="form-label"> Location of Officer </label>-->
+                   
+                    <select  class="form-control-lg" name="location_id">
+                       <option value="0" >Choose Location..</option>
+                       <option value="1" >Court Administration Division </option>
+                       <option value="2" >Supreme Court </option>
+                       <option value="3" >Parish Court </option>
+                       <option value="4" >Court of Appeal </option>
+
+                    </select>
+			</td>
+			
+			</div>
     </div>
     <small> <?php echo form_error('rate_name','<div class="text-danger">','</div>');?>  </small>   
 </div>

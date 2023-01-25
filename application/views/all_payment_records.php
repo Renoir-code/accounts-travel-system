@@ -21,12 +21,18 @@
     
  <?php 
  
- if(count($payment_records)>0){
+   if(count($payment_records)>0){
+	  //testarray($payment_records);
  $name_of_staff = $payment_records[0]['firstname'].' '.$payment_records[0]['lastname'];    
  echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$name_of_staff.' </span>  </h4><br>';  
  echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
- }
  
+ } 
+ if (!array_key_exists("staff_payment_id",$payment_records[0])){
+
+ $payment_records = array();
+ } 
+
  ?>
        
 
@@ -35,6 +41,14 @@
       <?php $test1 =2;?>
     <?php $test2 =3;?>
 
+<h4> Please Enter the TRN Number for the Staff Member : </h4>
+<?php echo form_open('staff/staff_information') ?>
+<input type="text" class="form-control-sm" name ="trn"> 
+<input type="submit" value="submit" class="btn btn-primary btn-lg"> 
+<br><br>
+
+<?php echo form_close(); ?>
+
       <hr>
      <?php echo form_open("staff/certifier_record/{$test1}/{$test2}" ) ?>
       <div class="row">
@@ -42,20 +56,14 @@
           <thead>
               <tr>
                 <th scope="col ">Staff Member</th> 
-                <th scope="col">Voucher Number </th>
-                 <th scope="col">Period</th>
-                <!--<th scope="col">Month Travelled</th>-->
+                <!--<th scope="col">Voucher Number </th>-->
+                <th scope="col">Period</th>
                 <th scope="col">Mileage </th>
-                <!-- <th scope="col"> Passenger Miles </th>
-                <th scope="col"> Toll Amount </th> -->
                 <th scope="col"> Subsistence Amount/Expense </th>
-                <!--<th scope="col"> Actual Expense </th>-->
                 <th scope="col"> Supper/Refreshment </th>
-                <!--<th scope="col"> Refreshment Days </th>-->
-                <!--<<th scope="col"> Taxi Out Town  </th>-->
                 <th scope="col"> Taxi</th>
 				<th scope="col"> Status </th>
-				<th></th>
+				<th>Comments</th>
 				<th><input type="checkbox" id="checkAll" style = "visibility: hidden;" > <label for ="checkAll" class = "checkAll">Select All</label></th>
               <!--  <th scope="col">Certifier Remarks </th> -->
              
@@ -67,8 +75,8 @@
             <?php foreach($payment_records as $row): ?>
         <tr class = 'table-active' id ="<?php echo $row['staff_payment_id'] ?>" >
            
-          <td> <?php echo $row['firstname'] .' '.$row['lastname'] ; ?></td> 
-          <td><?php  echo $row['voucher_number']; ?></td>
+          <td> <?php echo $row['firstname'] .' '.$row['lastname']  .'<hr>Voucher Number<br>'.$row['voucher_number'];?></td> 
+         <!-- <td><?php  //echo $row['voucher_number']; ?></td>-->
           <td><?php  echo $row['year_travelled'] .'<br>'. $row['month_travelled']; ?></td>
           <!--<td><?php // echo $row['month_travelled']; ?></td>-->
           <td><?php  echo '<sub><b>Actual Mileage</b></sub><br>$'. number_format( $row['mileage_km'] * $row['mileage_rate'], 2) ; ?> <br> <sub>  <?php   echo '('. $row['mileage_km'] . '*'. $row['mileage_rate'] . ') </sub> '; ?>
@@ -80,21 +88,23 @@
           <?php  echo '<sub><b>Refreshment</b></sub><br>$'. number_format( $row['refreshment_days'] * $row['refreshment_rate']); ?> <br> <sub>  <?php echo '('. $row['refreshment_days'] . '*'. $row['refreshment_rate'] . ') </sub> ';?></td> 
           <td><?php  echo '<sub><b>Out Town</b></sub><br>$'. number_format( $row['taxi_out_town'] * $row['taxi_out_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_out_town'] . '*'. $row['taxi_out_rate'] . ') </sub><br>' ;?> 
 			<?php  echo '<sub><b>In Town</b></sub><br>$'. number_format( $row['taxi_in_town'] * $row['taxi_in_rate']); ?> <br> <sub>  <?php echo '('. $row['taxi_in_town'] . '*'. $row['taxi_in_rate'] . ') </sub> ' ;  ?> </td> 
-        <!--  <td><?php // echo $row['certifier_remarks']; ?> </td> -->
+       
           <td>  <?php   
           
          switch($row['view_by']){
 			 
 			 case 1:
-			 echo "Record Inserted";
+			 echo "Record Inserted<br><hr>";
+			 echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):'';
 			 break;
 			 
 			 case 2:
 			 echo "Pending Certification<br>";
 			 if($_SESSION['role_id'] == 2){
 			 echo '<button  name = "certify_record_to_reject" class = "btn btn-primary btn-sm text-right reject_payments" value = "'.$row['staff_payment_id'].'">Reject</button>
-			 <textarea rows="4" cols="20" ></textarea>
+			 <textarea rows="4" cols="20" ></textarea><br><hr>
 			 ';
+			 echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):'';
 			 }
 			 break;
 			 
@@ -102,8 +112,9 @@
 			 echo "Pending Authorization";
 			 if($_SESSION['role_id'] == 3){
 			 echo '<button  name = "certify_record_to_reject" class = "btn btn-primary btn-sm text-right reject_payments" value = "'.$row['staff_payment_id'].'">Reject</button>
-			 <textarea rows="4" cols="20" ></textarea>
-			 ';
+			 <textarea rows="4" cols="20" ></textarea><br><hr>';
+			 echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):'';
+			 
 			 }
 			 break;
 			 
@@ -125,7 +136,18 @@
          <?php 
 		  
 		 ?>
-         <td>  <?php   echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):''; ?>   </td>
+         <td>
+		 <?php
+		 if($_SESSION['role_id'] == 1)
+		 echo $row['certifier_remarks'];
+	 
+	  if($_SESSION['role_id'] == 2)
+		 echo $row['approver_remarks'];
+		 
+		 //echo ($row['view_by']) == 1 || $_SESSION['role_id'] == 2 || $_SESSION['role_id'] == 3?  anchor ("staff/modify_payment_records/{$row['staff_payment_id']}/{$row['staff_id']}" , "Update Record", ['class'=> 'btn btn-primary btn-sm text-right']):''; 
+		 ?>  
+
+		 </td>
          
 		 <td> 
 		 <?php 
@@ -160,7 +182,7 @@
       </table>
     </div>
 	<hr>
-		<div  style = "float:right;"><input type="checkbox" id="checkAllLower" > <label for ="checkAllLower" >Check All</label>
+		<div  style = "float:right;"><input type="checkbox" id="checkAllLower" > <label for ="checkAllLower" style = "margin-bottom: 28px;">Check All</label><br>
       
 		<?php 
 		switch($_SESSION['role_id']){

@@ -35,26 +35,10 @@ if (!isset($_SESSION['user_id']))
 
 
 
-<?php
-if (isset($_SESSION['timeout'])){
-	//$idletime = $_SESSION['timeout']->diff(new DateTime(time()));
-	
-/* 	if($idletime->i> 15){
-echo 'logout'; */
-//$this->User->logout();
-	}		
-	
-	
-
-
-
-
-
-?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary ">
   <div class="container">
-    <a class="navbar-brand" href="<?php echo base_url('/') ?>">Accounts Travel Management System </a>
+    <a class="navbar-brand" href="<?php echo base_url('/staff/staff_information') ?>">Accounts Travel Management System </a>
     </button>
       
       

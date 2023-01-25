@@ -24,6 +24,23 @@ class Staff_model extends CI_Model{
           return false;
     }
     }
+	
+	public function checkVoucherNum($value)
+    {
+        $this -> db -> select('voucher_number');
+        $this -> db -> from('staff_payment');
+        $this -> db -> where('voucher_number', $value);
+        $this -> db -> limit(1);
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() == 1){
+          return true;
+        }
+        else{
+		  return false;
+    }
+    }
 
 
       public function get_locations()
@@ -77,10 +94,19 @@ class Staff_model extends CI_Model{
         INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
         INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id
         WHERE trn = ? OR firstname LIKE ? OR lastname LIKE ? OR CONCAT(firstname,' ',lastname) LIKE ? ";
-        return $this->db->query($query, array($trn, $trn, $trn, $trn))->first_row('array'); 
+        //return $this->db->query($query, array($trn, $trn, $trn, $trn))->first_row('array'); 
+		return $this->db->query($query, array($trn, $trn, $trn, $trn))->result_array();
       }
 
+      public function getAllStaffRecords()
+      {
       
+        $query = "SELECT * FROM staff
+        INNER JOIN location ON staff.location_id = location.location_id
+        INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
+        INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id";
+        return $this->db->query($query, array())->result_array(); 
+      }
 
       
       public function getStaff()
@@ -122,10 +148,23 @@ class Staff_model extends CI_Model{
       (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created, view_by)
       VALUES
        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
-      if($this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
-       return true;
+      
+	//$db_debug = $this->db->db_debug; //save setting
+	//$this->db->db_debug = FALSE; //disable debugging for queries
+	  if(!$this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
+	  {
+		//$error = $this->db->error(); // Has keys 'code' and 'message'
+		//$this->db->db_debug = $db_debug; //restore debug setting
+			
+
+			return $error;
+
+	  }
        else
-       return false;
+	   {
+		   
+       return true;
+	   }
     }
 
     public function getPaymentRecords($staff_id)
@@ -136,22 +175,91 @@ class Staff_model extends CI_Model{
 
     }
 
-    public function getAllPaymentRecords($staff_role)
+    public function getAllPaymentRecords($staff_role,$show_certified_only)
     {
      
-         if($staff_role == 1)
+	 //Inserter Default View
+         if($staff_role == 1 && $show_certified_only == 1){
+			 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+		 WHERE staff_payment.view_by = 1
+         ORDER BY year_travelled desc , month_travelled ";      
+       	return $this->db->query($query, array())->result_array(); 
+		}
+		 
+		  else if($staff_role == 1)
 		 {
 		 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
          INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
          ORDER BY year_travelled desc , month_travelled";      
        	return $this->db->query($query, array())->result_array(); 
 		 }
-		 else if(strlen($staff_role)>3)
-		 {
-			$query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+		 
+		 //////Certifier Default View
+		   else if($staff_role == 2 && $show_certified_only == 1){
+			  
+			   
+			 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
          INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
-         WHERE staff_payment.staff_id = ?  ORDER BY year_travelled desc , month_travelled";      
-       	return $this->db->query($query, array(substr($staff_role, 3)))->result_array(); 
+		 WHERE staff_payment.view_by = 2
+         ORDER BY year_travelled desc , month_travelled ";      
+       	return $this->db->query($query, array())->result_array(); 
+			 
+			 
+		 }
+		 
+		  else if($staff_role == 2)
+		 {
+		 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         ORDER BY year_travelled desc , month_travelled";      
+       	return $this->db->query($query, array())->result_array(); 
+		 }
+
+//////Authorizer Default View
+		   else if($staff_role == 3 && $show_certified_only == 1){
+			  
+			   
+			 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+		 WHERE staff_payment.view_by = 3
+         ORDER BY year_travelled desc , month_travelled ";      
+       	return $this->db->query($query, array())->result_array(); 
+			 
+			 
+		 }
+		 
+		  else if($staff_role == 3)
+		 {
+		 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         ORDER BY year_travelled desc , month_travelled";      
+       	return $this->db->query($query, array())->result_array(); 
+		 }		 
+		 
+		 
+		 
+		 
+		 else if(strlen($staff_role)>3) // this fetches payment records for a single user
+		 {
+			 
+		$query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
+        INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+        WHERE staff_payment.staff_id = ?  ORDER BY year_travelled desc , month_travelled";      
+		$result = $this->db->query($query, array(substr($staff_role, 3)))->result_array(); 
+		
+		if (count($result)== 0 ){
+			$query = 	"SELECT staff.firstname, staff.lastname, staff.staff_id 
+						FROM staff
+						WHERE staff.staff_id = ?";      
+			$result = $this->db->query($query, array(substr($staff_role, 3)))->result_array(); 
+		}
+
+		return $result;
+		 
+		 
+		 
+		 
 		 }
 		 
 		 
@@ -162,6 +270,7 @@ class Staff_model extends CI_Model{
          WHERE staff_payment.view_by = ?  ORDER BY year_travelled desc , month_travelled";      
        	return $this->db->query($query, array($staff_role))->result_array(); 
 		 }
+		 
     }
 
     public function getinserted_paymentRecords($staff_payment_id)
@@ -225,11 +334,12 @@ public function get_staffRecords($staff_id)
                
       //  return $this->db->query($query, array($staff_id))->first_row('array');
 
-        $query = "SELECT * FROM staff
-        INNER JOIN location ON staff.location_id = location.location_id
-        INNER JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
-        INNER JOIN officer_type ON officer_type.officer_id = staff.officer_id
-        WHERE staff_id=?  ";
+        $query = "SELECT staff.*, changes.dateof_change FROM staff
+        LEFT JOIN location ON staff.location_id = location.location_id
+        LEFT JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
+        LEFT JOIN officer_type ON officer_type.officer_id = staff.officer_id
+		LEFT JOIN changes ON changes.staff_id = staff.staff_id
+        WHERE staff.staff_id=?  ";
         return $this->db->query($query, array($staff_id))->first_row('array'); 
 
     }
@@ -330,6 +440,16 @@ public function get_staffRecords($staff_id)
       return false;
   }
   
+  public function updateCertifyAuthorizeBy($authorizer_or_certifier,$staff_payment_id,$column)
+  {
+ 
+  $query = "UPDATE staff_payment SET ".$column." = ? WHERE staff_payment_id = ?";
+      if($this->db->query($query,array($authorizer_or_certifier,$staff_payment_id)))
+      return true;
+      else
+      return false;
+  }
+  
   public function updateRemarks($certifier_remarks,$staff_payment_id,$remarks_column)
   {
  
@@ -404,16 +524,31 @@ public function get_staffRecords($staff_id)
 
   }
 
- public function insertChanges($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type ,  $post_change , $dateof_change ,$changes_remarks)
+ public function insertChanges($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type ,  $post_change , $dateof_change ,$changes_remarks, $dateof_change_end, $changes_type)
  {
 
+if($changes_type == 'changes'){
   $query = " INSERT INTO changes
-  (staff_id , monthly_allotment , arrears , travel_recovery , upkeepchange_type , post_change , dateof_change ,changes_remarks )
+  (staff_id , monthly_allotment , arrears , travel_recovery , upkeepchange_type , post_change , dateof_change ,changes_remarks,dateof_change_end )
   VALUES
-  (? , ? , ? , ? , ? , ? , ? , ?)
+  (? , ? , ? , ? , ? , ? , ? , ? , ?)
   ";
-  if($this->db->query($query,array($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type , $post_change , $dateof_change ,$changes_remarks)))
-  return true;
+  
+  $result = $this->db->query($query,array($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type , $post_change , $dateof_change ,$changes_remarks, $dateof_change_end));
+}else
+{
+	$query = " UPDATE changes
+				SET dateof_change_end = ?";
+				
+				$result = ($this->db->query($query,array($dateof_change_end)));
+	
+}
+  
+  
+  
+  //if($this->db->query($query,array($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type , $post_change , $dateof_change ,$changes_remarks, $dateof_change_end)))
+if($result)
+return true;
   else
   return false;
 

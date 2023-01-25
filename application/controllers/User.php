@@ -56,7 +56,7 @@ class User extends MY_Controller {
 				$_SESSION['user_id'] = $row['user_id'];
 				$_SESSION['email'] = $row['email'];
 				$_SESSION['role_id'] = $row['role_id'];
-				//$_SESSION['timeout'] = new DateTime(time());
+				$_SESSION['timeout'] = time();
 				
 			
 				

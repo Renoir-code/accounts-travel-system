@@ -43,7 +43,7 @@
 unset($_SESSION['message']);
 unset($_SESSION['fail_message']);
 unset($_SESSION['success_message']);
-
+//testarray( $trn_records);
 ?>
 <br>
 
@@ -62,15 +62,15 @@ unset($_SESSION['success_message']);
       $hash_staff_email = md5($_SESSION['email']);
       
       ?>
-      <?php echo anchor ("staff/view_all_payment_records/1" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
-      <?php echo ($_SESSION['role_id'] == 2 ) ? anchor ("staff/view_all_payment_records/2" , "View records to be certified ", ['class'=> 'btn btn-success']): ''; ?>
-      <?php echo ($_SESSION['role_id'] == 3 ) ? anchor ("staff/view_all_payment_records/3" , "View records to be authorized ", ['class'=> 'btn btn-success']): ''; ?>
+      <?php echo anchor ("staff/view_all_payment_records/{$_SESSION['role_id']}/1" , "View all payment records ", ['class'=> 'btn btn-success']); ?>
+      <?php //echo ($_SESSION['role_id'] == 2 ) ? anchor ("staff/view_all_payment_records/2" , "View records to be certified ", ['class'=> 'btn btn-success']): ''; ?>
+      <?php echo ($_SESSION['role_id'] == 3 ) ? anchor ("staff/view_all_payment_records/3" , "View All Records", ['class'=> 'btn btn-success']): ''; ?>
 
 	  
 	  <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-grey']); ?>
       <hr>
       <div class="row">
-        <table class="table table-striped table-hover ">
+        <table class="table table-striped table-hover " id = "view_all_records">
           <thead>
               <tr>
                <!-- <th scope="col" >Staff ID</th> -->
@@ -86,6 +86,7 @@ unset($_SESSION['success_message']);
                 <th scope="col"> Vehicle Engine Number</th> -->
                 <th scope="col"> Location</th>
                 <th scope="col"> Action </th>
+				<th scope="col">  </th>
               </tr>
           </thead>
       <tbody>
@@ -94,34 +95,28 @@ unset($_SESSION['success_message']);
         <tr class = 'table-active'>
           <?php ?>
            <?php if(!empty($trn_records)): ?>
-            <?php //foreach($trn_records as $row): ?>
-        <!--  <td>  <?php // echo $trn_records['staff_id']; ?></td> -->
-          <td><?php  echo $trn_records['firstname']; ?></td>
-          <td><?php  echo $trn_records['lastname']; ?></td>
-          <td><?php  echo $trn_records['post_title']; ?></td>
-          <td><?php  echo $trn_records['trn']; ?></td> 
-          <td><?php  echo $trn_records['upkeep_name']; ?></td> 
-          <td><?php  echo $trn_records['officer_name']; ?></td> 
-        <!--  <td><?php //  echo $trn_records['vehicle_model']; ?></td> -->
-         <!--   <td><?php // echo $trn_records['vehicle_make']; ?></td> -->
-          <!--  <td><?php // echo $trn_records['vehicle_chasisnum']; ?></td> -->
-          <!--  <td><?php // echo $trn_records['vehicle_engine_num']; ?></td> -->
-          <td><?php  echo $trn_records['location_name']; ?></td> 
-          
-          
-        <?php  // Only insertor can access this button/page
-              if(isset($_SESSION['user_id']) &&  ($_SESSION['role_id'] == 1)){
-                echo '<td>'.anchor ("staff/staff_payment_submit/{$trn_records['staff_id']}/{$trn_records['firstname']}/{$trn_records['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right']) . '</td>' ;
-              }
-            ?>  
-  
+            <?php foreach($trn_records as $row): ?>
+          <td><?php  echo $row['firstname']; ?></td>
+          <td><?php  echo $row['lastname']; ?></td>
+          <td><?php  echo $row['post_title']; ?></td>
+          <td><?php  echo $row['trn']; ?></td> 
+          <td><?php  echo $row['upkeep_name']; ?></td> 
+          <td><?php  echo $row['officer_name']; ?></td> 
+          <td><?php  echo $row['location_name']; ?></td> 
+          <td>      
+				<?php  // Only insertor can access this button/page
+				if(isset($_SESSION['user_id']) &&  ($_SESSION['role_id'] == 1)){
+                echo ''.anchor ("staff/staff_payment_submit/{$row['staff_id']}/{$row['firstname']}/{$row['lastname']}" , "Add Payment", ['class'=> 'btn btn-success text-right'])  ;
+				}
+				?>  
+		  </td>
          <td>  <?php  //echo anchor ("staff/view_payment_records/{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']);
-			echo anchor ("staff/view_all_payment_records/100{$trn_records['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']);
-		 ?>   </td>
-        </td>
+			echo anchor ("staff/view_all_payment_records/100{$row['staff_id']}" , "View Payment Records", ['class'=> 'btn btn-primary text-right']);
+		 ?>  
+		 </td>
         </tr>
-        </tr>
-                <?php //endforeach; ?>
+        
+                <?php endforeach; ?>
        <?php else: ?>
        
           <tr>
