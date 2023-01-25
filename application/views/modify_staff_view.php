@@ -17,6 +17,14 @@
 
    <?php echo anchor ("staff/change/{$data['staff_id']}" , "Click Here to Insert a Change", ['class'=> 'btn btn-danger btn-lg text-right ']); ?>
 
+<?php //testarray($changes);
+if (isset($changes) && count($changes) > 0 ){
+	//
+if(isset($data['firstname']))
+		echo $data['firstname'] .' '. $data['lastname'] .' is currenly action as a '.$changes['post_change'];
+}
+
+?>
 
         <?php echo form_open("staff/update_staff_records/{$data['staff_id']}") ?>
         <div class="row">

@@ -15,7 +15,7 @@
     <?php endif; ?>
 
 <?php
-echo $data['dateof_change'];
+//testarray($changes);
 ?>
 
         <?php echo form_open("staff/change/{$data['staff_id']}") ?>
@@ -55,7 +55,7 @@ echo $data['dateof_change'];
 					  <div class="form-group">
 					 <label for="" class="form-label">End Date</label>
                     <div class="col-sm-10">
-                        <input type="date" class="form-control-lg" name="date_of_change_end" value="<?php echo set_value('date_of_change') ?>" placeholder="">
+                        <input type="date" class="form-control-lg" name="date_of_change_end" value="<?php echo  substr($changes['dateof_change_end'],0,10) ?>" placeholder="">
                         </div>
                     </div>
 
@@ -80,34 +80,34 @@ echo $data['dateof_change'];
                     <div class="form-group">
                     <label for="" class="form-label"> Monthly Allottment  </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-lg" name="monthly_allotment" value="<?php echo set_value('monthly_allotment') ?>" placeholder="">
+                        <input type="text" class="form-control-lg" name="monthly_allotment" value="<?php if(isset($_POST['monthly_allotment'])) {echo $_POST['monthly_allotment'];}elseif (isset($changes['monthly_allotment'])){echo $changes['monthly_allotment'];}?>" placeholder="">
                         </div>
                     </div>
 
                     <div class="form-group">
                     <label for="" class="form-label"> Arrears </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-lg" name="arrears" value="<?php echo set_value('arrears') ?>" placeholder="">
+                        <input type="text" class="form-control-lg" name="arrears" value="<?php if(isset($_POST['arrears'])) {echo $_POST['arrears'];}elseif (isset($changes['arrears'])){echo $changes['arrears'];}?>" placeholder="">
                         </div>
                     </div>
 
                     <div class="form-group">
                     <label for="" class="form-label"> Travel Recovery </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-lg" name="travel_recovery" value="<?php echo set_value('travel_recovery') ?>" placeholder="">
+                        <input type="text" class="form-control-lg" name="travel_recovery" value="<?php if(isset($_POST['travel_recovery'])) {echo $_POST['travel_recovery'];}elseif (isset($changes['travel_recovery'])){echo $changes['travel_recovery'];}?>" placeholder="">
                         </div>
                     </div>
 
                     <div class="form-group">
                     <label for="" class="form-label"> Comments </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-lg" name="changes_remarks" value="<?php echo set_value('changes_remarks') ?>" placeholder="">
+                        <input type="text" class="form-control-lg" name="changes_remarks" value="<?php if(isset($_POST['changes_remarks'])) {echo $_POST['changes_remarks'];}elseif (isset($changes['changes_remarks'])){echo $changes['changes_remarks'];}?>" placeholder="">
                         </div>
                     </div>
 
                     <br>
                     <div class="col-sm-10">
-                   <button type="submit" class="btn btn-primary btn-block" value = "submit" name = "changes"> Submit </button> 
+                   <button type="submit" class="btn btn-primary btn-block" value = "<?php  echo "ggf"; die();echo (isset($changes) && count($changes) > 0) ? 'submit':'update';?>" name = "changes"> Submit </button> 
                     </div>
                     <hr>
                 

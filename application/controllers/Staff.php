@@ -417,8 +417,9 @@ $_SESSION['timeout'] = time();
         $location = $this->staff_model->get_locations();
         $officers = $this->staff_model->get_officer_type();
         $typeofUpkeep = $this->staff_model->get_upkeep_type();
-       //testarray($data);
-       $this->load->view('modify_staff_view',['data' => $data , 'location' => $location , 'officers' =>$officers , 'typeofUpkeep'=>$typeofUpkeep] );
+		$changes = $this->staff_model->get_changes_to_staff($staff_id);
+       //testarray($changes);
+       $this->load->view('modify_staff_view',['data' => $data , 'location' => $location , 'officers' =>$officers , 'typeofUpkeep'=>$typeofUpkeep, 'changes'=>$changes] );
       
     }
 
@@ -932,12 +933,12 @@ if (isset($_POST['certifier_remarks'])){
        
 
         $data = $this->staff_model->get_staffRecords($staff_id);
-      
+		$changes = $this->staff_model->get_changes_to_staff($staff_id);
         //testarray($data);
 
          if($this->form_validation->run() == FALSE)
          {  
-             $this->load->view('change_view',['data'=> $data]);
+             $this->load->view('change_view',['data'=> $data, 'changes'=> $changes]);
          }
 
          else

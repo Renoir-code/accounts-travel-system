@@ -528,7 +528,9 @@ public function get_staffRecords($staff_id)
  public function insertChanges($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type ,  $post_change , $dateof_change ,$changes_remarks, $dateof_change_end, $changes_type)
  {
 
-if($changes_type == 'changes'){
+
+
+if($changes_type == 'submit'){
   $query = " INSERT INTO changes
   (staff_id , monthly_allotment , arrears , travel_recovery , upkeepchange_type , post_change , dateof_change ,changes_remarks,dateof_change_end )
   VALUES
@@ -539,9 +541,15 @@ if($changes_type == 'changes'){
 }else
 {
 	$query = " UPDATE changes
-				SET dateof_change_end = ?";
 				
-				$result = ($this->db->query($query,array($dateof_change_end)));
+				SET monthly_allotment = ? , arrears = ? , travel_recovery = ? , upkeepchange_type = ? 
+				, post_change = ? , dateof_change = ? ,changes_remarks = ?,dateof_change_end = ?
+				WHERE staff_id = ? AND active = 1
+				";
+				
+				$result = ($this->db->query($query,array($monthly_allotment ,$arrears, $travel_recovery
+							,$upkeepchange_type, $post_change ,$dateof_change 
+							,$changes_remarks, $dateof_change_end, $staff_id)));
 	
 }
   
@@ -568,6 +576,14 @@ public function getNotifications(){
 	return $this->db->query($query,array($role));
 
 	
+}
+
+public function get_changes_to_staff($staff_id){
+	
+	$query = "	SELECT * FROM changes 
+				WHERE active = 1 AND staff_id = ?";
+	
+	return $this->db->query($query,array($staff_id))->row_array();
 }
 
 
