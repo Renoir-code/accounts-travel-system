@@ -49,6 +49,14 @@
           </div>
         </div>
 
+<?php //testarray($changes);
+if (isset($changes) && count($changes) > 0 ){
+	//
+if(isset($data['firstname']))
+		echo $data['firstname'] .' '. $data['lastname'] .' is currenly action as a '.$changes['post_change'];
+}
+
+?>
 
         <div class="row">
           <div class="col-md-6">
