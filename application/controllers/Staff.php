@@ -127,7 +127,7 @@ $_SESSION['timeout'] = time();
 			}
 		}
 
- function checkVoucherNumber($value)
+/*  function checkVoucherNumber($value)
 		{
 			$this->load->model('user_model');
 			$trn=$this->staff_model->checkVoucherNum($value);
@@ -140,7 +140,7 @@ $_SESSION['timeout'] = time();
 			$this->form_validation->set_message('checkVoucherNumber', 'This Voucher Number already exists!');
 			return FALSE;
 			}
-		}
+		} */
     public function staff_information()
     {
       
@@ -177,7 +177,7 @@ $_SESSION['timeout'] = time();
             redirect('staff/staff_information');
         }
 
-            $this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNum' );
+            $this->form_validation->set_rules('voucher_number','voucher number' );
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
@@ -344,7 +344,7 @@ $_SESSION['timeout'] = time();
 
     public function update_payment_records($staff_payment_id,$staff_id)
     {
-        $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7] | callback_checkVoucherNum');
+        $this->form_validation->set_rules('voucher_number','Voucher Number','trim|required|alpha_numeric|max_length[7] ');
         $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
         $this->form_validation->set_rules('month_travelled','Month Travelled','required');
         $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric');
@@ -610,12 +610,13 @@ if (isset($_POST['certifier_remarks'])){
 		foreach($_POST['payment_record_to_certify'] as $record ){
 					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] + 1,$record); 
 					
-					if($_SESSION['role_id'] == 2)
+					if($_SESSION['role_id'] == 2){
 					$column = 'certified_by';
-				
-					if($_SESSION['role_id'] == 3)
+					}
+					if($_SESSION['role_id'] == 3){
 					$column = 'authorized_by';
 					$this->staff_model->updateCertifyAuthorizeBy($_SESSION['email'],$record,$column);
+					}
 					}//ends for loop
 	   	
 	   

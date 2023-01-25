@@ -3,6 +3,7 @@
 
 <?php include_once('inc/header.php') ?>
 
+      <?php echo form_open('staff/insert_rate_submit')?>
 
 <div class="container mt-5">
   <div class="card">
@@ -11,7 +12,6 @@
       <div class="card-header">
         <h4 class="fw-bold">Add A New Rate </h4>
       </div>
-      <?php echo form_open('staff/insert_rate_submit')?>
 
       <!-- Card body -->
       <div class="card-body">

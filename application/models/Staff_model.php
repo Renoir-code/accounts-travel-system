@@ -25,7 +25,7 @@ class Staff_model extends CI_Model{
     }
     }
 	
-	public function checkVoucherNum($value)
+	/* public function checkVoucherNum($value)
     {
         $this -> db -> select('voucher_number');
         $this -> db -> from('staff_payment');
@@ -40,7 +40,7 @@ class Staff_model extends CI_Model{
         else{
 		  return false;
     }
-    }
+    } */
 
 
       public function get_locations()
@@ -232,7 +232,8 @@ class Staff_model extends CI_Model{
 		  else if($staff_role == 3)
 		 {
 		 $query = "SELECT staff_payment.*, staff.firstname, staff.lastname FROM staff_payment 
-         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id 
+         INNER JOIN staff ON staff.staff_id = staff_payment.staff_id
+		 WHERE staff_payment.view_by = 4
          ORDER BY year_travelled desc , month_travelled";      
        	return $this->db->query($query, array())->result_array(); 
 		 }		 
@@ -443,7 +444,7 @@ public function get_staffRecords($staff_id)
   public function updateCertifyAuthorizeBy($authorizer_or_certifier,$staff_payment_id,$column)
   {
  
-  $query = "UPDATE staff_payment SET ".$column." = ? WHERE staff_payment_id = ?";
+  $query = "UPDATE staff_payment SET ".$column. " = ?  WHERE staff_payment_id = ?";
       if($this->db->query($query,array($authorizer_or_certifier,$staff_payment_id)))
       return true;
       else
