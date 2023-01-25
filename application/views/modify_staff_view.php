@@ -30,6 +30,14 @@
       <!-- Card header -->
       <div class="card-header">
         <h4 class="fw-bold">Edit the Staff Member Details</h4>
+        <?php //testarray($changes);
+        if (isset($changes) && count($changes) > 0 ){
+        //
+        if(isset($data['firstname']))
+          echo $data['firstname'] .' '. $data['lastname'] .' is currenly acting as a '.$changes['post_change'];
+        }
+
+        ?>
       </div>
 
       <!-- Card body -->
@@ -38,47 +46,40 @@
       <h5 style= "text-align :center"> <b> Edit Staff Details</b></h5>
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="exampleInput4" class="form-label">First Name </label>
+              <label for="exampleInput4" class="form-label"><b>First Name</b> </label>
               <input type="text" class="form-control" name="firstname" value="<?php if(isset($_POST['firstname'])) {echo $_POST['firstname'];}elseif (isset($data['firstname'])){echo $data['firstname'];}?>" placeholder="">
             </div>
-          </div>
+          </div> 
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Last Name</label>
+            <label for="exampleInput5" class="form-label"><b>Last Name</b></label>
             <input type="text" class="form-control" name="lastname" value="<?php if(isset($_POST['lastname'])) {echo $_POST['lastname'];}elseif (isset($data['lastname'])){echo $data['lastname'];}?>" placeholder="">  
           </div>
-        </div>
 
-<?php //testarray($changes);
-if (isset($changes) && count($changes) > 0 ){
-	//
-if(isset($data['firstname']))
-		echo $data['firstname'] .' '. $data['lastname'] .' is currenly action as a '.$changes['post_change'];
-}
-
-?>
-
-        <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="exampleInput4" class="form-label">Tax Registration Number</label>
+              <label for="exampleInput4" class="form-label"> <b>Tax Registration Number </b></label>
               <input type="text" class="form-control" name="trn" value="<?php if(isset($_POST['trn'])) {echo $_POST['trn'];}elseif (isset($data['trn'])){echo $data['trn'];}?>" placeholder="">
             </div>
           </div>
 
+        </div>
+
+        
+
+        <div class="row">
+          
           <hr>  <h5 style= "text-align :center"> <b> Officer Details</b></h5>
         <br>
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">State the Officer Post</label>
+            <label for="exampleInput5" class="form-label"><b>Post Title</b></label>
             <input type="text" class="form-control" name="post_title" value="<?php if(isset($_POST['post_title'])) {echo $_POST['post_title'];}elseif (isset($data['post_title'])){echo $data['post_title'];}?>" placeholder="">    
           </div>
-        </div>
 
-        <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="exampleInput4" class="form-label"> Choose the Location of Officer</label>
+              <label for="exampleInput4" class="form-label"> <b>Choose the Officer Location </b></label>
               <select  class="form-control" name="location_id">
                        <option value="0"  >Choose Location..</option>
                        <option value="1" <?php if(isset($_POST['location_id']) && $_POST['location_id']==1) {echo ' selected';} elseif($data['location_id']==1)   {echo ' selected';}?> >Court Administration Division  </option>
@@ -91,9 +92,13 @@ if(isset($data['firstname']))
                     </select>
             </div>
           </div>
+        </div>
+
+        <div class="row">
+         
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Choose the Type of Officer</label>
+            <label for="exampleInput5" class="form-label"><b>Choose the Officer Type</b></label>
             <select  class="form-control" name="officer_id" id="officer_id" onchange="val()">
                     <option value="">Choose Type of Officer..</option>  <!-- if submit is clicked and an eror is there save what was typed if not return whats in the database -->
                     <option value="1" <?php if(isset($_POST['officer_id'])) { if($_POST['officer_id']==1) {echo ' selected';}} elseif($data['officer_id']==1)  {echo ' selected';}?> >Travelling Officer </option>
@@ -101,12 +106,10 @@ if(isset($data['firstname']))
                     </select>
 
           </div>
-        </div>
 
-        <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-            <label for="" class="form-label" id = "upkeep_id_label"> Type of Upkeep </label>
+            <label for="" class="form-label" id = "upkeep_id_label"> <b>Choose the Type of Upkeep </b> </label>
             <select  class="form-control" name="upkeep_id" id="upkeep_id">
                     <option value="">Choose The Type of Upkeep Received ..</option>
                     <option value="1" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==1) {echo ' selected';} elseif($data['upkeep_id']==1)   {echo ' selected';}?> >Fixed Upkeep Allowance </option>
@@ -121,6 +124,10 @@ if(isset($data['firstname']))
             <input type="hidden" class="form-control" name="upkeep_id" value="55" disabled id="hidden_input">
             </div>
           </div>
+        </div>
+
+        <div class="row">
+          
 
           <hr>  <h5 style= "text-align :center"> <b> Vehicle Details</b></h5>
         <br>
@@ -130,26 +137,26 @@ if(isset($data['firstname']))
         <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-            <label for="" class="form-label" id = "upkeep_id_label"> Vehicle Make</label>
+            <label for="" class="form-label" id = "upkeep_id_label"> <b>Vehicle Make </b></label>
             <input type="text" class="form-control" name="vehicle_make" value="<?php if(isset($_POST['vehicle_make'])) {echo $_POST['vehicle_make'];}elseif (isset($data['vehicle_make'])){echo $data['vehicle_make'];}?>"  placeholder="">
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Chasis Number</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Chasis Number</b></label>
             <input type="text" class="form-control" name="vehicle_chasisnum" value="<?php if(isset($_POST['vehicle_chasisnum'])) {echo $_POST['vehicle_chasisnum'];}elseif (isset($data['vehicle_chasisnum'])){echo $data['vehicle_chasisnum'];}?>"  placeholder="">
           </div>
         </div>
 
         <div class="row">
         <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Model</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Model</b></label>
            <input type="text" class="form-control" name="vehicle_model" value="<?php if(isset($_POST['vehicle_model'])) {echo $_POST['vehicle_model'];}elseif (isset($data['vehicle_model'])){echo $data['vehicle_model'];}?>" placeholder="">    
           </div>
 
           
         <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Engine Number</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Engine Number</b></label>
             <input type="text" class="form-control" name="vehicle_engine_num"  value="<?php if(isset($_POST['vehicle_engine_num'])) {echo $_POST['vehicle_engine_num'];}elseif (isset($data['vehicle_engine_num'])){echo $data['vehicle_engine_num'];}?>" placeholder="">
           </div>
         </div>
