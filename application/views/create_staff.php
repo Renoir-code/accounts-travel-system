@@ -15,19 +15,21 @@
     <?php endif; ?>
 
 
-        <?php echo form_open('staff/staff_submit') ?>
+    <?php echo form_open('staff/staff_submit') ?>
+    <br>
 
 <div class="container mt-5">
   <div class="card">
     <form>
       <!-- Card header -->
       <div class="card-header">
-        <h4 class="fw-bold">Add Staff Member</h4>
+        <h4 class="fw-bold">Edit Officer Details</h4>
       </div>
 
       <!-- Card body -->
       <div class="card-body">
       <div class="row">
+      <h5 style= "text-align :center"> <b> Personal Details</b></h5>
           <div class="col-md-6">
             <div class="mb-3">
               <label for="exampleInput4" class="form-label">First Name </label>
@@ -49,6 +51,9 @@
               <input type="text" class="form-control" name="trn" value="<?php echo set_value('trn') ?>" placeholder="">
             </div>
           </div>
+
+          <hr>  <h5 style= "text-align :center"> <b> Officer Details</b></h5>
+        <br>
 
           <div class="col-md-6">
             <label for="exampleInput5" class="form-label">State the Officer Post</label>
@@ -99,10 +104,10 @@
             </div>
           </div>
 
-          <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Model</label>
-            <input type="text" class="form-control" name="vehicle_model" value="<?php echo set_value('vehicle_model') ?>" placeholder=""> 
-          </div>
+          <hr>  <h5 style= "text-align :center"> <b> Vehicle Details</b></h5>
+        <br>
+
+         
         </div>
 
 
@@ -120,11 +125,22 @@
           </div>
         </div>
 
+        <div class="row">
+        <div class="col-md-6">
+            <label for="exampleInput5" class="form-label">Vehicle Model</label>
+            <input type="text" class="form-control" name="vehicle_model" value="<?php echo set_value('vehicle_model') ?>" placeholder=""> 
+          </div>
+
+          
         <div class="col-md-6">
             <label for="exampleInput5" class="form-label">Vehicle Engine Number</label>
             <input type="text" class="form-control" name="vehicle_engine_num"  value="<?php echo set_value('vehicle_engine_num') ?>" placeholder="">
           </div>
         </div>
+
+
+        </div>
+
 
  
       </div>
