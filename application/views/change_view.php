@@ -15,7 +15,7 @@
     <?php endif; ?>
 
 <?php
-//testarray($changes);
+//testarray($data);
 ?>
 
         <?php echo form_open("staff/change/{$data['staff_id']}") ?>
@@ -47,7 +47,7 @@
             <div class="mb-3">
             <label for="" class="form-label"> <b>New Post Title </b></label>
             
-                <input type="text" class="form-control" name="post_change" value="<?php if(isset($_POST['post_title'])) {echo $_POST['post_title'];}elseif (isset($data['post_title'])){echo $data['post_title'];}?>" placeholder="">
+                <input type="text" class="form-control" name="post_change" value="<?php if(isset($data['post_change'])) {echo $data['post_change'];}elseif (isset($_POST['post_title'])){echo $_POST['post_title'];}?>" placeholder="">
            
             </div>
           </div>

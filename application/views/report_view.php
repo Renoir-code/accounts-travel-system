@@ -7,7 +7,7 @@
 <div class="container" id = "report_to_print">
 
 
-  
+  <h4>Report for the month of : <?php echo date("F",strtotime($month[0]));?></h4>
       <div class="row" >
         <table class="table table-striped table-hover " >
           <thead>

@@ -15,7 +15,7 @@ class Report_model extends CI_Model{
 		$current_date = $date = date('Y-m-d');
 		//echo $current_date;
 		
-		//Update Query to set deactivate users whose acting has ended
+		//Update Query to set deactivate users whose acting has ended 
 		$query = 	"UPDATE changes
 					SET active = 0 
 					WHERE DATE({$current_date}) > DATE(dateof_change_end); ";

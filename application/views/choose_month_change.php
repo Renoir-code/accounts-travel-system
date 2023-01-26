@@ -37,11 +37,11 @@
 			<!--<label for="" class="form-label"> Location of Officer </label>-->
                    
                     <select  class="form-control-lg" name="location_id">
-                       <option value="0" >Choose Location..</option>
-                       <option value="1" >Court Administration Division </option>
-                       <option value="2" >Supreme Court </option>
-                       <option value="3" >Parish Court </option>
-                       <option value="4" >Court of Appeal </option>
+                       <option value=""  <?php if(isset($_POST['location_id']) && $_POST['location_id']=='') echo ' selected';?>>Choose Location..</option>
+                       <option value="1" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='1') echo ' selected';?>>Court Administration Division </option>
+                       <option value="2" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='2') echo ' selected';?>>Supreme Court </option>
+                       <option value="3" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='3') echo ' selected';?>>Parish Court </option>
+                       <option value="4" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='4') echo ' selected';?>>Court of Appeal </option>
 
                     </select>
 			</td>

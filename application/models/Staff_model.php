@@ -335,7 +335,7 @@ public function get_staffRecords($staff_id)
                
       //  return $this->db->query($query, array($staff_id))->first_row('array');
 
-        $query = "SELECT staff.*, changes.dateof_change FROM staff
+        $query = "SELECT staff.*, changes.dateof_change, changes.post_change FROM staff
         LEFT JOIN location ON staff.location_id = location.location_id
         LEFT JOIN upkeep_type ON upkeep_type.upkeep_id = staff.upkeep_id
         LEFT JOIN officer_type ON officer_type.officer_id = staff.officer_id

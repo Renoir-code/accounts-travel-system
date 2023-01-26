@@ -1,5 +1,8 @@
 
  $(document).ready(function(){
+ const home = window.location.protocol + '//' +window.location.hostname + '/';
+//alert(home+"testproject/staff/certifier_record/1/2");
+ 
  
   jQuery('#checkAll').click(function () {
 	jQuery('input:checkbox').not(this).prop('checked', this.checked);
@@ -18,7 +21,7 @@ jQuery('.reject_payments').click(function (event) {
 		
 		$.ajax({
 			type : "POST",
-			url  : "http://localhost/testproject/staff/certifier_record/1/2",
+			url  : home+"testproject/staff/certifier_record/1/2",
 			dataType : "JSON",
 			data : {reject_certify_single_payment:1,certify_record_to_reject:record_to_reject,certifier_remarks:certifier_remarks},
 			success: function(data){
