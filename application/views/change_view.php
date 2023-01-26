@@ -94,7 +94,7 @@
                     <div class="form-group">
                     <label for="" class="form-label"> Travel Recovery </label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control-lg" name="travel_recovery" value="<?php if(isset($_POST['travel_recovery'])) {echo $_POST['travel_recovery'];}elseif (isset($change)){echo $changes['travel_recovery'];}?>" placeholder="">
+                        <input type="text" class="form-control-lg" name="travel_recovery" value="<?php if(isset($_POST['travel_recovery'])) {echo $_POST['travel_recovery'];}elseif (isset($changes)){echo $changes['travel_recovery'];}?>" placeholder="">
                         </div>
                     </div>
 
