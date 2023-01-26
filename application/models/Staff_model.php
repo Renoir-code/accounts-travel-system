@@ -25,11 +25,11 @@ class Staff_model extends CI_Model{
     }
     }
 	
-	/* public function checkVoucherNum($value)
+	 public function checkVoucherNum($voucher)
     {
         $this -> db -> select('voucher_number');
         $this -> db -> from('staff_payment');
-        $this -> db -> where('voucher_number', $value);
+        $this -> db -> where('voucher_number', $voucher);
         $this -> db -> limit(1);
 
         $query = $this -> db -> get();
@@ -40,7 +40,7 @@ class Staff_model extends CI_Model{
         else{
 		  return false;
     }
-    } */
+    } 
 
 
       public function get_locations()
@@ -157,7 +157,7 @@ class Staff_model extends CI_Model{
 		//$this->db->db_debug = $db_debug; //restore debug setting
 			
 
-			return $error;
+			return false;
 
 	  }
        else
