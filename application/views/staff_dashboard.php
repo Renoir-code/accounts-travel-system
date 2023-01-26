@@ -67,7 +67,7 @@ unset($_SESSION['success_message']);
       <?php echo ($_SESSION['role_id'] == 3 ) ? anchor ("staff/view_all_payment_records/3" , "View All Records", ['class'=> 'btn btn-success']): ''; ?>
 
 	  
-	  <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-grey']); ?>
+	  <?php echo anchor ("report/chooseReport" , "Reports", ['class'=> 'btn btn-primary']); ?>
       <hr>
       <div class="row">
         <table class="table table-striped table-hover " id = "view_all_records">

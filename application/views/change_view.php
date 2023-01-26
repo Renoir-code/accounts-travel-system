@@ -25,7 +25,7 @@
     <form>
       <!-- Card header -->
       <div class="card-header">
-        <h4 class="fw-bold">Enter Any Changes  </h4>
+        <h4 class="fw-bold">Enter Any Changes to the Staff Member  </h4>
       </div>
 
       <!-- Card body -->
@@ -56,7 +56,7 @@
 
         <div class="row">
          
-            <hr> <h5 style= "text-align :center"> <b> Officer Details</b></h5>
+            <hr> <h5 style= "text-align :center"> <b> Date / Monthly Allotment</b></h5>
             <br>
 
             <div class="col-md-6">
@@ -99,7 +99,7 @@
           </div>
 
 
-          <hr>  <h5 style= "text-align :center"> <b> Vehicle Details</b></h5>
+          <hr>  <h5 style= "text-align :center"> <b> Arrears to be Recovered </b></h5>
  
         <div class="row">
           <div class="col-md-6">
