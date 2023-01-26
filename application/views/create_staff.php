@@ -23,7 +23,7 @@
     <form>
       <!-- Card header -->
       <div class="card-header">
-        <h4 class="fw-bold">Edit Officer Details</h4>
+        <h4 class="fw-bold">Add Officer </h4>
       </div>
 
       <!-- Card body -->
@@ -32,39 +32,37 @@
       <h5 style= "text-align :center"> <b> Personal Details</b></h5>
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="exampleInput4" class="form-label">First Name </label>
+              <label for="exampleInput4" class="form-label"><b>First Name</b> </label>
               <input type="text" class="form-control" name="firstname" value="<?php echo set_value('firstname') ?>" placeholder="">
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Last Name</label>
+            <label for="exampleInput5" class="form-label"><b>Last Name</b></label>
             <input type="text" class="form-control" name="lastname" value="<?php echo set_value('lastname') ?>" placeholder="">  
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label"><b>Tax Registration Number</b></label>
+              <input type="text" class="form-control" name="trn" value="<?php echo set_value('trn') ?>" placeholder="">
+            </div>
           </div>
         </div>
 
 
         <div class="row">
-          <div class="col-md-6">
-            <div class="mb-3">
-              <label for="exampleInput4" class="form-label">Tax Registration Number</label>
-              <input type="text" class="form-control" name="trn" value="<?php echo set_value('trn') ?>" placeholder="">
-            </div>
-          </div>
-
+         
           <hr>  <h5 style= "text-align :center"> <b> Officer Details</b></h5>
         <br>
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">State the Officer Post</label>
+            <label for="exampleInput5" class="form-label"><b>Post Title</b></label>
             <input type="text" class="form-control" name="post_title" value="<?php echo set_value('post_title') ?>" placeholder=""> 
           </div>
-        </div>
 
-        <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-              <label for="exampleInput4" class="form-label"> Choose the Location of Officer</label>
+              <label for="exampleInput4" class="form-label"> <b>Location of the Officer</b></label>
               <select  class="form-control" name="location_id">
                        <option value="0"  > </option>
                        <option value="1" <?php if(isset($_POST['location_id']) && $_POST['location_id']==1) echo ' selected';?> >Court Administration Division </option>
@@ -75,22 +73,27 @@
             </div>
           </div>
 
+
+
+        </div>
+
+        <div class="row">
+         
+
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Choose the Type of Officer</label>
+            <label for="exampleInput5" class="form-label"><b>Choose the Officer Type</b></label>
             <select  class="form-control" name="officer_id" id = "officer_id" onchange="val()">
                     <option value=""> </option>
                     <option value="1" <?php if(isset($_POST['officer_id']) && $_POST['officer_id']==1) echo ' selected';?> >Travelling Officer </option>
                     <option value="2" <?php if(isset($_POST['officer_id']) && $_POST['officer_id']==2) echo ' selected';?> >Casual Officer </option>
                     </select> 
           </div>
-        </div>
 
-        <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-            <label for="" class="form-label" id = "upkeep_id_label"> Type of Upkeep </label>
+            <label for="" class="form-label" id = "upkeep_id_label"> <b>Choose the Type of Upkeep </b> </label>
               <select  class="form-control" name="upkeep_id" id="upkeep_id">
-                    <option value="55"> </option>
+                    <option value="55"> ..</option>
                     <option value="1" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==1) echo ' selected';?> >Fixed Upkeep Allowance </option>
                     <option value="2" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==2) echo ' selected';?> >Fixed Walkfoot Allowance </option>
                     <option value="3" <?php if(isset($_POST['upkeep_id']) && $_POST['upkeep_id']==3) echo ' selected';?> >Judges(Partially Owned) </option>
@@ -103,6 +106,10 @@
             <input type="hidden" class="form-control-lg" name="upkeep_id" value="55" disabled id="hidden_input">
             </div>
           </div>
+        </div>
+
+        <div class="row">
+         
 
           <hr>  <h5 style= "text-align :center"> <b> Vehicle Details</b></h5>
         <br>
@@ -114,26 +121,26 @@
         <div class="row">
           <div class="col-md-6">
             <div class="mb-3">
-            <label for="" class="form-label" id = "upkeep_id_label"> Vehicle Make</label>
+            <label for="" class="form-label" id = "upkeep_id_label"> <b>Vehicle Make</b></label>
             <input type="text" class="form-control" name="vehicle_make" value="<?php echo set_value('vehicle_make') ?>"  placeholder="">
             </div>
           </div>
 
           <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Chasis Number</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Chasis Number</b></label>
             <input type="text" class="form-control" name="vehicle_chasisnum" value="<?php echo set_value('vehicle_chasisnum') ?>"  placeholder="">
           </div>
         </div>
 
         <div class="row">
         <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Model</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Model</b></label>
             <input type="text" class="form-control" name="vehicle_model" value="<?php echo set_value('vehicle_model') ?>" placeholder=""> 
           </div>
 
           
         <div class="col-md-6">
-            <label for="exampleInput5" class="form-label">Vehicle Engine Number</label>
+            <label for="exampleInput5" class="form-label"><b>Vehicle Engine Number</b></label>
             <input type="text" class="form-control" name="vehicle_engine_num"  value="<?php echo set_value('vehicle_engine_num') ?>" placeholder="">
           </div>
         </div>
@@ -149,8 +156,7 @@
 
       <!-- Card footer -->
       <div class="card-footer">
-        <button class="btn btn-danger">Cancel</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary btn-block">Submit</button>
       </div>
     </form>
   </div>
