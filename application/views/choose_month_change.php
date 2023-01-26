@@ -7,6 +7,13 @@
 
 <?php include_once('inc/header.php') ?>
 
+
+<?php
+
+echo $this->session->flashdata('message');
+unset($_SESSION['message']);
+?>
+
 <?php echo form_open('report/changesReport')?>
 <br>
 <table class="table table-striped table-hover " >
