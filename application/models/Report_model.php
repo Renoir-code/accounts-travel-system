@@ -12,8 +12,16 @@ class Report_model extends CI_Model{
         $month = date('m',strtotime($reportdate));
         $year = date('Y',strtotime($reportdate));
 		
-    
+		$current_date = $date = date('Y-m-d');
+		//echo $current_date;
+		
+		//Update Query to set deactivate users whose acting has ended
+		$query = 	"UPDATE changes
+					SET active = 0 
+					WHERE DATE({$current_date}) > DATE(dateof_change_end); ";
         
+		$this->db->query($query, array());
+		
 		
 		  $query = "SELECT changes.* 
         , staff.firstname, staff.lastname 
@@ -22,7 +30,7 @@ class Report_model extends CI_Model{
         INNER JOIN staff ON changes.staff_id = staff.staff_id)
         INNER JOIN upkeep_type ON changes.upkeepchange_type = upkeep_type.upkeep_id)
 		INNER JOIN location ON staff.location_id = location.location_id)
-        WHERE dateof_change_end ='' and staff.location_id = ?";
+        WHERE changes.active = 1 AND staff.location_id = ?";
 		
 		return $this->db->query($query, array($location_id))->result_array();
     

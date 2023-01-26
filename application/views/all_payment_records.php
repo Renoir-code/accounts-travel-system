@@ -20,8 +20,10 @@
 
     
  <?php 
+ if(strlen($this->uri->segment(3))>3)
+	
  
-   if(count($payment_records)>0){
+   if(count($payment_records)>0 && (strlen($this->uri->segment(3)>3))){
 	  //testarray($payment_records);
  $name_of_staff = $payment_records[0]['firstname'].' '.$payment_records[0]['lastname'];    
  echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$name_of_staff.' </span>  </h4><br>';  
@@ -41,15 +43,15 @@
       <?php $test1 =2;?>
     <?php $test2 =3;?>
 
-<h4> Please Enter the TRN Number for the Staff Member : </h4>
-<?php echo form_open('staff/staff_information') ?>
+<!--<h4> Please Enter the TRN Number for the Staff Member : </h4>
+<?php //echo form_open('staff/staff_information') ?>
 <input type="text" class="form-control-sm" name ="trn"> 
 <input type="submit" value="submit" class="btn btn-primary btn-lg"> 
 <br><br>
 
 <?php echo form_close(); ?>
 
-      <hr>
+      <hr>-->
      <?php echo form_open("staff/certifier_record/{$test1}/{$test2}" ) ?>
       <div class="row">
         <table id = "view_all_records" class="table table-striped table-hover ">

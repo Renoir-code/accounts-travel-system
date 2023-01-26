@@ -19,12 +19,13 @@ if (!isset($_SESSION['user_id']))
 {
   session_unset(); 
   $this->load->view('login');
+  exit();
 }
 
 //if user has not done any action in 20 minutes, unset session variables and load login screen 
 $current_time = time();
 $time_since_last_action = (time() - $_SESSION['timeout']) / 60;
-if($time_since_last_action > 20 ){
+if($time_since_last_action > 45 ){
  session_unset();
 $this->session->set_flashdata('timeout','Session timed out.'); 
 $this->load->view('login');
@@ -484,7 +485,8 @@ $_SESSION['timeout'] = time();
                     ))
                     {
                         $this->session->set_flashdata('message',"Staff Member Details Updated!!");
-                        redirect("staff/staff_records/{$staff_id}");
+                       // redirect("staff/staff_records/{$staff_id}");
+						redirect("staff/view_all_payment_records/100{$staff_id}");
                        // $this->load->view('staff/staff_records_view',['data'=> $data]);
                        // redirect("staff/staff_records_view/{$staff_id}");
                     }
@@ -555,7 +557,7 @@ $_SESSION['timeout'] = time();
 						// Set Email Variables
 	$from_name = 'System Administrator';
 	$from_emailaddress = 'webmaster@cad.gov.jm'; 
-	$to = 'shayne.gilpin@cad.gov.jm'; //$recipients;//trim($this->input->post('certifier_email')); 
+	$to = $recipients;//trim($this->input->post('certifier_email')); 
 	$subject = $subject_of_email;
 	$message = $message_of_email;
 						
@@ -633,9 +635,9 @@ if (isset($_POST['certifier_remarks'])){
 		rtrim($certifierEmailAddresses, ",");
 	   
 		//set the message to be sent
-		$link = '<a href="'.base_url('staff/view_all_payment_records').'/'.($_SESSION['role_id'] + 1).'">Certification Needed </a>';
+		$link = '<a href="'.base_url('staff/view_all_payment_records').'/'.($_SESSION['role_id'] + 1).'/1">Action needed for payment records </a>';
 		$message = 'Good day,<br/><br/>'
-						.'Please click the link to see the payment records to certiy <br/><br/>';
+						.'Please click the link to see the payment records <br/><br/>';
 						$message .= $link;                    
 						$message .= '<br/><br/>Regards <br/><br/>'
 						.'System Administrator';

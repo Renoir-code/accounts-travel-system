@@ -47,13 +47,13 @@ unset($_SESSION['success_message']);
 ?>
 <br>
 
-<h4> Please Enter the TRN Number for the Staff Member : </h4>
-<?php echo form_open('staff/staff_information') ?>
+<!--<h4> Please Enter the TRN Number for the Staff Member : </h4>
+<?php //echo form_open('staff/staff_information') ?>
 <input type="text" class="form-control-sm" name ="trn"> 
 <input type="submit" value="submit" class="btn btn-primary btn-lg"> 
-<br><br>
+<br><br>-->
 
-<?php echo form_close(); ?>
+<?php //echo form_close(); ?>
 
       <h4> Staff Information Dashboard </h4>
       <?php echo anchor ("staff/staff_create" , "Add Travelling/CasualOfficer", ['class'=> 'btn btn-primary']); ?>
