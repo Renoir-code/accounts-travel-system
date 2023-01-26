@@ -128,11 +128,11 @@ $_SESSION['timeout'] = time();
 			}
 		}
 
-/*  function checkVoucherNumber($value)
+ function checkVoucherNumber($voucher)
 		{
 			$this->load->model('user_model');
-			$trn=$this->staff_model->checkVoucherNum($value);
-			if($trn == FALSE)
+			$trn=$this->staff_model->checkVoucherNum($voucher);
+			if($voucher == FALSE)
 			{
 			return true;
 			}
@@ -141,7 +141,8 @@ $_SESSION['timeout'] = time();
 			$this->form_validation->set_message('checkVoucherNumber', 'This Voucher Number already exists!');
 			return FALSE;
 			}
-		} */
+		} 
+
     public function staff_information()
     {
       
@@ -178,7 +179,7 @@ $_SESSION['timeout'] = time();
             redirect('staff/staff_information');
         }
 
-            $this->form_validation->set_rules('voucher_number','voucher number' );
+            $this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNumber' );
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
