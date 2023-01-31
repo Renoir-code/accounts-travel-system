@@ -89,7 +89,7 @@
         <div class="row gx-xl-5">
           <div class="col-md-4">
             <h5>Date Details </h5>
-            <p class="text-muted"> Please Note Future dates cannot be selected</p>
+            <p class="text-muted"> </p>
           </div>
 
           <div class="col-md-8">
@@ -346,8 +346,8 @@
 
       <!-- Card footer -->
       <div class="card-footer text-end py-4 px-5 bg-light border-0">
-        <button class="btn btn-link btn-rounded" data-ripple-color="primary">Cancel</button>
-     <input type="submit" class="btn btn-primary btn block"></input>
+        <!--<button class="btn btn-link btn-rounded" data-ripple-color="primary">Cancel</button>-->
+     <input type="submit" class="btn btn-primary btn block" value = "Submit"></input>
           
         </button>
       </div>
