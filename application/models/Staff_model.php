@@ -406,7 +406,14 @@ public function get_staffRecords($staff_id)
      return $this->db->query($query)->result_array();
     }
 
-    public function getCertifierEmail()
+     public function getInserterEmail()
+    {
+        $query = " SELECT email  FROM users  WHERE role_id = 1 ";
+        return $this->db->query($query)->result_array();
+
+    }
+	
+	public function getCertifierEmail()
     {
         $query = " SELECT email , firstname , lastname FROM users  WHERE role_id = 2 ";
         return $this->db->query($query)->result_array();
@@ -529,14 +536,13 @@ public function get_staffRecords($staff_id)
  {
 
 
-
 if($changes_type == 'submit'){
   $query = " INSERT INTO changes
   (staff_id , monthly_allotment , arrears , travel_recovery , upkeepchange_type , post_change , dateof_change ,changes_remarks,dateof_change_end, active )
   VALUES
   (? , ? , ? , ? , ? , ? , ? , ? , ?, ?)
   ";
-  
+ 
   $result = $this->db->query($query,array($staff_id , $monthly_allotment , $arrears , $travel_recovery , $upkeepchange_type , $post_change , $dateof_change ,$changes_remarks, $dateof_change_end,1));
 }else
 {

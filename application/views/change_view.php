@@ -15,7 +15,7 @@
     <?php endif; ?>
 
 <?php
-//testarray($data);
+//testarray($changes);
 ?>
 
         <?php echo form_open("staff/change/{$data['staff_id']}") ?>
@@ -47,7 +47,7 @@
             <div class="mb-3">
             <label for="" class="form-label"> <b>New Post Title </b></label>
             
-                <input type="text" class="form-control" name="post_change" value="<?php if(isset($data['post_change'])) {echo $data['post_change'];}elseif (isset($_POST['post_title'])){echo $_POST['post_title'];}?>" placeholder="">
+                <input type="text" class="form-control" name="post_change" value="<?php if (isset($_POST['post_title'])){echo $_POST['post_title'];}elseif(isset($data['post_change'])) {echo $data['post_change'];}elseif(isset($data['post_title'])) {echo $data['post_title'];} ?>" placeholder="">
            
             </div>
           </div>
@@ -61,13 +61,13 @@
 
             <div class="col-md-6">
                 <label for="exampleInput5" class="form-label"><b>Date of Change</b></label>
-                <input type="date" class="form-control" name="date_of_change" value="<?php echo substr($data['dateof_change'],0,10);//echo set_value('date_of_change') ?>" placeholder="">
+                <input type="date" class="form-control" name="date_of_change" value="<?php if (isset($_POST['dateof_change'])){echo $_POST['dateof_change'];}elseif (isset($changes)){echo substr($changes['dateof_change'],0,10);}//echo set_value('date_of_change') ?>" placeholder="">
             </div>
 
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="exampleInput4" class="form-label"> <b>End Date</b></label>
-                    <input type="date" class="form-control" name="date_of_change_end" value="<?php echo  (isset($changes)) ? substr($changes['dateof_change_end'],0,10) : ''; ?>" placeholder="">
+                    <input type="date" class="form-control" name="date_of_change_end" value="<?php if (isset($_POST['date_of_change_end'])){echo $_POST['date_of_change_end'];}elseif (isset($changes)){echo substr($changes['dateof_change_end'],0,10);} ?>" placeholder="">
                 </div>
             </div>
 
@@ -130,7 +130,7 @@
 
       <!-- Card footer -->
       <div class="card-footer">
-        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+        <button type="submit" name = "changes" value = "<?php echo (isset($changes)) ? 'update' : 'submit'; ?>" class="btn btn-primary btn-block">Submit</button>
       </div>
     </form>
   </div>

@@ -24,12 +24,12 @@ class Report_model extends CI_Model{
 		
 		
 		  $query = "SELECT changes.* 
-        , staff.firstname, staff.lastname 
-        ,upkeep_type.upkeep_name, location.location_name
+        , staff.firstname, staff.lastname, staff.location_id
+        ,upkeep_type.upkeep_name, location.location_name,location.location_id
         FROM (((changes 
-        INNER JOIN staff ON changes.staff_id = staff.staff_id)
-        INNER JOIN upkeep_type ON changes.upkeepchange_type = upkeep_type.upkeep_id)
-		INNER JOIN location ON staff.location_id = location.location_id)
+        LEFT JOIN staff ON changes.staff_id = staff.staff_id)
+        LEFT JOIN upkeep_type ON changes.upkeepchange_type = upkeep_type.upkeep_id)
+		LEFT JOIN location ON staff.location_id = location.location_id)
         WHERE changes.active = 1 AND staff.location_id = ?";
 		
 		return $this->db->query($query, array($location_id))->result_array();

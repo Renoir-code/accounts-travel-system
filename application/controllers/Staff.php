@@ -179,7 +179,7 @@ $_SESSION['timeout'] = time();
             redirect('staff/staff_information');
         }
 
-            $this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNumber' );
+            //$this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNumber' );
             $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
             $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
@@ -586,16 +586,55 @@ public function certifier_record($staff_payment_id,$staff_id)
 	exit();	
 	
 }
+
 if (isset($_POST['reject_certify_single_payment'])) {
 					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] - 1,$_POST['certify_record_to_reject']);				
 	
 if (isset($_POST['certifier_remarks'])){
 	if($_SESSION['role_id']==2){
 		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'certifier_remarks');
+		
+		 //get all Inseter email addresses
+	   $inserter_name_email = $this->staff_model->getInserterEmail();
+	   if(count($inserter_name_email)>0){
+		   
+	   $inserterEmailAddresses = ''; 
+	
+		foreach($inserter_name_email as $record ){
+		   $inserterEmailAddresses .= $record['email'] .',';
+		}
+		rtrim($inserterEmailAddresses, ",");
+	   
+	   }
+		$message =  $_POST['certifier_remarks'];
+		$email_sent = $this->sendEmail( $inserterEmailAddresses ,'Records needs to adjustments.',$message);
+	if(!$email_sent){
+		echo 'Email not sent to inseter';
+	}
+	
 	}
 }
 	if($_SESSION['role_id']==3){
 		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'approver_remarks');
+	
+	 //get all Inseter email addresses
+	   $certifier_name_email = $this->staff_model->getCertifierEmail();
+	   if(count($certifier_name_email)>0){
+		   
+	   $inserterEmailAddresses = ''; 
+	
+		foreach($certifier_name_email as $record ){
+		   $inserterEmailAddresses .= $record['email'] .',';
+		}
+		rtrim($inserterEmailAddresses, ",");
+	   
+	   }
+		$message =  $_POST['certifier_remarks'];
+		$email_sent = $this->sendEmail( $inserterEmailAddresses ,'Records needs to adjustments.',$message);
+	if(!$email_sent){
+		echo 'Email not sent to inseter';
+	}
+	
 	}
 	echo json_encode(array("rejected_record"=>$_POST['certify_record_to_reject']));
 	exit();		
@@ -616,6 +655,7 @@ if (isset($_POST['certifier_remarks'])){
 					
 					if($_SESSION['role_id'] == 2){
 					$column = 'certified_by';
+					$this->staff_model->updateCertifyAuthorizeBy($_SESSION['email'],$record,$column);					
 					}
 					if($_SESSION['role_id'] == 3){
 					$column = 'authorized_by';
@@ -933,7 +973,7 @@ if (isset($_POST['certifier_remarks'])){
         $this->form_validation->set_rules('arrears','Arrears Due',''); 
         $this->form_validation->set_rules('travel_recovery','Travel Recovery','');
         $this->form_validation->set_rules('changes_remarks','Change Remarks',''); 
-       
+		$this->form_validation->set_rules('date_of_change','Date of Change','required');
 
         $data = $this->staff_model->get_staffRecords($staff_id);
 		$changes = $this->staff_model->get_changes_to_staff($staff_id);

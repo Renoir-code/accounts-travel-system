@@ -172,7 +172,7 @@
 
       <!-- Card footer -->
       <div class="card-footer">
-        <button class="btn btn-danger">Cancel</button>
+        <!--<button class="btn btn-danger">Cancel</button>-->
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
