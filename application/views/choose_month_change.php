@@ -1,9 +1,12 @@
 
+<?php include_once('inc/header.php') ?>
 
 
+<?php
 
-
-
+echo $this->session->flashdata('message');
+unset($_SESSION['message']);
+?>
 
 <?php include_once('inc/header.php') ?>
 
@@ -78,3 +81,57 @@ unset($_SESSION['message']);
 		 </tbody>
         
       </table>   
+
+
+
+    <h4>General Report</h4>
+<?php form_open('report/generalReport') ?>
+      <table class="table table-striped table-hover " >
+          <thead>
+              <tr>
+                <th scope="col ">Choose Start Date</th>
+                <th scope="col ">Choose End Date</th>
+				<th scope="col ">Enter the Officer TRN </th> 
+                <th scope="col ">Choose the type of Report </th> 
+              </tr>
+          </thead>
+      <tbody>
+	  <tr class = 'table-active'>
+
+    <td>               
+    <input type="date" id="start" name="date_from" min="2018-03-01" value="2018-05-01" >                   
+    </div>
+    </td>   
+    
+    
+    <td>               
+    <input type="date" id="end" name="date_to" min="2018-03-01" value="2018-05-01" >                   
+    </div>
+    </td> 
+    
+    <td> <!-- Enter the Officer name -->
+    <input type="text" name = "trn" class="form-control" value="<?php echo set_value('trn') ?>" placeholder="">
+    <small> <?php echo form_error('trn','<div class="text-danger">','</div>');?> </small>
+    </td>		
+    
+    <td>
+    <select class="form-control" name="report_type">
+        <option value="mileage_km"  <?php if(isset($_POST['report_type']) && $_POST['report_type']=='mileage_km') echo ' selected';?>> Total Mileage</option>
+        <option value="subsistence_km" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='subsistence_km') echo ' selected';?>>Total Subsistence </option>
+        <option value="passenger_km" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='passenger_km') echo ' selected';?>>Total Passenger Mileage </option>
+        <option value="toll_amt" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='toll_amt') echo ' selected';?>>Toll Amt </option>
+        <option value="actual_expense" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='actual_expense') echo ' selected';?>>Actual Expense </option>
+        <option value="supper_days"  <?php if(isset($_POST['report_type']) && $_POST['report_type']=='supper_days') echo ' selected';?>> Supper</option>
+        <option value="refreshment_days" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='refreshment_days') echo ' selected';?>>Refreshment </option>
+        <option value="	taxi_out_town" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='taxi_out_town') echo ' selected';?>>Taxi Out Town</option>
+        <option value="taxi_in_town" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='taxi_in_town') echo ' selected';?>>Taxi In Town </option>
+    </select>
+    </td>	
+    </div>
+    </div>
+    <small> <?php echo form_error('rate_name','<div class="text-danger">','</div>');?>  </small>   
+</div>
+<td>
+  <button type="submit" class="btn  btn-success ">Generate Report </button>
+ </td>
+ <?php form_close(); ?>

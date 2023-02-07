@@ -67,14 +67,39 @@ $_SESSION['timeout'] = time();
 		
 		}
         
-       
+    }
 
-     
+    public function generalReport()
+    {
+        $date_from = $this->input->post('date_from');
+        $date_to = $this->input->post('date_to');
+        $trn = $this->input->post('trn');
+        $report_type = $this->input->post('report_type');
 
-       
+     /*    $this->form_validation->set_rules('date_from','Choose Start Date','');
+		$this->form_validation->set_rules('date_to','Choose End Date','');
+        $this->form_validation->set_rules('trn','TRN Number','');
+        $this->form_validation->set_rules('report_type','Report Type',''); 
+
+        if($this->form_validation->run() == FALSE){
+        //testarray($data);
+        $this->load->view('choose_month_change',['data' => array($date_from,$date_to,$trn,$report_type)]);
+		}else
+		*/
+        {  
+			$data = $this->report_model->getReport($date_from,$date_to,$trn,$report_type);
+            testarray($data);
+			$this->load->view('report_view',['data' => $data, 'month'=>array($date_from,$date_to)]);
+		
+		
+		}
+
+
 
     }
-  
+
+
+    
     
     
 
