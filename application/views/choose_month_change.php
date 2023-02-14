@@ -81,11 +81,11 @@ unset($_SESSION['message']);
 		 </tbody>
         
       </table>   
-
+      <?php echo form_close(); ?>
 
 
     <h4>General Report</h4>
-<?php form_open('report/generalReport') ?>
+<?php echo form_open('report/generalReport') ?>
       <table class="table table-striped table-hover " >
           <thead>
               <tr>
@@ -99,13 +99,13 @@ unset($_SESSION['message']);
 	  <tr class = 'table-active'>
 
     <td>               
-    <input type="date" id="start" name="date_from" min="2018-03-01" value="2018-05-01" >                   
+    <input type="date" id="start" name="date_from" min="2018-01-01" value="2018-01-01" >                   
     </div>
     </td>   
     
     
     <td>               
-    <input type="date" id="end" name="date_to" min="2018-03-01" value="2018-05-01" >                   
+    <input type="date" id="end" name="date_to" min="2018-01-01" value="2018-01-01" >                   
     </div>
     </td> 
     
@@ -134,4 +134,4 @@ unset($_SESSION['message']);
 <td>
   <button type="submit" class="btn  btn-success ">Generate Report </button>
  </td>
- <?php form_close(); ?>
+ <?php echo form_close(); ?>
