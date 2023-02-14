@@ -30,7 +30,6 @@
               </div>
     <div class ="container">
       
- 
      
 
       <h4> General Report for  <?php echo $data[0]['firstname']. ' '.$data[0]['lastname'] ;?> </h4>
