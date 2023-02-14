@@ -12,6 +12,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/myscripts.js') ?>"></script>
 <!--<link href="<?php //echo base_url('assets/css/style.css'); ?>" rel="stylesheet">-->
+
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.dropdown.css'); ?>">
+<script src="<?php echo base_url('assets/js/jquery.dropdown.js') ?>"></script>
+
+
 <link rel="stylesheet" href = "//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 <script src = "//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script>

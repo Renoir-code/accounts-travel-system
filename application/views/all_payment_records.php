@@ -31,7 +31,7 @@
  
  } 
  
- if(count($payment_records)>0){
+ //if(count($payment_records)>0){
 
  if(count($payment_records) > 0) {
  if (!array_key_exists("staff_payment_id",$payment_records[0])){

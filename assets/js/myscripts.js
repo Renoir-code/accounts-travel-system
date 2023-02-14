@@ -121,7 +121,18 @@ jQuery('.reject_payments').click(function (event) {
 
  */
 
+ jQuery('#staff_member_report').multiselect({
+    columns: 1,
+    placeholder: 'Choose Staff',
+    search: true
+}); 
 
+/*$('.demo').dropdown({
+  // search field
+ input: '<input type="text" maxLength="20" placeholder="Search">',
+
+
+	});*/
 
 
 

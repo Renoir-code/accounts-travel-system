@@ -41,7 +41,11 @@ $_SESSION['timeout'] = time();
 
 
     public function chooseReport (){
-        $this->load->view('choose_month_change');
+        //get staff members
+		$staff_members = $this->staff_model->getStaffMembers();
+		
+		
+		$this->load->view('choose_month_change',['staff'=>$staff_members]);
     }
     
 
@@ -75,6 +79,7 @@ $_SESSION['timeout'] = time();
         $date_to = $this->input->post('date_to');
         $trn = $this->input->post('trn');
         $report_type = $this->input->post('report_type');
+		$staff_members = $this->input->post('staff_member_report');
 
      /*    $this->form_validation->set_rules('date_from','Choose Start Date','');
 		$this->form_validation->set_rules('date_to','Choose End Date','');
@@ -87,9 +92,11 @@ $_SESSION['timeout'] = time();
 		}else
 		*/
         {  
-			$data = $this->report_model->getReport($date_from,$date_to,$trn,$report_type);
-            testarray($data);
-			$this->load->view('report_view',['data' => $data, 'month'=>array($date_from,$date_to)]);
+			$data = $this->report_model->getReport($trn, $date_from,$date_to,$report_type,$staff_members);
+            //testarray($data);
+			//$this->load->view('report_view',['data' => $data, 'month'=>array($date_from,$date_to)]);
+			$this->load->view('test',['data' => $data, 'month'=>array($date_from,$date_to)]);
+
 		
 		
 		}

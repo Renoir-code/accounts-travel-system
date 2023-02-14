@@ -1,6 +1,7 @@
 
 <?php include_once('inc/header.php') ?>
-
+<script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
+<link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">
 
 <?php
 
@@ -17,7 +18,11 @@ echo $this->session->flashdata('message');
 unset($_SESSION['message']);
 ?>
 
-<?php echo form_open('report/changesReport')?>
+<?php 
+$attributes = array('name' => 'myform');
+echo form_open('report/changesReport',$attributes );
+
+?>
 <br>
 <table class="table table-striped table-hover " >
           <thead>
@@ -82,10 +87,14 @@ unset($_SESSION['message']);
         
       </table>   
 
+<?php echo form_close(); ?>
+<?php 
+$attributes = array('name' => 'myform2');
+echo form_open('report/generalReport'); 
 
-
+?>
     <h4>General Report</h4>
-<?php form_open('report/generalReport') ?>
+
       <table class="table table-striped table-hover " >
           <thead>
               <tr>
@@ -110,9 +119,20 @@ unset($_SESSION['message']);
     </td> 
     
     <td> <!-- Enter the Officer name -->
-    <input type="text" name = "trn" class="form-control" value="<?php echo set_value('trn') ?>" placeholder="">
-    <small> <?php echo form_error('trn','<div class="text-danger">','</div>');?> </small>
-    </td>		
+    <!--<input type="text" name = "trn" class="form-control" value="<?php //echo set_value('trn') ?>" placeholder="">
+    <small> <?php //echo form_error('trn','<div class="text-danger">','</div>');?> </small>-->
+  <div class="demo"> 
+<select  class="form-control-lg" name="staff_member_report[]" id = "staff_member_report" multiple <!--style="display:none"--> >
+   <?php
+	if(count($staff) > 0):
+		foreach($staff as $row => $row_value): ?>
+			<option value=<?php echo $row_value['staff_id'];?> <?php if(isset($_POST['staff_member_report']) && $_POST['staff_member_report']=='1') echo ' selected';?>><?php echo $row_value['firstname'] .' '. $row_value['lastname'];?></option>
+<?php endforeach; 
+	endif; ?>
+</select>
+</div>
+
+   </td>		
     
     <td>
     <select class="form-control" name="report_type">
@@ -134,4 +154,4 @@ unset($_SESSION['message']);
 <td>
   <button type="submit" class="btn  btn-success ">Generate Report </button>
  </td>
- <?php form_close(); ?>
+ <?php echo form_close(); ?>
