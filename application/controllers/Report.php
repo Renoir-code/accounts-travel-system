@@ -39,13 +39,25 @@ $_SESSION['timeout'] = time();
 	
 	}  
 
+    public function selectReport()
+    {
+        $selectReport = $this->input->post('report_id');
+
+       
+    }
+
 
     public function chooseReport (){
+<<<<<<< Updated upstream
         //get staff members
 		$staff_members = $this->staff_model->getStaffMembers();
 		
 		
 		$this->load->view('choose_month_change',['staff'=>$staff_members]);
+=======
+        
+        $this->load->view('choose_month_change');
+>>>>>>> Stashed changes
     }
     
 
@@ -59,9 +71,12 @@ $_SESSION['timeout'] = time();
 		
 		if($this->form_validation->run() == FALSE){
 			
+<<<<<<< Updated upstream
 			
 		$this->session->set_flashdata('message','Please Enter All Fields');	
         //testarray($data);
+=======
+>>>>>>> Stashed changes
         $this->load->view('choose_month_change',['data' => array($date,$location_id)]);
 		}else
 		{
@@ -70,6 +85,9 @@ $_SESSION['timeout'] = time();
 		//$this->session->set_flashdata('message','Please Enter All Fields');
 		
 		}
+
+
+        
         
     }
 
