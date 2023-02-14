@@ -31,8 +31,17 @@
     <div class ="container">
       
      
+    <?php if(count($data)):?>
 
-      <h4> General Report for  <?php echo $data[0]['firstname']. ' '.$data[0]['lastname'] ;?> </h4>
+    
+     
+      <h4> General Report for  <?php  
+      $date = date_create("$month[0]");
+      $date2 = date_create("$month[1]");
+      echo date_format($date,"M/d/Y") . ' - '. date_format($date2,"M/d/Y")
+      
+      
+      ?> </h4>
       <?php // if(isset($_SESSION['role_id']) && ($_SESSION['role_id'] !=4) ){ ?>
       <?php // echo anchor ("user/adminRegister" , "ADD USER", ['class'=> 'btn btn-primary']); ?>
       <?php //echo anchor ("staff/staff_create" , "ADD OFFICER", ['class'=> 'btn btn-light']); ?>
@@ -56,11 +65,11 @@
               </tr>
           </thead>
       <tbody>
-        <?php //if(count($data)):?>
+       
         <?php foreach($data as $row):?>
         <tr class = 'table-active'>
          <?php //testarray($row)?>
-          <td><?php echo $month[0] . '|' . $month[1] ?> </td>
+          <td><?php echo $row['firstname']. ' '.$row['lastname'] ; ?> </td>
           <td><?php echo $row['mileage'] ?> </td>
           <td><?php echo $row['passenger_km'] ?> </td>
           <td><?php echo $row['toll_amt'] ?> </td>
@@ -79,11 +88,11 @@
         </tr>
         
         <?php endforeach;?>
-        <?php //else: ?>
+        <?php else: ?>
           <tr>
             <td> No Records</td>
           </tr>
-        <?php //endif;?>
+        <?php endif;?>
         
         </tbody>
         

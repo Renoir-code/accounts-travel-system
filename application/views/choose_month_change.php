@@ -100,21 +100,21 @@ echo form_open('report/generalReport');
               <tr>
                 <th scope="col ">Choose Start Date</th>
                 <th scope="col ">Choose End Date</th>
-				<th scope="col ">Enter the Officer TRN </th> 
-                <th scope="col ">Choose the type of Report </th> 
+				<th scope="col ">Enter the Officer Name </th> 
+      
               </tr>
           </thead>
       <tbody>
 	  <tr class = 'table-active'>
 
     <td>               
-    <input type="date" id="start" name="date_from" min="2018-03-01" value="2018-05-01" >                   
+    <input type="date" id="start" name="date_from" min="2018-03-01" value="2023-05-01" >                   
     </div>
     </td>   
     
     
     <td>               
-    <input type="date" id="end" name="date_to" min="2018-03-01" value="2018-05-01" >                   
+    <input type="date" id="end" name="date_to" min="2018-03-01" value="2023-05-01" >                   
     </div>
     </td> 
     
@@ -134,7 +134,7 @@ echo form_open('report/generalReport');
 
    </td>		
     
-    <td>
+    <!-- <td>
     <select class="form-control" name="report_type">
         <option value="mileage_km"  <?php if(isset($_POST['report_type']) && $_POST['report_type']=='mileage_km') echo ' selected';?>> Total Mileage</option>
         <option value="subsistence_km" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='subsistence_km') echo ' selected';?>>Total Subsistence </option>
@@ -146,7 +146,7 @@ echo form_open('report/generalReport');
         <option value="	taxi_out_town" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='taxi_out_town') echo ' selected';?>>Taxi Out Town</option>
         <option value="taxi_in_town" <?php if(isset($_POST['report_type']) && $_POST['report_type']=='taxi_in_town') echo ' selected';?>>Taxi In Town </option>
     </select>
-    </td>	
+    </td>	 -->
     </div>
     </div>
     <small> <?php echo form_error('rate_name','<div class="text-danger">','</div>');?>  </small>   
@@ -155,3 +155,4 @@ echo form_open('report/generalReport');
   <button type="submit" class="btn  btn-success ">Generate Report </button>
  </td>
  <?php echo form_close(); ?>
+

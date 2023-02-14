@@ -46,9 +46,7 @@ class Report_model extends CI_Model{
     public function getReport ($staff_id , $date_from , $date_to, $report_type,$staff_members )
     {
 		
-		//
-		//echo $t;
-//testarray($staff_members );
+		
     $from = date('Y',strtotime($date_from)).date('m',strtotime($date_from)); // assigns the year appended to the month ex 201401
    $to =date('Y',strtotime($date_to)).date('m',strtotime($date_to));
       
@@ -69,7 +67,7 @@ $dynamic_parameter = implode(',',array_fill(0,count($staff_members),"?"));
 }
 
 
-echo $from.'-'.$to;
+
 	  
      $query =" SELECT staff_id, SUM(?) FROM staff_payment 
      WHERE CONCAT(`year_travelled`,LPAD(MONTH(STR_TO_DATE(CONCAT('2017-',`month_travelled`,'-12'),'%Y-%M-%d')),2,'0')) 
