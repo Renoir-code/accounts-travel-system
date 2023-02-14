@@ -1,6 +1,6 @@
 <?php include("inc/header.php"); ?>
 
-
+<?php //testarray($data);?>
 
 <?php if($msg = $this->session->flashdata('success_message')):?>
             <div class="row ">
@@ -22,21 +22,16 @@
  <?php 
  if(strlen($this->uri->segment(3))>3)
 	
-   if(count($payment_records)>0 && (strlen($this->uri->segment(3)>3)))
-   {
+ 
+   if(count($payment_records)>0 && (strlen($this->uri->segment(3)>3))){
 	  //testarray($payment_records);
-<<<<<<< Updated upstream
  $name_of_staff = $payment_records[0]['firstname'].' '.$payment_records[0]['lastname'];    
  echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$name_of_staff.' </span>  </h4><br>';  
  echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
  
  } 
  
-
- 
-
  //if(count($payment_records)>0){
-
 
  if(count($payment_records) > 0) {
  if (!array_key_exists("staff_payment_id",$payment_records[0])){
@@ -44,27 +39,13 @@
  $payment_records = array();
  } 
  }
-
-=======
-		$name_of_staff = $payment_records[0]['firstname'].' '.$payment_records[0]['lastname'];    
-		echo '<h4>  These are the payment Records for : <span style="color: red; font-size: 30px;"> '.$name_of_staff.' </span>  </h4><br>';  
-		echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
-		
- 	} 
-	if(count($payment_records) > 0) {
-		if (!array_key_exists("staff_payment_id",$payment_records[0])){
-
-		$payment_records = array();
-		} 
-	}
->>>>>>> Stashed changes
  ?>
        
 
       
     
       <?php $test1 =2;?>
-   	 <?php $test2 =3;?>
+    <?php $test2 =3;?>
 
 <!--<h4> Please Enter the TRN Number for the Staff Member : </h4>
 <?php //echo form_open('staff/staff_information') ?>
@@ -96,7 +77,7 @@
           </thead>
       <tbody>
        
-       		 <?php if(!empty($payment_records)): ?>
+        <?php if(!empty($payment_records)): ?>
             <?php foreach($payment_records as $row): ?>
         <tr class = 'table-active' id ="<?php echo $row['staff_payment_id'] ?>" >
            
@@ -238,7 +219,4 @@
 </div>
 <?php  echo form_close(); ?>
 </div>
-
-
-
 <?php include("inc/footer.php"); ?>
