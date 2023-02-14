@@ -52,7 +52,7 @@
         <table class="table table-striped table-hover ">
           <thead>
               <tr>
-                <th scope="col">Date From - Date To</th>
+                <th scope="col">Officer Name </th>
                 <th scope="col">Mileage Amount</th>
                 <th scope="col">Passenger Amount</th>
                 <th scope="col">Toll Amount </th>

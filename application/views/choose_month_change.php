@@ -5,7 +5,15 @@
 
 <?php
 
-echo $this->session->flashdata('message');
+if($msg = $this->session->flashdata('message')):?>
+    <div class="row ">
+        <div class ="col-md-3">
+            <div class="alert alert-dismissable alert-success">
+                <?php echo $msg; ?>
+                <?php endif;?>
+            </div> 
+        </div>
+
 unset($_SESSION['message']);
 ?>
 
@@ -108,13 +116,13 @@ echo form_open('report/generalReport');
 	  <tr class = 'table-active'>
 
     <td>               
-    <input type="date" id="start" name="date_from" min="2018-03-01" value="2023-05-01" >                   
+    <input type="date" id="start" name="date_from" min="2018-03-01" value="2023-01-01" >                   
     </div>
     </td>   
     
     
     <td>               
-    <input type="date" id="end" name="date_to" min="2018-03-01" value="2023-05-01" >                   
+    <input type="date" id="end" name="date_to" min="2018-03-01" value="2023-01-01" >                   
     </div>
     </td> 
     
