@@ -95,11 +95,11 @@ $_SESSION['timeout'] = time();
             testarray($data);
 			$this->load->view('report_view',['data' => $data, 'month'=>array($date_from,$date_to)]);
 		
-        */{  
+    
         $data = $this->report_model->getReport($date_from,$date_to);
         // testarray($data);
         $this->load->view('test',['data' => $data, 'month'=>array($date_from,$date_to)]);	
-		}
+		
 
 
 
@@ -117,6 +117,7 @@ $_SESSION['timeout'] = time();
 
 
 
+}
 
 
 
@@ -130,5 +131,3 @@ $_SESSION['timeout'] = time();
 
 
 
-
-?>

@@ -65,7 +65,7 @@
           <td><?php echo $row['mileage'] ?> </td>
           <td><?php echo $row['passenger_km'] ?> </td>
           <td><?php echo $row['toll_amt'] ?> </td>
-          <td><?php echo $row['subsistence'] ?> </td>
+          <td><?php echo $row['subsistence/'] ?> </td>
           <td><?php echo $row['actual_expense'] ?> </td>
           <td><?php echo $row['supper'] ?> </td>
           <td><?php echo $row['refreshment'] ?> </td>

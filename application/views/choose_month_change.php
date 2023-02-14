@@ -86,23 +86,23 @@ echo form_open('report/changesReport',$attributes );
 		 </tbody>
         
       </table>   
-<<<<<<< HEAD
+
       <?php echo form_close(); ?>
-=======
+
 
 <?php echo form_close(); ?>
 <?php 
 $attributes = array('name' => 'myform2');
 echo form_open('report/generalReport'); 
->>>>>>> 1c22d4233717a4d1f29d489c50a019878907f63b
+
 
 ?>
     <h4>General Report</h4>
-<<<<<<< HEAD
-<?php echo form_open('report/generalReport') ?>
-=======
 
->>>>>>> 1c22d4233717a4d1f29d489c50a019878907f63b
+<?php echo form_open('report/generalReport') ?>
+
+
+
       <table class="table table-striped table-hover " >
           <thead>
               <tr>

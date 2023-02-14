@@ -31,11 +31,11 @@
  
  } 
  
-<<<<<<< HEAD
+
  
-=======
+
  //if(count($payment_records)>0){
->>>>>>> 1c22d4233717a4d1f29d489c50a019878907f63b
+
 
  if(count($payment_records) > 0) {
  if (!array_key_exists("staff_payment_id",$payment_records[0])){
