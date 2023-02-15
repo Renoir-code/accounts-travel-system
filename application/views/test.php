@@ -28,7 +28,9 @@
                     </div> 
                 </div>
               </div>
-    <div class ="container">
+	
+	<div class = "container"><button id = "print_report" class= "btn btn-primary text-right" style = "margin-top:10px;">Print</button></div>
+    <div class ="container" id = "report_to_print">
       
      
     <?php if(count($data)):?>

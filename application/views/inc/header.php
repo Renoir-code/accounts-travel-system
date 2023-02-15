@@ -16,6 +16,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.dropdown.css'); ?>">
 <script src="<?php echo base_url('assets/js/jquery.dropdown.js') ?>"></script>
 
+<!-- JS & CSS library of MultiSelect plugin -->
+<script src="<?php echo base_url('assets/js/jquery.multiselect.js') ?>"></script>
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.multiselect.css'); ?>">
+
 
 <link rel="stylesheet" href = "//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 <script src = "//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>

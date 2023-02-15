@@ -43,7 +43,7 @@ class Report_model extends CI_Model{
     }
 
     //   ,
-    public function getReport ($staff_id , $date_from , $date_to, $report_type,$staff_members )
+    public function getReport ( $date_from , $date_to, $staff_members )
     {
 		
 		

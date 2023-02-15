@@ -59,10 +59,10 @@ $_SESSION['timeout'] = time();
 		
 		if($this->form_validation->run() == FALSE){
 			
-			
+		$staff_members = $this->staff_model->getStaffMembers();	
 		$this->session->set_flashdata('message','Please Enter All Fields');	
-        //testarray($data);
-        $this->load->view('choose_month_change',['data' => array($date,$location_id)]);
+        
+        $this->load->view('choose_month_change',['data' => array($date,$location_id),'staff'=>$staff_members]);
 		}else
 		{
 			$data = $this->report_model->change_reports($date,$location_id);
@@ -77,24 +77,24 @@ $_SESSION['timeout'] = time();
     {
         $date_from = $this->input->post('date_from');
         $date_to = $this->input->post('date_to');
-        $trn = $this->input->post('trn');
-        $report_type = $this->input->post('report_type');
+
 		$staff_members = $this->input->post('staff_member_report');
 
-     /*    $this->form_validation->set_rules('date_from','Choose Start Date','');
+        $this->form_validation->set_rules('date_from','Choose Start Date','');
 		$this->form_validation->set_rules('date_to','Choose End Date','');
-        $this->form_validation->set_rules('trn','TRN Number','');
-        $this->form_validation->set_rules('report_type','Report Type',''); 
+        $this->form_validation->set_rules('staff_member_report[]','Staff','required');
+       
 
         if($this->form_validation->run() == FALSE){
         //testarray($data);
-        $this->load->view('choose_month_change',['data' => array($date_from,$date_to,$trn,$report_type)]);
+        $staff_members = $this->staff_model->getStaffMembers();
+		$this->session->set_flashdata('message','Please Enter All Fields');	
+		$this->load->view('choose_month_change',['data' => array($date_from,$date_to),'staff'=>$staff_members]);
 		}else
-		*/
+		
         {  
-			$data = $this->report_model->getReport($trn, $date_from,$date_to,$report_type,$staff_members);
-            //testarray($data);
-			//$this->load->view('report_view',['data' => $data, 'month'=>array($date_from,$date_to)]);
+			$data = $this->report_model->getReport( $date_from,$date_to,$staff_members);
+
 			$this->load->view('test',['data' => $data, 'month'=>array($date_from,$date_to)]);
 
 		
