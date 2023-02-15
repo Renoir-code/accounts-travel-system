@@ -14,6 +14,7 @@ if($msg = $this->session->flashdata('message')):?>
             </div> 
         </div>
 
+<?php
 unset($_SESSION['message']);
 ?>
 
