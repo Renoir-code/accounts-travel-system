@@ -57,18 +57,18 @@ echo form_open('report/changesReport',$attributes );
                     
 <select name="monthly_change" class="datefield month form-control">
     <option value="">Month</option>
-    <option value="01-01-2023">Jan</option>
-    <option value="02-02-2023">Feb</option>
-    <option value="03-03-2023">Mar</option>
-    <option value="04-04-2023">Apr</option>
-    <option value="05-05-2023">May</option>
-    <option value="06-06-2023">Jun</option>
-    <option value="07-07-2023">Jul</option>
-    <option value="08-08-2023">Aug</option>
-    <option value="09-09-2023">Sep</option>
-    <option value="10-10-2023">Oct</option>
-    <option value="11-11-2023">Nov</option>
-    <option value="12-12-2023">Dec</option>
+    <option value="01-01-2023" <?php if(date('m') < 1) echo 'disabled'; ?>>Jan</option>
+    <option value="02-02-2023" <?php if(date('m') < 2) echo 'disabled'; ?>>Feb</option>
+    <option value="03-03-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Mar</option>
+    <option value="04-04-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Apr</option>
+    <option value="05-05-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>May</option>
+    <option value="06-06-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Jun</option>
+    <option value="07-07-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Jul</option>
+    <option value="08-08-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Aug</option>
+    <option value="09-09-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Sep</option>
+    <option value="10-10-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Oct</option>
+    <option value="11-11-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Nov</option>
+    <option value="12-12-2023" <?php if(date('m') < 3) echo 'disabled'; ?>>Dec</option>
 </select> 
                 
   </td>              
