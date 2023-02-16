@@ -38,7 +38,7 @@ jQuery('.reject_payments').click(function (event) {
   jQuery('#print_report').click(function () {
       var mywindow = window.open('', 'PRINT', 'height=720,width=920');
 
-    mywindow.document.write('<html><head><title>xzcx' + document.title  + '</title>');
+    mywindow.document.write('<html><head><title>' + document.title  + '</title>');
       mywindow.document.write('<meta charset="UTF-8">');
     mywindow.document.write('<meta http-equiv="X-UA-Compatible" content="IE=edge">');
     mywindow.document.write('<meta name="viewport" content="width=device-width, initial-scale=1.0">');

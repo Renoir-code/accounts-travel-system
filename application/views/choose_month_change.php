@@ -1,4 +1,4 @@
-
+<?php $page_title = 'Accounts Travel Management System - Reports';?>
 <?php include_once('inc/header.php') ?>
 <!--<script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
 <link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">-->
@@ -31,6 +31,8 @@ unset($_SESSION['message']);
 
 <div class = "container">
 <div class = "row">
+
+	<h4>Changes Report</h4>
 <?php 
 $attributes = array('name' => 'myform');
 echo form_open('report/changesReport',$attributes );
@@ -53,7 +55,7 @@ echo form_open('report/changesReport',$attributes );
  
  <td> 
                     
-<select name="monthly_change" class="datefield month">
+<select name="monthly_change" class="datefield month form-control">
     <option value="">Month</option>
     <option value="01-01-2023">Jan</option>
     <option value="02-02-2023">Feb</option>
@@ -74,7 +76,7 @@ echo form_open('report/changesReport',$attributes );
 			<td>
 			<!--<label for="" class="form-label"> Location of Officer </label>-->
                    
-                    <select  class="form-control-lg" name="location_id">
+                    <select  class="form-control" name="location_id">
                        <option value=""  <?php if(isset($_POST['location_id']) && $_POST['location_id']=='') echo ' selected';?>>Choose Location..</option>
                        <option value="1" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='1') echo ' selected';?>>Court Administration Division </option>
                        <option value="2" <?php if(isset($_POST['location_id']) && $_POST['location_id']=='2') echo ' selected';?>>Supreme Court </option>
@@ -104,7 +106,8 @@ $attributes = array('name' => 'myform2');
 echo form_open('report/generalReport'); 
 
 ?>
-    <h4>General Report</h4>
+    <hr>
+	<h4>General Report</h4><br>
 
       <table class="table table-striped table-hover " >
           <thead>
@@ -119,18 +122,18 @@ echo form_open('report/generalReport');
 	  <tr class = 'table-active'>
 
     <td>               
-    <input type="date" id="start" name="date_from" min="2018-03-01" value="2023-01-01" >                   
+    <input type="date" id="start" name="date_from" min="2018-03-01" value="2023-01-01" class="form-control">                   
     
     </td>   
     
     
     <td>               
-    <input type="date" id="end" name="date_to" min="2018-03-01" value="2023-01-01" >                   
+    <input type="date" id="end" name="date_to" min="2018-03-01" value="2023-01-01" class="form-control">                   
    
     </td> 
     
     <td> 
-<select  class="form-control-lg" name="staff_member_report[]" id = "staff_member_report" multiple <!--style="display:none"--> >
+<select  class="form-control" name="staff_member_report[]" id = "staff_member_report" multiple <!--style="display:none"--> >
    <?php
 	if(count($staff) > 0):
 		foreach($staff as $row => $row_value): ?>
