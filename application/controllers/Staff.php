@@ -57,17 +57,17 @@ $_SESSION['timeout'] = time();
             redirect('admin/dashboard');
        } */
 
-            $this->form_validation->set_rules('firstname','First Name','required|trim|alpha');
-            $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha' );
-            $this->form_validation->set_rules('post_title','Post Title','required|trim','alpha_numeric');
+			$this->form_validation->set_rules('firstname','First Name','required|trim|alpha_numeric_spaces');
+            $this->form_validation->set_rules('lastname','Last Name','required|trim|alpha_numeric_spaces' );
+            $this->form_validation->set_rules('post_title','Post Title','required|trim','alpha_numeric_spaces');
             $this->form_validation->set_rules('trn','TRN','required|trim|numeric|exact_length[9]|callback_checkTRN');
             $this->form_validation->set_rules('officer_id','Type of Officer','required'); // Should be dropdown
             $this->form_validation->set_rules('location_id','Location','required');
             $this->form_validation->set_rules('upkeep_id','Type of Upkeep','required'); // 
-            $this->form_validation->set_rules('vehicle_model','Vehicle Model','alpha'); // veh
-            $this->form_validation->set_rules('vehicle_make','Vehicle Model','alpha');
-            $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','alpha_numeric');
-            $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','alpha_numeric');
+            $this->form_validation->set_rules('vehicle_model','Vehicle Model','alpha_numeric_spaces|trim'); // veh
+            $this->form_validation->set_rules('vehicle_make','Vehicle Model','alpha_numeric_spaces|trim');
+            $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','alpha_numeric|trim');
+            $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','alpha_numeric|trim');
             $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
 
