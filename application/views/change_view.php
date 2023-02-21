@@ -130,7 +130,7 @@
 
       <!-- Card footer -->
       <div class="card-footer">
-        <button type="submit" name = "changes" value = "<?php echo (isset($changes)) ? 'update' : 'submit'; ?>" class="btn btn-primary btn-block">Submit</button>
+        <button type="submit" name = "changes" value = "<?php echo (isset($changes)) ? 'update' : 'submit'; ?>" class="btn btn-primary btn-block"><?php echo (isset($changes)) ? 'Update' : 'Submit'; ?></button>
       </div>
     </form>
   </div>

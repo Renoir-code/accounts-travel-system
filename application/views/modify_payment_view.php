@@ -315,7 +315,8 @@
 
       <!-- Card footer -->
       <div class="card-footer text-end py-4 px-5 bg-light border-0">
-        <button class="btn btn-link btn-rounded" data-ripple-color="primary">Cancel</button>
+        <!--<button class="btn btn-link btn-rounded" data-ripple-color="primary">Cancel</button>-->
+		<input type="button" value="Cancel" class="btn btn-primary btn block" onclick="history.back(-1)"></input>
      <input type="submit" class="btn btn-primary btn block"></input>
           
         </button>
