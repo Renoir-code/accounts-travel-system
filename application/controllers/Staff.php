@@ -145,23 +145,24 @@ $_SESSION['timeout'] = time();
 
     public function staff_information()
     {
-      
+       
+	   echo $this->session->flashdata('message');//die();
 	   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
             redirect('admin/dashboard');
        }
         
-		if(isset($_POST['trn'])){
+		/* if(isset($_POST['trn'])){
 		$trn = $this->input->post('trn');
         $trn_records = $this->staff_model->getStaffIDbyTRN($trn );
         $this->load->view('staff_dashboard',['trn_records' => $trn_records]);
-		}else{
+		}else{ */
 		//load default view for user
 		//$this->view_all_payment_records( $_SESSION['role_id'], 1 );
 		$all_staff_records=$this->staff_model->getAllStaffRecords();
         
         $this->load->view('staff_dashboard',['trn_records' => $all_staff_records]);
 		
-		}
+		
 		
     }
 
@@ -262,7 +263,8 @@ $_SESSION['timeout'] = time();
 					if(!is_array($result))
 					{
                         $this->session->set_flashdata('success_message','Payment Record Successfully Added');
-                        redirect("staff/view_payment_records/{$staff_id}");
+                        //redirect("staff/view_payment_records/{$staff_id}");
+						redirect("staff/view_all_payment_records/100{$staff_id}");
                     }
                    
                     else{
@@ -548,8 +550,8 @@ $_SESSION['timeout'] = time();
 	$config['protocol'] = 'smtp';
 	$config['smtp_host'] = 'secure.emailsrvr.com';
 	$config['smtp_port'] = '465';
-	$config['smtp_user'] =  'testy@cad.gov.jm'; //'webadmin@cad.gov.jm';
-	$config['smtp_pass'] = '13GEyu@U@2sg123';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+	$config['smtp_user'] =  'asdf@cad.gov.jm'; //'webadmin@cad.gov.jm';
+	$config['smtp_pass'] = 'Qwerty@12345';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 	$config['smtp_crypto'] = 'ssl';
 	$config['smtp_timeout'] = '20';
 	$config['charset'] = 'iso-8859-1';		
@@ -692,14 +694,15 @@ if (isset($_POST['certifier_remarks'])){
 	   {
 		
 		$this->session->set_flashdata('message',count($_POST["payment_record_to_certify"]) . ' Record(s) sent for certification.');
+		 
 		redirect("staff/staff_information");
 		return;
 		exit();		
 	   }
 	   }
-	   redirect("staff/staff_information");
+	   
 	$this->session->set_flashdata('message','Records not sent for Certification.');
-	
+	redirect("staff/staff_information");
 	return;
 	exit();
 		

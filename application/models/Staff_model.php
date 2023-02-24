@@ -586,6 +586,13 @@ public function getNotifications(){
 
 public function get_changes_to_staff($staff_id){
 	
+	//Update Query to set deactivate users whose acting has ended 
+		$query = 	"UPDATE changes
+					SET active = 0 
+					WHERE CURDATE()  > DATE(`dateof_change_end`) ";
+        
+		$this->db->query($query, array());
+	
 	$query = "	SELECT * FROM changes 
 				WHERE active = 1 AND staff_id = ?";
 	

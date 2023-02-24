@@ -11,7 +11,7 @@
                     </div> 
                 </div>
 
-
+<?php unset($_SESSION['success_message']); ?>
 
 <div class="container">
 
