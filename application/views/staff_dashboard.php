@@ -15,7 +15,6 @@
             </div>
         </div>
     <?php endif; ?>
-	<?php echo $this->session->flashdata('message'); ?>
     <?php if($msg = $this->session->flashdata('message')):?>
         <div class="row">
             <div class ="col-md-6">
