@@ -1,6 +1,16 @@
 <?php include("inc/header.php"); ?>
 
+<?php // added 8/14/2023 Renoir Elliott
+//testarray($month[0]);
+$time = strtotime($month[0]);
+$clientYear = date("Y-F",$time);
+$clientMonth = date("M",$time);
 
+//if($clientMonth == $time)
+
+//testarray($data);
+
+?>
 
 
 <button id = "print_report" class= "btn btn-primary text-right" style = "margin-top:10px;">Print</button>
@@ -10,54 +20,70 @@
   <hr>
 	<!--<h5>Court Administration Division</h5>-->
 	<h5>Accounts Travel Management System</h5>
-	<h6>Report for the month of : <?php echo date("F",strtotime($month[0]));?></h6>
+	<h6>Upkeep Report for the month of : <?php echo date("F",strtotime($month[0]));?> <?php echo date("Y");  ?></h6>
 	
 	<hr>
       <div class="row" >
         <table class="table table-striped table-hover " >
           <thead>
               <tr>
-                <th scope="col ">Name</th>
-                <th scope="col ">Monthly Aallotment</th> 
-                <th scope="col">Arrears</th>
-                <th scope="col">Travel Recovery </th>
-                <th scope="col">Upkeep Change Type </th>
-                <th scope="col">Post Change </th>
-                <th scope="col">Date of Change </th>
-				<th scope="col">Location </th>
-                <th scope="col">Changes Remarks </th>   
-				  <th scope="col">Total Payable </th> 
-				  
+                <th scope="col "> First Name </th>
+                <th scope="col "> Last Name </th> 
+                <th scope="col"> Court/Location </th>
+                <th scope="col"> Upkeep Value </th>
               </tr>
           </thead>
       <tbody>
-       
-        
-        <tr class = 'table-active'>
+       <?php $total = 0;?>
            <?php if(!empty($data)): ?>
             <?php foreach($data as $row): ?>
-          <td> <?php echo $row['firstname'] .' '.$row['lastname'] ; ?></td> 
-          <td><?php  echo  '$'. number_format ($row['monthly_allotment'] + $row['arrears'] - $row['travel_recovery'],2); ?></td>
-          <td><?php  echo  '$'. number_format ($row['arrears'],2); ?></td>
-          <td><?php  echo  '$'. number_format ($row['travel_recovery'],2); ?></td>
-          <td><?php  echo $row['upkeep_name']; ?></td>
-          <td><?php  echo $row['post_change']; ?></td>
-          <td><?php  echo date(' F j\, Y', strtotime($row['dateof_change'])); ?></td>
-           <td><?php  echo $row['location_name']; ?></td>
-		  <td><?php  echo $row['changes_remarks']; ?></td>
-			<td><?php  echo  '$'. number_format ($row['monthly_allotment'] + $row['arrears'] - $row['travel_recovery'],2); ?></td>
-            </tr>
-         
-         
+              <?php 
+                //$date_set = strtotime($row['date_set']); //converting the date to the
+                //$date_set = date("Y-F",$date_set); 
+                ?>
+              <?php 
+               $key = array_search($row['staff_id'], array_column($dataCustomUpkeep, 'staff_id'));
 
-        <?php endforeach; ?>
+              if($key !== FALSE){ //comparision is made between the datatypes  by using !==
+               $row['upkeep_value'] = $dataCustomUpkeep[$key]['custom_upkeep_value'];
+               
+              }
+              ?>
+
+              <tr class = 'table-active'>
+          <td> <?php echo $row['firstname']; ?></td> 
+          <td> <?php echo $row['lastname']; ?></td> 
+          <td> <?php echo $row['location_name']; ?></td> 
+          <td> <?php echo '$'.number_format($row['upkeep_value']);  if($key !== FALSE)echo '...Custom Upkeep Value'; ?></td>      
+        
+         </tr>
+         <?php $total += $row['upkeep_value']; ?>
+        <?php  endforeach; ?>
        <?php else: ?>
          <?php endif; ?>
+
+         <tr class = 'table-active'>          
+          <td> </td> 
+          <td> </td> 
+          <td> </td> 
+          <td> Total :  <?php echo '<b>$'.number_format($total).'</b>'; ?></td> 
+        </tr>
         
         
         </tbody>
         
       </table>
+
+      <br>
+		  
+		  
+		  Prepared by   _________________________________
+		  
+		  
+		  Authorized by _________________________________  
+		  
+		  
+		  Certified by __________________________________
     </div>
     
 </div>

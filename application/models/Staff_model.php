@@ -2,11 +2,43 @@
 
 class Staff_model extends CI_Model{
 
-    
-    public function register_officer($officerDetails)
+ 
+
+
+    //added 8/14/2023 Renoir Elliott
+    public function register_officer($officerDetails,$custom_upkeep_value) //
     {
-        return $this->db->insert('staff',$officerDetails);
-    }
+        $result = $this->db->insert('staff',$officerDetails);
+       
+       if($custom_upkeep_value != '0'){ //if there is a custom value inserted then insert the custom value in the database
+       
+        $staff_id =  $this->db->insert_id();
+        $query ="
+        INSERT INTO custom_upkeep
+        (custom_upkeep_value,staff_id)
+        VALUES
+        (?,?)
+        ";
+
+       // var_dump($custom_upkeep_value); die();
+       if($this->db->query($query,array($custom_upkeep_value,$staff_id)))
+       {return true;}
+       else
+       {
+       return false;
+       }
+      }
+        return $result;      
+    } 
+
+    public function staff_location_update($staff_id,$location){
+
+      $query = "UPDATE staff SET location = $location WHERE staff_id = $staff_id";
+      if($this->db->query($query,array($location)))
+                    return true;
+                    
+                return false;
+        }
 
       public function checktrn($trn)
     {
@@ -138,20 +170,20 @@ class Staff_model extends CI_Model{
       return $enum;
     }
 
-    public function insert_staffPayment($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,
+    public function insert_staffPayment($staff_id,$voucher_number,$date_received,$year_travelled,$month_travelled,$mileage_km,
     $mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,
     $actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,
     $taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)
     {
       $query = "
       INSERT INTO staff_payment
-      (staff_id,voucher_number,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created, view_by)
+      (staff_id,voucher_number,date_received,year_travelled,month_travelled,mileage_km,mileage_rate,passenger_km,passenger_rate,toll_amt,subsistence_km,subsistence_rate,actual_expense,supper_days,supper_rate,refreshment_days,refreshment_rate,taxi_out_town,taxi_out_rate,taxi_in_town,taxi_in_rate,certifier_remarks,added_by,date_created, view_by)
       VALUES
-       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+       (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
       
 	//$db_debug = $this->db->db_debug; //save setting
 	//$this->db->db_debug = FALSE; //disable debugging for queries
-	  if(!$this->db->query($query,array($staff_id,$voucher_number,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
+	  if(!$this->db->query($query,array($staff_id,$voucher_number, $date_received,$year_travelled,$month_travelled,$mileage_km,$mileage_rate,$passenger_km,$passenger_rate,$toll_amt,$subsistence_km,	$subsistence_rate,$actual_expense,$supper_days,$supper_rate,$refreshment_days,$refreshment_rate,$taxi_out_town,$taxi_out_rate,$taxi_in_town,$taxi_in_rate,$certifier_remarks,$added_by,$date_created)))
 	  {
 		//$error = $this->db->error(); // Has keys 'code' and 'message'
 		//$this->db->db_debug = $db_debug; //restore debug setting
@@ -600,9 +632,78 @@ public function get_changes_to_staff($staff_id){
 }
 
 
+public function get_users_no_parish(){
+
+  $query ="SELECT firstname,lastname,trn,staff_id FROM staff WHERE location_id = 3";
+
+  return $this->db->query($query)->result_array();
+}
 
 
+public function update_no_parish_locations($staff_id , $new_location){ 
 
+  $query = "UPDATE staff SET location_id = ? WHERE staff_id = ?";
 
+  $result = $this->db->query($query, array($new_location,$staff_id));
+
+  if($result)
+  return true;
+    else
+    return false;
+  
 
 }
+
+ public function insert_custom_upkeep($custom_upkeep_value,$date_upkeep_started,$staff_id){
+
+  //testarray($staff_id);
+  $query = " INSERT INTO custom_upkeep
+  ( custom_upkeep_value,date_set,staff_id)
+  VALUES
+   (?,?,?)
+   ";
+   if($this->db->query($query,array($custom_upkeep_value,$date_upkeep_started,$staff_id)))
+   {
+     return true;
+
+   }
+      else
+    {
+      
+      return false;
+    }
+} 
+
+/* if($custom_upkeep_value != '0'){ //if there is a custom value inserted then insert the custom value in the database
+       
+  //$staff_id =  $this->db->insert_id();
+ // testarray($staff_id);
+  $query ="
+  INSERT INTO custom_upkeep
+  (custom_upkeep_value,date_set,staff_id)
+  VALUES
+  (?,?,?)
+  ";
+
+ // var_dump($custom_upkeep_value); die();
+ if($this->db->query($query,array($custom_upkeep_value,$date_,$staff_id)))
+ {return true;}
+ else
+ {
+ return false;
+ }
+}
+  return $result;  
+ 
+ */
+
+}
+
+
+
+
+
+
+
+
+

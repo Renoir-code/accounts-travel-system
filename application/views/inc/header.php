@@ -3,7 +3,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 if(!isset($page_title)){
 $page_title = 'Accounts Travel Management System ';
-}?><!DOCTYPE html>
+}
+?><!DOCTYPE html>
 <html lang="en">
 <head>
 <title><?php echo $page_title ?></title>
@@ -13,17 +14,8 @@ $page_title = 'Accounts Travel Management System ';
 <link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
 <script src="<?php echo base_url('assets/js/jquery-3.6.1.min.js') ?>"></script>
 <script src="<?php echo base_url('assets/js/bootstrap.js') ?>"></script>
-<script src="<?php echo base_url('assets/js/myscripts.js') ?>"></script>
+<script src="<?php echo base_url('assets/js/myscripts-2.js') ?>"></script>
 <!--<link href="<?php //echo base_url('assets/css/style.css'); ?>" rel="stylesheet">-->
-
-<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.dropdown.css'); ?>">
-<script src="<?php echo base_url('assets/js/jquery.dropdown.js') ?>"></script>
-
-<!-- JS & CSS library of MultiSelect plugin -->
-<script src="<?php echo base_url('assets/js/jquery.multiselect.js') ?>"></script>
-<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.multiselect.css'); ?>">
-
-
 <link rel="stylesheet" href = "//cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css">
 <script src = "//cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 <script>
@@ -31,6 +23,13 @@ $(document).ready( function () {
     $('#view_all_records').DataTable();
 } );
 </script>
+
+<!-- JS & CSS library of MultiSelect plugin -->
+<script src="<?php echo base_url('assets/js/jquery.multiselect.js') ?>"></script>
+<link rel="stylesheet" href="<?php echo base_url('assets/css/jquery.multiselect.css'); ?>">
+
+<!--<script src="https://phpcoder.tech/multiselect/js/jquery.multiselect.js"></script>
+<link rel="stylesheet" href="https://phpcoder.tech/multiselect/css/jquery.multiselect.css">-->
 
 <?php 
 if (!isset($_SESSION['user_id'])) 

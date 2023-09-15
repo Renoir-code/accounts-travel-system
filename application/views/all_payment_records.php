@@ -11,8 +11,8 @@
                     </div> 
                 </div>
 
-<?php unset($_SESSION['success_message']); ?>
 
+<?php unset($_SESSION['success_message']); ?>
 <div class="container">
 
 
@@ -30,15 +30,13 @@
  echo anchor ("staff/modify_staff_records/{$payment_records[0]['staff_id']}" , "Update $name_of_staff 's Account Details ", ['class'=> 'btn btn-primary text-right']); 
  
  } 
- 
- //if(count($payment_records)>0){
-
- if(count($payment_records) > 0) {
+ if(count($payment_records)>0){
  if (!array_key_exists("staff_payment_id",$payment_records[0])){
 
  $payment_records = array();
  } 
- }
+}
+
  ?>
        
 

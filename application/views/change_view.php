@@ -15,7 +15,8 @@
     <?php endif; ?>
 
 <?php
-//testarray($changes);
+unset($_SESSION['message']);
+//testarray($data);
 ?>
 
         <?php echo form_open("staff/change/{$data['staff_id']}") ?>

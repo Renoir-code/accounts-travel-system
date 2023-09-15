@@ -47,6 +47,18 @@
               <input type="text" class="form-control" name="trn" value="<?php echo set_value('trn') ?>" placeholder="">
             </div>
           </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label"><b>Custom Upkeep Value</b></label> <!-- change made here -->
+              <input type="text" class="form-control" name="custom_upkeep_value" value="<?php echo set_value('custom_upkeep_value') ?>" placeholder="">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label"><b>Date Upkeep Started</b></label> <!-- change made here -->
+              <input type="date" class="form-control" name="date_upkeep_started" value="<?php echo set_value('date_upkeep_started') ?>" placeholder="">
+            </div>
+          </div>
         </div>
 
 
@@ -64,11 +76,18 @@
             <div class="mb-3">
               <label for="exampleInput4" class="form-label"> <b>Location of the Officer</b></label>
               <select  class="form-control" name="location_id">
-                       <option value="0"  > </option>
+                       <option value=""  > </option>
                        <option value="1" <?php if(isset($_POST['location_id']) && $_POST['location_id']==1) echo ' selected';?> >Court Administration Division </option>
                        <option value="2" <?php if(isset($_POST['location_id']) && $_POST['location_id']==2) echo ' selected';?> >Supreme Court </option>
                        <option value="3" <?php if(isset($_POST['location_id']) && $_POST['location_id']==3) echo ' selected';?> >Parish Court </option>
                        <option value="4" <?php if(isset($_POST['location_id']) && $_POST['location_id']==4) echo ' selected';?> >Court of Appeal </option>
+                       <option value="5" <?php if(isset($_POST['location_id']) && $_POST['location_id']==5) echo ' selected';?> >Family Court </option>
+                       <option value="6" <?php if(isset($_POST['location_id']) && $_POST['location_id']==6) echo ' selected';?> >Traffic Court </option>
+                       <option value="7" <?php if(isset($_POST['location_id']) && $_POST['location_id']==7) echo ' selected';?> >Special Coroners Court </option>
+                       <option value="8" <?php if(isset($_POST['location_id']) && $_POST['location_id']==8) echo ' selected';?> >Coroners Court </option>
+                       <option value="9" <?php if(isset($_POST['location_id']) && $_POST['location_id']==9) echo ' selected';?> >Gun Court </option>
+                       <option value="10" <?php if(isset($_POST['location_id']) && $_POST['location_id']==10) echo ' selected';?> >Revenue Court </option>
+                       <option value="11" <?php if(isset($_POST['location_id']) && $_POST['location_id']==11) echo ' selected';?> >Manchester Parish Court </option>
                     </select>
             </div>
           </div>

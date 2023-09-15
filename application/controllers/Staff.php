@@ -68,11 +68,13 @@ $_SESSION['timeout'] = time();
             $this->form_validation->set_rules('vehicle_make','Vehicle Model','alpha_numeric_spaces|trim');
             $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','alpha_numeric|trim');
             $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','alpha_numeric|trim');
+            $this->form_validation->set_rules('custom_upkeep_value','Custom Upkeep Value','');
+            $this->form_validation->set_rules('date_upkeep_started','Date Upkeep Started','');
             $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
-
-
-         
+           // $data['date_upkeep_started'] = $this->input->post('date_upkeep_started');
+           // $data ['date_upkeep_started'] = date('Y-m-d');
+        
         if($this->form_validation->run())
         {
             $officerData = [               
@@ -86,14 +88,18 @@ $_SESSION['timeout'] = time();
                 'vehicle_model'  => $this->input->post('vehicle_model'),
                 'vehicle_make'   => $this->input->post('vehicle_make'),
                 'vehicle_chasisnum'=> $this->input->post('vehicle_chasisnum'),
-                'vehicle_engine_num'=> $this->input->post('vehicle_engine_num')
+                'vehicle_engine_num'=> $this->input->post('vehicle_engine_num'),
+                'date_upkeep_started' => $this->input->post('date_upkeep_started'),
+                
             ];
 
-        
+           // var_dump($officerData ); die();
+       
           $this->load->model('staff_model');
-          $response = $this->staff_model->register_officer($officerData);
-          
-          
+          $response = $this->staff_model->register_officer($officerData,$this->input->post('custom_upkeep_value'));
+         // $response = $this->staff_model->register_officer($officerData);
+         // added 8/14/2023 Renoir Elliott
+               
                 if($response)
                 {
                     $this->session->set_flashdata('message','Officer Registered Successfully');
@@ -128,7 +134,7 @@ $_SESSION['timeout'] = time();
 			}
 		}
 
- function checkVoucherNumber($voucher)
+  function checkVoucherNumber($voucher)
 		{
 			$this->load->model('user_model');
 			$trn=$this->staff_model->checkVoucherNum($voucher);
@@ -142,27 +148,25 @@ $_SESSION['timeout'] = time();
 			return FALSE;
 			}
 		} 
-
     public function staff_information()
     {
-       
-	   echo $this->session->flashdata('message');//die();
+      
 	   if(isset($_SESSION['user_id']) && $_SESSION['role_id'] == 4 ) { // admin access removed to this page|| only account staff members should have access
             redirect('admin/dashboard');
        }
         
-		/* if(isset($_POST['trn'])){
+		if(isset($_POST['trn'])){
 		$trn = $this->input->post('trn');
         $trn_records = $this->staff_model->getStaffIDbyTRN($trn );
         $this->load->view('staff_dashboard',['trn_records' => $trn_records]);
-		}else{ */
+		}else{
 		//load default view for user
 		//$this->view_all_payment_records( $_SESSION['role_id'], 1 );
 		$all_staff_records=$this->staff_model->getAllStaffRecords();
         
         $this->load->view('staff_dashboard',['trn_records' => $all_staff_records]);
 		
-		
+		}
 		
     }
 
@@ -180,10 +184,11 @@ $_SESSION['timeout'] = time();
             redirect('staff/staff_information');
         }
 
-            //$this->form_validation->set_rules('voucher_number','voucher number','callback_checkVoucherNumber' );
-            $this->form_validation->set_rules('year_travelled','Year Travelled','required' );
+            $this->form_validation->set_rules('voucher_number','voucher number' );
+            $this->form_validation->set_rules('date_received','Date Received',"required" );
+            $this->form_validation->set_rules('year_travelled','Year Travelled','required');
             $this->form_validation->set_rules('month_travelled','Month Travelled','required');
-            $this->form_validation->set_rules('mileage_km','Mileage','trim|numeric','required');
+            $this->form_validation->set_rules('mileage_km','Mileage','required|trim|numeric');
             $this->form_validation->set_rules('mileage_rate','Mileage Rate',''); //dropdown
             $this->form_validation->set_rules('passenger_km','Passenger Km','trim|numeric'); 
             $this->form_validation->set_rules('passenger_rate','Passenger Rate',''); // Should be dropdown
@@ -199,11 +204,12 @@ $_SESSION['timeout'] = time();
             $this->form_validation->set_rules('taxi_out_rate','Taxi Out Rate','trim|numeric');
             $this->form_validation->set_rules('taxi_in_town','Taxi In Town','trim|numeric');
             $this->form_validation->set_rules('taxi_in_rate','Taxi Rate','');
-            $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','alpha');
+            $this->form_validation->set_rules('certifier_remarks','Certifier Remarks','trim|regex_match[/^[A-Za-z0-9\s\-\_\.]+(,[A-Za-z0-9\s\-\_\.]+)*$/]');
 
 
             if($this->form_validation->run() == FALSE)
             {
+                $date_received = $this->input->post('date_received');
                 $fname =$this->input->post('firstname');
                 $staff =$staff_id;
                 $lname =$this->input->post('lastname');
@@ -230,18 +236,23 @@ $_SESSION['timeout'] = time();
                 date_default_timezone_set('America/Bogota');
                 $date_created = date("Y-m-d h:i:sa",time());
                 $added_by = md5($_SESSION['email']);
+                $data['date_received'] = $this->input->post('date_received');
+                $data ['date_received'] = date('Y-m-d');
+
+               // testarray( $data['date_received']);
            
                   //  echo  $this->input->post('mileage_rate');  die();
                 $result =  $this->staff_model->insert_staffPayment(
 
                     $this->input->post('staff_id'),
                     $this->input->post('voucher_number'),
+                    $this->input->post('date_received'),
                     $this->input->post('year_travelled'),
                     $this->input->post('month_travelled'),
                     $this->input->post('mileage_km'),
-                    $this->input->post('mileage_rate'), //drpdown
+                    $this->input->post('mileage_rate'), //dropdown
                     $this->input->post('passenger_km'),
-                    $this->input->post('passenger_rate'), //dropwodn
+                    $this->input->post('passenger_rate'), //dropdown
                     $this->input->post('toll_amt'),
                     $this->input->post('subsistence_km'),
                     $this->input->post('subsistence_rate'), //dropdown
@@ -258,6 +269,8 @@ $_SESSION['timeout'] = time();
                     $added_by,
                     $date_created
                     );
+
+                   // testarray($result);
 					
 					
 					if(!is_array($result))
@@ -452,10 +465,13 @@ $_SESSION['timeout'] = time();
             $this->form_validation->set_rules('vehicle_make','Vehicle Model');
             $this->form_validation->set_rules('vehicle_chasisnum','Vehicle Chasis Number','numeric');
             $this->form_validation->set_rules('vehicle_engine_num','Vehicle Engine Number','numeric');
+           // $this->form_validation->set_rules('custom_upkeep_value','Custom Upkeep Value','');
+           // $this->form_validation->set_rules('date_upkeep_started','Date Upkeep Started','');
             $this->form_validation->set_error_delimiters('<div class="text-danger">','</div>');
 
             $data = $this->staff_model->get_staffRecords($staff_id);
-           // testarray($data);
+        /*      $test = $this->input->post('date_upkeep_started');
+           testarray($test);  */
 
             if($this->form_validation->run() == FALSE)
             {  
@@ -464,6 +480,11 @@ $_SESSION['timeout'] = time();
 
             else
             {
+
+                /* $testing = $this->input->post('date_upkeep_started');
+                testarray($testing); */
+               
+               
                 date_default_timezone_set('America/Bogota');
                 $date_modified = date("Y-m-d h:i:sa",time());
                 $modified_by = $this->user_model->getCurrentUsername($_SESSION['user_id']);
@@ -481,13 +502,14 @@ $_SESSION['timeout'] = time();
                     $this->input->post('vehicle_make'),
                     $this->input->post('vehicle_chasisnum'),
                     $this->input->post('vehicle_engine_num') ,
-                    $staff_id
-                  //  $date_modified,
-                  //  $modified_by,
-               
+                  //  $this->input->post('date_upkeep_started'),                  
+                    $staff_id             
                     ))
+                //    $this->staff_model->insert_custom_upkeep($this->input->post('custom_upkeep_value'), $this->input->post('date_upkeep_started'),$staff_id);
+                   
                     {
-                        $this->session->set_flashdata('message',"Staff Member Details Updated!!");
+                        //echo 'success';die();
+                        $this->session->set_flashdata('success_update',"Staff Member Details Updated!!");
                        // redirect("staff/staff_records/{$staff_id}");
 						redirect("staff/view_all_payment_records/100{$staff_id}");
                        // $this->load->view('staff/staff_records_view',['data'=> $data]);
@@ -550,8 +572,8 @@ $_SESSION['timeout'] = time();
 	$config['protocol'] = 'smtp';
 	$config['smtp_host'] = 'secure.emailsrvr.com';
 	$config['smtp_port'] = '465';
-	$config['smtp_user'] =  'asdf@cad.gov.jm'; //'webadmin@cad.gov.jm';
-	$config['smtp_pass'] = 'Qwerty@12345';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+	$config['smtp_user'] =  'website.admin@cad.gov.jm'; //'webadmin@cad.gov.jm';
+	$config['smtp_pass'] = 'e`>73KbudCGW7f;J';//'13GEyu@U@2sg123';//'f*2g}fdQ324xgeBU';//'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
 	$config['smtp_crypto'] = 'ssl';
 	$config['smtp_timeout'] = '20';
 	$config['charset'] = 'iso-8859-1';		
@@ -588,55 +610,16 @@ public function certifier_record($staff_payment_id,$staff_id)
 	exit();	
 	
 }
-
 if (isset($_POST['reject_certify_single_payment'])) {
 					$result = $this->staff_model->updateViewBy($_SESSION['role_id'] - 1,$_POST['certify_record_to_reject']);				
 	
 if (isset($_POST['certifier_remarks'])){
 	if($_SESSION['role_id']==2){
 		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'certifier_remarks');
-		
-		 //get all Inseter email addresses
-	   $inserter_name_email = $this->staff_model->getInserterEmail();
-	   if(count($inserter_name_email)>0){
-		   
-	   $inserterEmailAddresses = ''; 
-	
-		foreach($inserter_name_email as $record ){
-		   $inserterEmailAddresses .= $record['email'] .',';
-		}
-		rtrim($inserterEmailAddresses, ",");
-	   
-	   }
-		$message =  $_POST['certifier_remarks'];
-		$email_sent = $this->sendEmail( $inserterEmailAddresses ,'Records needs to adjustments.',$message);
-	if(!$email_sent){
-		echo 'Email not sent to inseter';
-	}
-	
 	}
 }
 	if($_SESSION['role_id']==3){
 		$this->staff_model->updateRemarks($_POST['certifier_remarks'],$_POST['certify_record_to_reject'],'approver_remarks');
-	
-	 //get all Inseter email addresses
-	   $certifier_name_email = $this->staff_model->getCertifierEmail();
-	   if(count($certifier_name_email)>0){
-		   
-	   $inserterEmailAddresses = ''; 
-	
-		foreach($certifier_name_email as $record ){
-		   $inserterEmailAddresses .= $record['email'] .',';
-		}
-		rtrim($inserterEmailAddresses, ",");
-	   
-	   }
-		$message =  $_POST['certifier_remarks'];
-		$email_sent = $this->sendEmail( $inserterEmailAddresses ,'Records needs to adjustments.',$message);
-	if(!$email_sent){
-		echo 'Email not sent to inseter';
-	}
-	
 	}
 	echo json_encode(array("rejected_record"=>$_POST['certify_record_to_reject']));
 	exit();		
@@ -657,10 +640,11 @@ if (isset($_POST['certifier_remarks'])){
 					
 					if($_SESSION['role_id'] == 2){
 					$column = 'certified_by';
-					$this->staff_model->updateCertifyAuthorizeBy($_SESSION['email'],$record,$column);					
+                    
 					}
 					if($_SESSION['role_id'] == 3){
 					$column = 'authorized_by';
+                    
 					$this->staff_model->updateCertifyAuthorizeBy($_SESSION['email'],$record,$column);
 					}
 					}//ends for loop
@@ -685,24 +669,29 @@ if (isset($_POST['certifier_remarks'])){
 						$message .= '<br/><br/>Regards <br/><br/>'
 						.'System Administrator';
 	   
-	   $email_sent = $this->sendEmail($certifierEmailAddresses,count($_POST["payment_record_to_certify"]) .' Records needs to be certified.',$message);
+	   $email_sent = $this->sendEmail($certifierEmailAddresses,count($_POST["payment_record_to_certify"]) .' Records needs to be certified'.$type_of_action, $message);
 	   
 	   
 	   if(!$email_sent){
 		   echo "Email not sent";
 	   }else
 	   {
+
+        if($_SESSION['role_id'] == 1)
+            $type_of_action = 'Certification';
+
+         if($_SESSION['role_id'] == 2)
+            $type_of_action = 'Authorization';
 		
-		$this->session->set_flashdata('message',count($_POST["payment_record_to_certify"]) . ' Record(s) sent for certification.');
-		 
+		$this->session->set_flashdata('message',count($_POST["payment_record_to_certify"]) . ' Record(s) sent for '.$type_of_action);
 		redirect("staff/staff_information");
 		return;
 		exit();		
 	   }
 	   }
-	   
+	   redirect("staff/staff_information");
 	$this->session->set_flashdata('message','Records not sent for Certification.');
-	redirect("staff/staff_information");
+	
 	return;
 	exit();
 		
@@ -858,8 +847,8 @@ if (isset($_POST['certifier_remarks'])){
                          $config['protocol'] = 'smtp';
                          $config['smtp_host'] = 'secure.emailsrvr.com';
                          $config['smtp_port'] = '465';
-                         $config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
-                         $config['smtp_pass'] =  '13GEyu@U@2sg'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
+                         $config['smtp_user'] =  'website.admin@cad.gov.jm';//'webadmin@cad.gov.jm';
+                         $config['smtp_pass'] =  'e`>73KbudCGW7f;J'; //'769jdYNDD9nzbJciKhmSMHZ8X4qeVXWi$8!';//'ZWBDng*eL86Ys3v'; //'z&IkVgc@7v9pY0VscxyB';//'P7Umw9e#4H&q'; 
                          $config['smtp_crypto'] = 'ssl';
                          $config['smtp_timeout'] = '20';
                          $config['charset'] = 'iso-8859-1';		
@@ -976,7 +965,8 @@ if (isset($_POST['certifier_remarks'])){
         $this->form_validation->set_rules('arrears','Arrears Due',''); 
         $this->form_validation->set_rules('travel_recovery','Travel Recovery','');
         $this->form_validation->set_rules('changes_remarks','Change Remarks',''); 
-		$this->form_validation->set_rules('date_of_change','Date of Change','required');
+       	$this->form_validation->set_rules('date_of_change','Date of Change','required');
+
 
         $data = $this->staff_model->get_staffRecords($staff_id);
 		$changes = $this->staff_model->get_changes_to_staff($staff_id);
@@ -1049,13 +1039,97 @@ if (isset($_POST['certifier_remarks'])){
 	 }
 	 }
 	 
-	 public function getCurrentNotifications(){
+	/*  public function getCurrentNotifications(){
 		 
 		 return $this->staff_model->getNotifications();
 		 
 		 
-	 }
+	 } */
+
+//////////////////////////////////  // Update here 8/28/2023 -->
+     public function update_users_no_parish()
+     {
+       $noparishes =  $this->staff_model->get_users_no_parish();
+       
+       $this->load->view('parish_staff_update',['noparishes'=>$noparishes]);
+       
+     }
+/////////////////////////////  // Update here 8/28/2023 -->
+     public function no_parish_update(){
+
+        $staff_id = $_POST['staff_id'];
+        $location = $_POST['location'];
+        
+        $result = $this->staff_model->update_no_parish_locations($staff_id , $location);
+
+        if($result){
+            echo json_encode(array("updated"=>"true"));
+	        exit();	
+        }
+
+     }
+
+     // Update here 8/28/2023 -->
+     public function add_custom_upkeep($staff_id){
+
+        $this->form_validation->set_rules('custom_upkeep_value','Custom Upkeep Value','numeric');
+        $this->form_validation->set_rules('date_upkeep_started','Date Upkeep Started',''); 
+        //echo 'test'; die();
+       //testarray($staff_id);
+       //testarray($this->input->post('custom_upkeep_value'));
+     
+          /*  echo 'test';
+            testarray($this->input->post('custom_upkeep_value'));  */
+            $customValue = $this->input->post('custom_upkeep_value');
+            $dateUpkeepStarted = $this->input->post('date_upkeep_started');
+            $data = $this->staff_model->get_staffRecords($staff_id);
+
+        
+         
+          if($this->form_validation->run() == FALSE)
+          {  
+            $this->session->set_flashdata('fail_message','Custom Upkeep Value not added Please try again');
+            $this->load->view('modify_staff_view',['data' => $data]);
+          }
+          else{
+            $result=  $this->staff_model->insert_custom_upkeep($customValue,$dateUpkeepStarted,$staff_id);
+            $this->session->set_flashdata('upkeep_success','Custom Upkeep Successfully Added');
+            $this->load->view('modify_staff_view',['data' => $data]);
+           
+          
+            
+          }
+
+     }
+
 	 
+
+  /*    public function update_location(){
+       
+            $this->form_validation->set_rules('location','Location','required');
+            $location = $this->staff_model->get_locations();
+            //testarray($location);
+
+            if($this->form_validation->run() == FALSE ){
+                $this->load->view('location_update',[ 'location' => $location ] );
+            }
+                else{
+                   
+        
+                    if($this->staff_model->staff_location_update(
+                       
+                        $this->input->post('location'),
+                        
+                        ))
+                        {
+                            $this->session->set_flashdata('success_message','Staff Member Successfully Updated');
+                            //redirect("staff/view_payment_records/{$staff_id}");
+                            redirect("staff/index");
+                        }
+    
+                }
+               
+     } */
 
     
 

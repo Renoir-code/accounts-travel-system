@@ -89,7 +89,7 @@
         <div class="row gx-xl-5">
           <div class="col-md-4">
             <h5>Date Details </h5>
-            <p class="text-muted"> </p>
+            <p class="text-muted"> Please Note Future dates cannot be selected</p>
           </div>
 
           <div class="col-md-8">
@@ -99,6 +99,12 @@
                   <label for="exampleInput4" class="form-label">Voucher Number</label>
                   <input type="text" name= "voucher_number" class="form-control" value="<?php echo set_value('voucher_number') ?>"  style="max-width: 500px;"/>
                   <small> <?php echo form_error('voucher_number','<div class="text-danger">','</div>');?> </small>
+                </div>
+
+                <div class="mb-3">
+                  <label for="date_received" class="form-label">Date Received</label>
+                  <input type="date" name= "date_received" class="form-control" value="<?php echo set_value('date_received') ?>"  style="max-width: 500px;"/>
+                  <small> <?php echo form_error('date_received','<div class="text-danger">','</div>');?> </small>
                 </div>
                
 
@@ -111,11 +117,14 @@
                   <option value="2022" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2022') echo ' selected';?> >2022 </option>
                   <option value="2023" <?php if(isset($_POST['year_travelled']) && $_POST['year_travelled']=='2023') echo ' selected';?> >2023 </option>
                   </select>
+                  <small> <?php echo form_error('year_travelled','<div class="text-danger">','</div>');?> </small>
                 </div>
+                </div>
+
                 <div class="mb-3">
                   <label for="exampleInput4" class="form-label">Month Travelled</label>
                   <select  class="form-control" name="month_travelled">
-                  <option value="0"  >Choose  The Month Travelled..</option>
+                  <option value="">Choose  The Month Travelled..</option>
                   <option value="1" <?php if(isset($_POST['month_travelled']) && $_POST['month_travelled']==1) echo ' selected';?> >January </option>
                   <option value="2" <?php if(isset($_POST['month_travelled']) && $_POST['month_travelled']==2) echo ' selected';?> >February </option>
                   <option value="3" <?php if(isset($_POST['month_travelled']) && $_POST['month_travelled']==3) echo ' selected';?> >March </option>
@@ -129,7 +138,9 @@
                   <option value="11" <?php if(isset($_POST['month_travelled']) && $_POST['month_travelled']==11) echo ' selected';?> >November </option>
                   <option value="12" <?php if(isset($_POST['month_travelled']) && $_POST['month_travelled']==12) echo ' selected';?> >December </option>
                   </select>
+                  <small> <?php echo form_error('month_travelled','<div class="text-danger">','</div>');?> </small>
                 </div>
+                  
               </div>
 
             </div>

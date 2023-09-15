@@ -33,6 +33,7 @@
      
 
       <h4> System Administrator Dashboard </h4>
+      <br>
       <?php // if(isset($_SESSION['role_id']) && ($_SESSION['role_id'] !=4) ){ ?>
       <?php echo anchor ("user/adminRegister" , "ADD USER", ['class'=> 'btn btn-primary']); ?>
       <?php //echo anchor ("staff/staff_create" , "ADD OFFICER", ['class'=> 'btn btn-light']); ?>

@@ -10,6 +10,16 @@
                         <?php endif;?>
                     </div> 
                 </div>
+                <!--Update here 8/28/2023 -->
+                <?php if($msg = $this->session->flashdata('success_update')):?>
+        <div class="row ">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-success">
+                     <?php echo $msg; ?>    
+                </div>
+            </div>       
+        </div>
+    <?php endif; ?>
 
 
 

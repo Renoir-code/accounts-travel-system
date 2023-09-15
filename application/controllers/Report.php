@@ -101,9 +101,89 @@ $_SESSION['timeout'] = time();
 		
 		}
 
-
-
     }
+
+
+    public function upkeepMonthReport ()
+    {
+		$staff_members = $this->staff_model->getStaffMembers();
+        $date = $this->input->post('monthly_change');
+		//year
+		$location_id = $this->input->post('location_id');
+		
+		$this->form_validation->set_rules('monthly_change','Choose Month','required');
+		$this->form_validation->set_rules('location_id','Location','required');
+		
+		if($this->form_validation->run() == FALSE){
+		$this->session->set_flashdata('message','Please Enter All Fields');	
+        $this->load->view('upkeep_view',['data' => array($location_id)]);
+
+		}
+		else
+		{
+
+			$data = $this->report_model->upkeepReport($location_id,$date); //change made here Renoir Elliott
+			//testarray($data);
+
+			$dataCustomUpkeep = $this->report_model->upkeepReportCustom($location_id,$date); //change made here Renoir Elliott
+			//testarray($data);
+
+
+
+			$this->load->view('upkeep_view',['data' => $data, 'month'=>array($date),'staff_members'=>$staff_members, 'dataCustomUpkeep'=> $dataCustomUpkeep]);
+		//$this->session->set_flashdata('message','Please Enter All Fields');
+		
+		}
+        
+    }		
+
+
+	public function countClaims(){
+
+		$this->form_validation->set_rules('date_from','Choose the start date','');
+		$this->form_validation->set_rules('date_to','Choose the end date','');
+		$this->form_validation->set_rules('location_id','Choose the location','required');
+		//echo 'fail';die();
+
+		$date_from = $this->input->post('date_from');
+		$date_to = $this->input->post('date_to');
+		$location_id = $this->input->post('location_id');
+
+		$numberofClaims = $this->report_model->countCLaims($date_from,$date_to,$location_id);
+
+		//testarray($numberofClaims);
+
+		//form validation for date to
+		// form validation for location
+
+		if($this->form_validation->run() == FALSE){
+			echo 'fail';die();
+			$this->session->set_flashdata('message','Please Enter All Fields');	
+			$this->load->view('upkeep_view',['data' => array($location_id)]);
+			}
+
+		else
+		{	
+			//echo 'success';die();
+			$this->load->view('count_claim_view',['numberofClaims' => $numberofClaims, 'month'=>array($date_from,$date_to)]);
+		}
+		
+	}
+	
+	
+	
+
+
+	
+
+
+
+
+
+
+
+
+
 
 
     

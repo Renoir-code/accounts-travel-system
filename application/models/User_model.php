@@ -98,7 +98,7 @@ public function getCurrentUsername($user_id)
 public function testPassword($id, $pass)
 {
   $query = "SELECT * FROM users WHERE user_id=? AND password=?";
-  return $this->db->query($query, array($id, $pass))->result_array();;
+  return $this->db->query($query, array($id, $pass))->result_array();
 }
 
 public function changeUserPassword($id, $pass)

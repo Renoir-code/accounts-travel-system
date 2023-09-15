@@ -23,8 +23,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/testproject/'; // ****visit this***
-
+//$config['base_url'] = 'http://localhost/testproject/'; // ****visit this***
+//$config['base_url'] = 'http://cad.gov.jm/atms/'; // ****visit this***
+$config['base_url'] = 'http://localhost/atms/'; // ****visit this***
 /*
 |--------------------------------------------------------------------------
 | Index File

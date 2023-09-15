@@ -5,13 +5,36 @@
 <?php include("inc/header.php"); ?>
 <br>
 <br>
-<?php // testarray($upkeep); ?>
+<?php // testarray($location); ?>
 
 <div class="error_holder"><?=validation_errors()?></div>
 <?php if($msg = $this->session->flashdata('message')):?>
         <div class="row ">
             <div class ="col-md-6">
                 <div class="alert alert-dismissable alert-danger">
+                     <?php echo $msg; ?>    
+                </div>
+            </div>       
+        </div>
+    <?php endif; ?>
+
+    <div class="error_holder"><?=validation_errors()?></div>
+<?php if($msg = $this->session->flashdata('fail_message')):?>
+        <div class="row ">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-danger">
+                     <?php echo $msg; ?>    
+                </div>
+            </div>       
+        </div>
+    <?php endif; ?>
+
+
+    <!-- Update here 8/28/2023 -->
+    <?php if($msg = $this->session->flashdata('upkeep_success')):?>
+        <div class="row ">
+            <div class ="col-md-6">
+                <div class="alert alert-dismissable alert-success">
                      <?php echo $msg; ?>    
                 </div>
             </div>       
@@ -63,6 +86,8 @@
             </div>
           </div>
 
+         
+          
         </div>
 
         
@@ -86,6 +111,14 @@
                        <option value="2" <?php if(isset($_POST['location_id']) && $_POST['location_id']==2) {echo ' selected';} elseif($data['location_id']==2)   {echo ' selected';}?> >Supreme Court </option>
                        <option value="3" <?php if(isset($_POST['location_id']) && $_POST['location_id']==3) {echo ' selected';} elseif($data['location_id']==3)   {echo ' selected';}?> >Parish Court </option>
                        <option value="4" <?php if(isset($_POST['location_id']) && $_POST['location_id']==4) {echo ' selected';} elseif($data['location_id']==4)   {echo ' selected';}?> >Court of Appeal </option>
+                    <option value="5" <?php if(isset($_POST['location_id']) && $_POST['location_id']==5) {echo ' selected';} elseif($data['location_id']==5)      {echo ' selected';}?>  >Family Court </option>
+                    <option value="6" <?php if(isset($_POST['location_id']) && $_POST['location_id']==6) {echo ' selected';} elseif($data['location_id']==6)      {echo ' selected';}?>  >Traffic Court </option>
+                    <option value="7" <?php if(isset($_POST['location_id']) && $_POST['location_id']==7) {echo ' selected';} elseif($data['location_id']==7)      {echo ' selected';}?>  >Special Coroners Court </option>
+                    <option value="8" <?php if(isset($_POST['location_id']) && $_POST['location_id']==8) {echo ' selected';} elseif($data['location_id']==8)      {echo ' selected';}?>   >Coroners Court </option>
+                    <option value="9" <?php if(isset($_POST['location_id']) && $_POST['location_id']==9) {echo ' selected';} elseif($data['location_id']==9)       {echo ' selected';}?>   >Gun Court </option>
+                  <option value="10" <?php if(isset($_POST['location_id']) && $_POST['location_id']==10) {echo ' selected';} elseif($data['location_id']==10)
+                        {echo ' selected';}?>   >Revenue Court </option>
+                   <option value="11" <?php if(isset($_POST['location_id']) && $_POST['location_id']==11) {echo ' selected';} elseif($data['location_id']==11)      {echo ' selected';}?>   >Manchester Parish Court </option>
 
                       
 
@@ -100,7 +133,7 @@
           <div class="col-md-6">
             <label for="exampleInput5" class="form-label"><b>Choose the Officer Type</b></label>
             <select  class="form-control" name="officer_id" id="officer_id" onchange="val()">
-                    <option value="">Choose Type of Officer..</option>  <!-- if submit is clicked and an eror is there save what was typed if not return whats in the database -->
+                    <option value="2">Choose Type of Officer..</option>  <!-- if submit is clicked and an eror is there save what was typed if not return whats in the database -->
                     <option value="1" <?php if(isset($_POST['officer_id'])) { if($_POST['officer_id']==1) {echo ' selected';}} elseif($data['officer_id']==1)  {echo ' selected';}?> >Travelling Officer </option>
                     <option value="2" <?php if(isset($_POST['officer_id']))  { if($_POST['officer_id']==2) {echo ' selected';}} elseif($data['officer_id']==2)  {echo ' Selected';}?> >Casual Officer </option>
                     </select>
@@ -148,18 +181,7 @@
           </div>
         </div>
 
-        <div class="row">
-        <div class="col-md-6">
-            <label for="exampleInput5" class="form-label"><b>Vehicle Model</b></label>
-           <input type="text" class="form-control" name="vehicle_model" value="<?php if(isset($_POST['vehicle_model'])) {echo $_POST['vehicle_model'];}elseif (isset($data['vehicle_model'])){echo $data['vehicle_model'];}?>" placeholder="">    
-          </div>
-
-          
-        <div class="col-md-6">
-            <label for="exampleInput5" class="form-label"><b>Vehicle Engine Number</b></label>
-            <input type="text" class="form-control" name="vehicle_engine_num"  value="<?php if(isset($_POST['vehicle_engine_num'])) {echo $_POST['vehicle_engine_num'];}elseif (isset($data['vehicle_engine_num'])){echo $data['vehicle_engine_num'];}?>" placeholder="">
-          </div>
-        </div>
+        
 
 
         </div>
@@ -176,6 +198,35 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
+
+
+    <hr>
+     <!-- Update here 8/28/2023 -->
+    <?php
+    $attributes = array('name' => 'myform');
+   // echo form_open('report/changesReport',$attributes );
+    ?>
+
+    <?php echo form_open("staff/add_custom_upkeep/{$data['staff_id']}",$attributes) ?> <?php //echo form_open("staff/add_custom_upkeep/{$data['staff_id']}") ?>
+
+    <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label"><b>Custom Upkeep Value</b></label> <!-- change made here -->
+              <input type="text" class="form-control" name="custom_upkeep_value" id="custom_upkeep_value" value="<?php echo set_value('custom_upkeep_value') ?>" placeholder="">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="exampleInput4" class="form-label"><b>Date Upkeep Started</b></label> <!-- change made here -->
+              <input type="date" class="form-control" name="date_upkeep_started" id="date_upkeep_started" value="<?php echo set_value('date_upkeep_started') ?>" placeholder="">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+          <?php echo form_close(); ?>
+          <div class="card-footer">
+        <!--<button class="btn btn-danger">Cancel</button>-->
+      
+      </div>
   </div>
 </div>
 
@@ -186,6 +237,8 @@
     {
         document.getElementById("hidden_input").disabled = false;  // enable hidden input ( submit with 55)
         document.getElementById("upkeep_id").disabled = true;  // disable upkeep options
+        document.getElementById("custom_upkeep_value").disabled = true;  
+        document.getElementById("date_upkeep_started").disabled = true; 
     }
         function val() {  // if travelling officer selected enable upkeep options if Casual officer selected disable upkeep options
   
@@ -197,6 +250,8 @@
             document.getElementById("upkeep_id_label").style.display = "none"; */
             document.getElementById("upkeep_id").disabled = true;  
             document.getElementById("hidden_input").disabled = false;  
+            document.getElementById("custom_upkeep_value").disabled = true;  
+            document.getElementById("date_upkeep_started").disabled = true;  
         }
         else if(d!=2){
             
@@ -204,6 +259,8 @@
             document.getElementById("upkeep_id_label").style.display = "inline-block"; */
             document.getElementById("upkeep_id").disabled = false;
             document.getElementById("hidden_input").disabled = true;  
+            document.getElementById("custom_upkeep_value").disabled = false;  
+            document.getElementById("date_upkeep_started").disabled = false;  
 
         }
 

@@ -64,6 +64,7 @@
                 <th scope="col">Refreshments </th>
                 <th scope="col">Taxi Out Town </th>
                 <th scope="col">Taxi In Town </th>
+				<th scope="col">Total </th>
               </tr>
           </thead>
       <tbody>
@@ -72,15 +73,17 @@
         <tr class = 'table-active'>
          <?php //testarray($row)?>
           <td><?php echo $row['firstname']. ' '.$row['lastname'] ; ?> </td>
-          <td><?php echo $row['mileage'] ?> </td>
-          <td><?php echo $row['passenger_km'] ?> </td>
-          <td><?php echo $row['toll_amt'] ?> </td>
-          <td><?php echo $row['subsistence'] ?> </td>
-          <td><?php echo $row['actual_expense'] ?> </td>
-          <td><?php echo $row['supper'] ?> </td>
-          <td><?php echo $row['refreshment'] ?> </td>
-          <td><?php echo $row['taxi_out_town'] ?> </td>
-          <td><?php echo $row['taxi_in_town'] ?> </td>
+          <td><?php echo '$'. number_format ($row['mileage'] * $row['mileage_rate']) .'<br><sub>('.$row['mileage'].'*'.$row['mileage_rate'] .')</sub></td>'; ?>  
+          <td><?php echo '$'. number_format ($row['passenger_km'] * $row['passenger_rate']) .'<br><sub>('.$row['passenger_km'].'*'.$row['passenger_rate'] .')</sub></td>'; ?>  
+          <td><?php echo '$'.number_format  ($row['toll_amt']) ?> </td>
+          <td><?php echo '$'. number_format ($row['subsistence'] * $row['subsistence_rate']) .'<br><sub>('.$row['subsistence'].'*'.$row['subsistence_rate'] .')</sub></td>'; ?>  
+          <td><?php echo '$'.number_format  ($row['actual_expense']) ?> </td>
+          <td><?php echo '$'. number_format ($row['supper'] * $row['supper_rate']) .'<br><sub>('.$row['supper'].'*'.$row['supper_rate'] .')</sub></td>'; ?>
+          <td><?php echo '$'. number_format ($row['refreshment'] * $row['refreshment_rate']) .'<br><sub>('.$row['refreshment'].'*'.$row['refreshment_rate'] .')</sub></td>'; ?> 
+          <td><?php echo '$'. number_format ($row['taxi_out_town'] * $row['taxi_out_rate']) .'<br><sub>('.$row['taxi_out_town'].'*'.$row['taxi_out_rate'] .')</sub></td>'; ?> 
+          <td><?php echo '$'. number_format ($row['taxi_in_town'] * $row['taxi_in_rate']) .'<br><sub>('.$row['taxi_in_town'].'*'.$row['taxi_in_rate'] .')</sub></td>'; ?>             
+			<td><?php echo '$'. number_format ( $row['mileage']*$row['mileage_rate'] + $row['passenger_km']*$row['passenger_rate'] + $row['toll_amt'] +  $row['subsistence'] +   $row['actual_expense'] + $row['supper'] 
+          + $row['refreshment'] + $row['taxi_out_town'] + $row['taxi_in_town']); ?> </td>
           
        
           
