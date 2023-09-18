@@ -19,7 +19,7 @@
 <br>
 <br>
 
-<h3> REGISTER HERE </h3>
+<h3> Add User </h3>
 <br>
 
 <!--------------------------------------->
@@ -101,6 +101,8 @@
                        <option value="2" <?php if(isset($_POST['role_id']) && $_POST['role_id']==2) echo ' selected';?> >Certifier </option>
                        <option value="3" <?php if(isset($_POST['role_id']) && $_POST['role_id']==3) echo ' selected';?> >Authorizer </option>
                        <option value="4" <?php if(isset($_POST['role_id']) && $_POST['role_id']==4) echo ' selected';?> >System Administrator </option>
+                       <option value="5" <?php if(isset($_POST['role_id']) && $_POST['role_id']==5) echo ' selected';?> >Summer Worker </option>
+                       <option value="6" <?php if(isset($_POST['role_id']) && $_POST['role_id']==5) echo ' selected';?> >Bail or Jury Access </option>
                     
                        <?php /* if(count($roles)):?>
                        <?php foreach($roles as $role):?>
