@@ -60,6 +60,34 @@ class Bail_model extends CI_Model{
 
     }   
 
+    public function countReturns($location_id,$month){
+
+      if($location_id == 77){
+      
+      $query = "
+       SELECT count(reason_returned) AS 'Number of Claims Returned',location_name
+       FROM bail_details INNER JOIN location ON location.location_id = bail_details.location_id 
+       WHERE '$month' = DATE_FORMAT(date_received, '%Y-%m')
+       GROUP BY location_name
+      ";
+
+      $counter = $this->db->query($query, array($location_id,$month))->result_array();
+      }
+
+      else{
+
+        $query ="
+        SELECT count(reason_returned) AS 'Number of Claims Returned' ,location_name 
+        FROM bail_details INNER JOIN location ON location.location_id = bail_details.location_id 
+        WHERE '$month' = DATE_FORMAT(date_received, '%Y-%m') AND bail_details.location_id = $location_id
+        GROUP BY location_name
+        ";
+      $counter = $this->db->query($query, array($location_id,$month))->result_array();
+      }
+
+      return $counter;
+    }
+
     public function getAllBailRecords()
       {
         $query = "SELECT * FROM bail_details

@@ -43,7 +43,7 @@ class Bail extends MY_Controller {
 
         if($this->form_validation->run() == FALSE){
 
-            $this->session->set_flashdata('fail_message','Bail Data not sent');
+            //$this->session->set_flashdata('fail_message','Bail Data not sent');
             $this->load->view('bail_page',['location' => $location]);
 
         }
@@ -102,8 +102,9 @@ class Bail extends MY_Controller {
             }else
             {
                 $data = $this->bail_model->count_bail($location_id,$date);
-              // testarray($data);
-                $this->load->view('bail_count',['data' => $data, 'month'=>array($date)]);
+                $return_count = $this->bail_model->countReturns($location_id,$date);
+              // testarray($return_count);
+                $this->load->view('bail_count',['data' => $data, 'month'=>array($date) , 'return_count' => $return_count]);
             
             }
     }

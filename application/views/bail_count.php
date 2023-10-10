@@ -3,17 +3,15 @@
 <?php //testarray($data);?>
 
 
-<button id = "print_report" class= "btn btn-primary text-right" style = "margin-top:10px;">Print</button>
-
-    <hr>
+<button id = "print_report" class= "btn btn-primary btn-lg text-right" style = "margin-top:10px;">Print</button>
 <div class="container" id = "report_to_print">
 
+<br>
 
-  <hr>
 
-	<h5>Bail Claims Report </h5>
+
+	<h5>Bail Claims Report for the month of : <span style="color: red;"><?php echo date("F Y",strtotime($month[0]));?> </span> </h5>
     <br>
-	<h5> Total Amount of Claims Processed at Court Administration Division : 52 
   <?php 
  // $date = date_create("$month[0]"); //extracting month only from the date
   //$date2 = date_create("$month[1]");
@@ -21,14 +19,15 @@
   ?> 
   </h5>
 	
-	<hr>
+
       <div class="row">
-        <table class="table table-striped table-hover">
-          <thead>
-              <tr>
-                  <th scope="col"> # Breakdown of Bail Processed </th> 
+        <table class="table table-striped table-hover table-bordered ">
+          <thead class="thead-dark">
+              <tr class="table-primary">
+                  <th scope="col"> Number of Bail Claims Processed </th> 
                   <th scope="col"> Court or Location </th>
-                  <th scope="col"> Monetary Value Paid </th>
+                  <th scope="col"> Total Amount Paid </th>
+                  
               </tr>
           </thead>
           <tbody> 
@@ -37,20 +36,46 @@
                   <tr class = 'table-active'>
                       <td> <?php  echo $row['Date Received'] ?></td> 
                       <td> <?php  echo $row['location_name']; ?></td> 
-                      <td> <?php  echo number_format($row['Total Amount Per Court'],2); ?></td>     
+                      <td> <?php  echo '$'. number_format($row['Total Amount Per Court'],2); ?></td>     
+                      
+                  </tr>
+                <?php  endforeach;?>
+                    <?php  else:?>   
+                        <td> <?php echo 'No Records Available' ?></td>                  
+                        <?php  endif;?> 
+                </tr>  
+            
+          </tbody>    
+      </table>
+      
+      <br>
+      <br>
+      
+      <table class="table table-striped table-hover table-bordered  ">
+          <thead class =" table thead-dark">
+              <tr class="table-primary">
+                  <th scope="col"> Number of Claims Returned </th> 
+                  <th scope="col"> Location of Claim </th>
+                  <th scope="col"></th>
+                  
+              </tr>
+          </thead>
+          <tbody> 
+              <?php if(!empty($return_count)): ?>
+                <?php   foreach($return_count as $row): ?>
+                  <tr class = 'table-light'>
+                      <td> <?php  echo $row['Number of Claims Returned'] ?></td> 
+                      <td> <?php  echo $row['location_name']; ?></td> 
+                      <td> <?php //  echo number_format($row['Total Amount Per Court'],2); ?></td>     
+                      
                   </tr>
                 <?php  endforeach;?>
                     <?php  else:?>
+                        <td> <?php echo 'No Claims Returned'; ?></td>    
                         <?php  endif;?> 
-                  <tr class = 'table-active'>          
-                    <td> </td> 
-                    <td> </td> 
-                    <td> </td> 
-                    <td> </td> 
                 </tr>       
           </tbody>    
       </table>
-      <br>	  
     </div>
     
 </div>
