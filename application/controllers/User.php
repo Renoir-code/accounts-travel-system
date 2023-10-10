@@ -83,6 +83,15 @@ class User extends MY_Controller {
 					//$this->session->set_flashdata('message','You are not an administrator!!!!!!!');
 					//redirect('user');
 				}
+				elseif($row['role_id']==5){
+					redirect('staff/update_users_no_parish');
+				}
+				elseif($row['role_id']==6){
+					redirect('bail/bail_information');
+				}
+				elseif($row['role_id']==7){
+					redirect('jury/jury_information');
+				}
 					
 			}
 		
@@ -311,14 +320,14 @@ class User extends MY_Controller {
 					//save the request in the database
 					if($this->user_model->saveResetEmailRequest($token, $this->input->post('email')))
 					{
-						$link = '<a href="'.base_url('welcome/reset_password').'/'.$this->db->insert_id().'/'.$token.'">Reset Password</a>';
+						$link = '<a href="'.base_url('user/reset_password').'/'.$this->db->insert_id().'/'.$token.'">Reset Password</a>';
 			
 						$config['mailtype'] = 'html';
 						$config['protocol'] = 'smtp';
 						$config['smtp_host'] = 'secure.emailsrvr.com';
 						$config['smtp_port'] = '465';
-						$config['smtp_user'] =  'testy@cad.gov.jm';//'webadmin@cad.gov.jm';
-						$config['smtp_pass'] =  '13GEyu@U@2sg';//'c0urtCAD@0509';
+						$config['smtp_user'] =  'website.admin@cad.gov.jm';//'webadmin@cad.gov.jm';
+						$config['smtp_pass'] =  'dEvMqRpA8wX9oNw';//'e`>73KbudCGW7f;J';//'c0urtCAD@0509';
 						$config['smtp_crypto'] = 'ssl';
 						$config['smtp_timeout'] = '20';
 						$config['charset'] = 'iso-8859-1';		
