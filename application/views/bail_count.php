@@ -16,6 +16,8 @@
  // $date = date_create("$month[0]"); //extracting month only from the date
   //$date2 = date_create("$month[1]");
   //echo date_format($date,"F/d/Y") . ' - '. date_format($date2,"F/d/Y");
+
+  //testing
   ?> 
   </h5>
 	
